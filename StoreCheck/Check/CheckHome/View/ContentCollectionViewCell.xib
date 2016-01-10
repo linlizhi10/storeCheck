@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6246"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="contentCell" id="gTV-IL-0wX" customClass="ContentCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="197" height="177"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="197" height="177"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="page01" translatesAutoresizingMaskIntoConstraints="NO" id="Dba-3N-PTK">
+                        <rect key="frame" x="64" y="34" width="70" height="70"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="70" id="2su-YI-pKh"/>
+                            <constraint firstAttribute="height" constant="70" id="c3G-5i-j2c"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="入  店" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cUX-eu-W0z">
+                        <rect key="frame" x="80" y="110" width="37" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstAttribute="centerY" secondItem="Dba-3N-PTK" secondAttribute="centerY" constant="20" id="JdB-j2-Wco"/>
+                <constraint firstAttribute="centerY" secondItem="cUX-eu-W0z" secondAttribute="centerY" constant="-30" id="Wgo-x7-Q47"/>
+                <constraint firstAttribute="centerX" secondItem="cUX-eu-W0z" secondAttribute="centerX" id="kNT-yq-STV"/>
+                <constraint firstAttribute="centerX" secondItem="Dba-3N-PTK" secondAttribute="centerX" id="qUC-Ie-mYD"/>
+            </constraints>
+            <size key="customSize" width="197" height="177"/>
+            <connections>
+                <outlet property="contentImage" destination="Dba-3N-PTK" id="h85-fP-ByO"/>
+                <outlet property="contentText" destination="cUX-eu-W0z" id="Ksb-Fs-qTN"/>
+            </connections>
+            <point key="canvasLocation" x="216.5" y="322.5"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="page01" width="360" height="640"/>
+    </resources>
+</document>

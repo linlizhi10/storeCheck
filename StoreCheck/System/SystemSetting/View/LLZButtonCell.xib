@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6246"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LLZButtonCell" id="KGk-i7-Jjw" customClass="LLZButtonCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="照片重传" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1AA-l0-YHg">
+                        <rect key="frame" x="18" y="13" width="56" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KJZ-3J-p3O">
+                        <rect key="frame" x="256" y="7" width="46" height="30"/>
+                        <color key="backgroundColor" red="0.31087869060000001" green="0.73549952649999994" blue="0.59640913979999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="46" id="6xr-BY-vze"/>
+                            <constraint firstAttribute="height" constant="30" id="one-bm-2fQ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <state key="normal" title="上传">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstAttribute="centerY" secondItem="KJZ-3J-p3O" secondAttribute="centerY" id="8dv-Rp-eQb"/>
+                    <constraint firstItem="1AA-l0-YHg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="Stl-vc-c4K"/>
+                    <constraint firstAttribute="centerY" secondItem="1AA-l0-YHg" secondAttribute="centerY" id="V2M-kt-jGa"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="KJZ-3J-p3O" secondAttribute="trailing" constant="10" id="iz0-5h-iXP"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="cellButton" destination="KJZ-3J-p3O" id="tqS-yI-LH7"/>
+                <outlet property="cellButtonAction" destination="KJZ-3J-p3O" id="kSN-sw-0uI"/>
+                <outlet property="mainTitle" destination="1AA-l0-YHg" id="fO0-dA-ekt"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

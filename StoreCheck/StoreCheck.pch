@@ -1,0 +1,75 @@
+//
+//  StoreCheck.pch
+//  StoreCheck
+//
+//  Created by skunk  on 15/11/12.
+//  Copyright (c) 2015年 linlizhi. All rights reserved.
+//
+
+#ifndef StoreCheck_StoreCheck_pch
+#define StoreCheck_StoreCheck_pch
+#import "UserDefaults.h"
+#import "Tools.h"
+#import "AppDelegate.h"
+#import "WToast.h"
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+/*
+ checkIn        check状态
+ selectStore    check的店
+ user           check的人
+ rememberFlag   是否记住密码
+ password       登录密码
+ userName       用户名
+ */
+
+#define iPhoneWidth   [UIScreen mainScreen].bounds.size.width
+#define iPhoneHeight  [UIScreen mainScreen].bounds.size.height
+
+#define iPhone6Plus   (iPhoneWidth == 414) ? YES : NO
+
+#define ImageValue(a) (iPhone6Plus == YES) ? (a * 1.5) : a
+
+#define LocalPath(fileName) [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:fileName]
+
+#define NavigationBarHeight 64
+#define TabBarHeight        49
+
+//color about
+#define RGB(a, b, c) [UIColor colorWithRed:(a / 255.0f) green:(b / 255.0f) blue:(c / 255.0f) alpha:1.0f]
+
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed: \
+                    ((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
+                                                green:  \
+                    ((float)((rgbValue & 0xFF00) >> 8))/255.0    \
+                                                blue:  \
+                    ((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+//document path
+#define DocumentPath(FileName) [[NSSearchPathForDirectoriesInDomains  \
+            (NSDocumentDirectory, NSUserDomainMask, YES) lastObject]  \
+                            stringByAppendingPathComponent:FileName]
+
+#define ImagePath(ImageName)   [[[NSSearchPathForDirectoriesInDomains  \
+            (NSDocumentDirectory, NSUserDomainMask, YES) lastObject]  \
+                            stringByAppendingPathComponent:@"Image"] \
+                            stringByAppendingPathComponent:ImageName]
+//alert
+#define Alert(Message,Obj,Tag) UIAlertView *alert = \
+                        [[UIAlertView alloc] initWithTitle:@"提示"\
+                                                   message:Message\
+                                                  delegate:Obj\
+                                         cancelButtonTitle:@"取消"\
+                                         otherButtonTitles:@"确认", nil];\
+                       alert.tag = Tag;\
+                       [alert show]
+
+#define RegisterNib(NibName,Table)  UINib *nib = [UINib nibWithNibName:\
+                                    NibName \
+                                                                bundle:\
+                                    [NSBundle mainBundle]];\
+                [Table registerNib:nib forCellReuseIdentifier:NibName]
+
+#define IOS7_OR_LATER	( [[[UIDevice currentDevice] systemVersion] compare:@"7.0"] != NSOrderedAscending )
+#define IOS6_OR_LATER	( [[[UIDevice currentDevice] systemVersion] compare:@"6.0"] != NSOrderedAscending )
+#endif

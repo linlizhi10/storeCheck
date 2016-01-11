@@ -11,6 +11,7 @@
 #import "LogInViewController.h"
 #import <BaiduMapAPI/BMapKit.h>
 #import "DataManagerT.h"
+#import "LLZTddVersion.h"
 
 @interface AppDelegate ()
 <BMKGeneralDelegate,BMKLocationServiceDelegate,BMKGeoCodeSearchDelegate>
@@ -49,13 +50,38 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
         [manager createDirectoryAtPath:ImagePath(nil) withIntermediateDirectories:YES attributes:nil error:nil];
     }
     _dataM = [DataManager shareDataManager];
-
+    [self.dataM deleteTddVersion];
+    
     [self.dataM createStoreTable];
     [self.dataM createUserTable];
     [self.dataM createMessageTable];
     [self.dataM createSignStoreTable];
     [self.dataM createCheckItemTable];
+    [self.dataM createTddVersionTable];
    
+    NSString *param = @"transfer_version.do";
+    [[HttpClient sharedClient] post:ServerParam(param) obj:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSArray *arr = responseObject;
+        for (NSDictionary *dic in arr) {
+            LLZTddVersion *tddVersion = [LLZTddVersion parseDic:dic];
+            [self.dataM insertTddVersion:tddVersion];
+            [self getDataFromServerWithTddVersion:tddVersion];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+    }];
+}
+
+- (void)getDataFromServerWithTddVersion:(LLZTddVersion *)tddVersion
+{
+    NSString *param = @"transfer_version.do";
+    NSDictionary *dic = @{@"itemId":tddVersion.itemId};
+    [[HttpClient sharedClient] post:ServerParam(param) obj:dic
+                            success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                NSLog(@"tddname is %@\ndata is %@",tddVersion.tableName,responseObject);
+                            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                
+                            }];
 }
 
 - (void)copyData

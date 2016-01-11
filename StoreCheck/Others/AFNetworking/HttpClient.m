@@ -103,7 +103,6 @@
      success:(sucessBlock)sucess
      failure:(failureBlock)failure
 {
-
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
@@ -111,7 +110,7 @@
     manager.requestSerializer.timeoutInterval = 10;
 
     
-    [manager POST:[self bricolage:url]
+    [manager POST:url
        parameters:obj
           success:sucess
           failure:failure];

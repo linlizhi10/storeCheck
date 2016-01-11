@@ -185,8 +185,6 @@ static dispatch_group_t http_request_operation_completion_group() {
                 }
             } else {
                 
-//                id responseObject = self.responseObject;
-                
                 if (self.error) {
                     if (failure) {
                         dispatch_group_async(self.completionGroup ?: http_request_operation_completion_group(), self.completionQueue ?: dispatch_get_main_queue(), ^{
@@ -199,54 +197,10 @@ static dispatch_group_t http_request_operation_completion_group() {
                             
                             
                             NSLog(@"\n\n[-------Result----%ld--]:%@--\n----->%@\n\n",[self.response statusCode],self.responseString,self.request);
-                            
-//                            [UserDefaults setBool:YES forKey:@"isNetWork"];
                             //在这里json转对象
                             NSDictionary *resultsDictionary = [ self.responseData objectFromJSONData];
-                            //                    NSDictionary *resultsDictionary = [self.responseString objectFromJSONString];
-                            NSDictionary *resultCode =[resultsDictionary objectForKey:@"code"];
-                            //    NSString *message= [jsonObject valueForKey:@"message"];
-                            NSString *code = [NSString stringWithFormat:@"%@",resultCode];
-                            if([code isEqualToString:@"200"]){
-                                NSDictionary *body = [resultsDictionary objectForKey:@"data"];
-                                
-                                success(self, body);
-                            }else{
-                                
-                                NSLog(@"-----[self.response statusCode]---->%@",code);
-                                
-                                
-                                NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-                                
-                                [dic setValue:[resultsDictionary valueForKey:@"msg"] forKey:@"msg"];
-                                
-                                [dic setValue:code forKey:@"code"];
-                                
-                                NSError *aError =   [[NSError alloc] initWithDomain:@"" code:[code intValue] userInfo:dic];
-                                
-                            
-                                if ([code isEqualToString:@"60405"]) {
-                                    
-//                                    [WToast showWithText:@"您的账号已在其他地方登录" forToastType:Error];
-                                    
-//                                    [DataController changeLoginStatusTo:LogOutAlready];
-                                    
-                                    [[NSNotificationCenter defaultCenter] postNotificationName:@"client_exit" object:Nil];
-                                    
-//                                    failure(self,self.error);
-                                    
-                                }
-                                else
-                                {
-                                    
-//                                [WToast showWithText:[NSString stringWithFormat:@"%@",[resultsDictionary valueForKey:@"msg"]] forToastType:Warning];
-                                    
-                                }
-                                
-                                failure(self, aError);
-                                
-                                
-                            }
+                            NSDictionary *body = [resultsDictionary objectForKey:@"data"];
+                            success(self, body);
                             
                         });
                     }

@@ -81,6 +81,8 @@
 		259C69551C046F81002A7B32 /* NewStoreCheckViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 259C69531C046F81002A7B32 /* NewStoreCheckViewController.xib */; };
 		259C69591C04726A002A7B32 /* NewCheckListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 259C69571C04726A002A7B32 /* NewCheckListCell.m */; };
 		259C695A1C04726A002A7B32 /* NewCheckListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 259C69581C04726A002A7B32 /* NewCheckListCell.xib */; };
+		25A1625C1C4348C500ED7D88 /* BaiduMapAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25A1625B1C4348C500ED7D88 /* BaiduMapAPI.framework */; };
+		25A1625F1C43501F00ED7D88 /* LLZTddVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A1625E1C43501F00ED7D88 /* LLZTddVersion.m */; };
 		25AD46561BFD71F300F44EDC /* JSONModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 25AD463F1BFD71F300F44EDC /* JSONModel.m */; };
 		25AD46571BFD71F300F44EDC /* JSONModelArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 25AD46411BFD71F300F44EDC /* JSONModelArray.m */; };
 		25AD46581BFD71F300F44EDC /* JSONModelClassProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 25AD46431BFD71F300F44EDC /* JSONModelClassProperty.m */; };
@@ -108,7 +110,6 @@
 		25AD89241C043CCE00FA7D48 /* ListAdjustCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25AD89221C043CCE00FA7D48 /* ListAdjustCell.xib */; };
 		25AD89281C04452700FA7D48 /* CompareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25AD89261C04452700FA7D48 /* CompareViewController.m */; };
 		25AD89291C04452700FA7D48 /* CompareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25AD89271C04452700FA7D48 /* CompareViewController.xib */; };
-		25B5345C1BFC4D19008BDFD3 /* BaiduMapAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25B534551BFC4D19008BDFD3 /* BaiduMapAPI.framework */; };
 		25B5345D1BFC4D19008BDFD3 /* BMKMapView+extend.mm in Sources */ = {isa = PBXBuildFile; fileRef = 25B534581BFC4D19008BDFD3 /* BMKMapView+extend.mm */; };
 		25B5345E1BFC4D19008BDFD3 /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 25B5345A1BFC4D19008BDFD3 /* mapapi.bundle */; };
 		25B5345F1BFC4D19008BDFD3 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 25B5345B1BFC4D19008BDFD3 /* README.md */; };
@@ -128,7 +129,7 @@
 		25C920CB1C07F17500104089 /* PhotoCheckViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25C920C91C07F17500104089 /* PhotoCheckViewController.xib */; };
 		25C920CF1C07F76900104089 /* CheckPlanCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C920CD1C07F76900104089 /* CheckPlanCell.m */; };
 		25C920D01C07F76900104089 /* CheckPlanCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25C920CE1C07F76900104089 /* CheckPlanCell.xib */; };
-		25C920D31C07F92100104089 /* Plan.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C920D21C07F92100104089 /* Plan.m */; };
+		25C920D31C07F92100104089 /* LLZPlan.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C920D21C07F92100104089 /* LLZPlan.m */; };
 		25C920D71C07FAB900104089 /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C920D61C07FAB900104089 /* Tools.m */; };
 		25CF782C1C337CAA0028A451 /* LLZReason.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CF782B1C337CAA0028A451 /* LLZReason.m */; };
 		25CF782F1C338DFF0028A451 /* LLZScore.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CF782E1C338DFF0028A451 /* LLZScore.m */; };
@@ -319,6 +320,10 @@
 		259C69561C04726A002A7B32 /* NewCheckListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewCheckListCell.h; sourceTree = "<group>"; };
 		259C69571C04726A002A7B32 /* NewCheckListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewCheckListCell.m; sourceTree = "<group>"; };
 		259C69581C04726A002A7B32 /* NewCheckListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewCheckListCell.xib; sourceTree = "<group>"; };
+		25A1625A1C4348AF00ED7D88 /* LLZTabBarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLZTabBarButton.h; sourceTree = "<group>"; };
+		25A1625B1C4348C500ED7D88 /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI.framework; sourceTree = "<group>"; };
+		25A1625D1C43501F00ED7D88 /* LLZTddVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LLZTddVersion.h; path = Model/LLZTddVersion.h; sourceTree = "<group>"; };
+		25A1625E1C43501F00ED7D88 /* LLZTddVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LLZTddVersion.m; path = Model/LLZTddVersion.m; sourceTree = "<group>"; };
 		25AD463E1BFD71F300F44EDC /* JSONModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONModel.h; sourceTree = "<group>"; };
 		25AD463F1BFD71F300F44EDC /* JSONModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONModel.m; sourceTree = "<group>"; };
 		25AD46401BFD71F300F44EDC /* JSONModelArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONModelArray.h; sourceTree = "<group>"; };
@@ -366,7 +371,6 @@
 		25AD89251C04452700FA7D48 /* CompareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompareViewController.h; sourceTree = "<group>"; };
 		25AD89261C04452700FA7D48 /* CompareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompareViewController.m; sourceTree = "<group>"; };
 		25AD89271C04452700FA7D48 /* CompareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CompareViewController.xib; sourceTree = "<group>"; };
-		25B534551BFC4D19008BDFD3 /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI.framework; sourceTree = "<group>"; };
 		25B534571BFC4D19008BDFD3 /* BMKMapView+extend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BMKMapView+extend.h"; sourceTree = "<group>"; };
 		25B534581BFC4D19008BDFD3 /* BMKMapView+extend.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "BMKMapView+extend.mm"; sourceTree = "<group>"; };
 		25B5345A1BFC4D19008BDFD3 /* mapapi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = mapapi.bundle; sourceTree = "<group>"; };
@@ -397,8 +401,8 @@
 		25C920CC1C07F76900104089 /* CheckPlanCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckPlanCell.h; sourceTree = "<group>"; };
 		25C920CD1C07F76900104089 /* CheckPlanCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckPlanCell.m; sourceTree = "<group>"; };
 		25C920CE1C07F76900104089 /* CheckPlanCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckPlanCell.xib; sourceTree = "<group>"; };
-		25C920D11C07F92100104089 /* Plan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Plan.h; sourceTree = "<group>"; };
-		25C920D21C07F92100104089 /* Plan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Plan.m; sourceTree = "<group>"; };
+		25C920D11C07F92100104089 /* LLZPlan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLZPlan.h; sourceTree = "<group>"; };
+		25C920D21C07F92100104089 /* LLZPlan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLZPlan.m; sourceTree = "<group>"; };
 		25C920D51C07FAB900104089 /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tools.h; path = Tools/Tools.h; sourceTree = "<group>"; };
 		25C920D61C07FAB900104089 /* Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Tools.m; path = Tools/Tools.m; sourceTree = "<group>"; };
 		25CF782A1C337CAA0028A451 /* LLZReason.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LLZReason.h; path = Model/LLZReason.h; sourceTree = "<group>"; };
@@ -468,8 +472,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				25AD46641BFD739400F44EDC /* SystemConfiguration.framework in Frameworks */,
-				25B5345C1BFC4D19008BDFD3 /* BaiduMapAPI.framework in Frameworks */,
 				258F68481BF48558001FE9AF /* libsqlite3.dylib in Frameworks */,
+				25A1625C1C4348C500ED7D88 /* BaiduMapAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1062,6 +1066,7 @@
 				258F68791BF494EF001FE9AF /* LLZTabBarController.m */,
 				258F687C1BF495CC001FE9AF /* LLZTabBar.h */,
 				258F687D1BF495CC001FE9AF /* LLZTabBar.m */,
+				25A1625A1C4348AF00ED7D88 /* LLZTabBarButton.h */,
 				258F687F1BF49652001FE9AF /* LLZTabBarButton.h */,
 				258F68801BF49652001FE9AF /* LLZTabBarButton.m */,
 			);
@@ -1158,7 +1163,7 @@
 		25B534541BFC4D19008BDFD3 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
-				25B534551BFC4D19008BDFD3 /* BaiduMapAPI.framework */,
+				25A1625B1C4348C500ED7D88 /* BaiduMapAPI.framework */,
 				25B534561BFC4D19008BDFD3 /* Extend */,
 				25B534591BFC4D19008BDFD3 /* Resources */,
 			);
@@ -1212,6 +1217,8 @@
 				2589AF4C1C3BB60C0051530F /* LLZPhoto.m */,
 				25829BA31C3FA59900E240D5 /* LLZQuestion.h */,
 				25829BA41C3FA59900E240D5 /* LLZQuestion.m */,
+				25A1625D1C43501F00ED7D88 /* LLZTddVersion.h */,
+				25A1625E1C43501F00ED7D88 /* LLZTddVersion.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1566,8 +1573,8 @@
 		25F2EAAF1BF57F32001D18F0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				25C920D11C07F92100104089 /* Plan.h */,
-				25C920D21C07F92100104089 /* Plan.m */,
+				25C920D11C07F92100104089 /* LLZPlan.h */,
+				25C920D21C07F92100104089 /* LLZPlan.m */,
 			);
 			name = Model;
 			path = ../CheckPlan/Model;
@@ -1970,7 +1977,7 @@
 				25C36D9D1C02E61A00EA76C0 /* UIImage+Compress.m in Sources */,
 				25AD89231C043CCE00FA7D48 /* ListAdjustCell.m in Sources */,
 				259C69541C046F81002A7B32 /* NewStoreCheckViewController.m in Sources */,
-				25C920D31C07F92100104089 /* Plan.m in Sources */,
+				25C920D31C07F92100104089 /* LLZPlan.m in Sources */,
 				25AD46721BFDD82300F44EDC /* CheckListCell.m in Sources */,
 				259C69501C046C8C002A7B32 /* LLZNavigationController.m in Sources */,
 				258F682B1BF4846D001FE9AF /* AFSecurityPolicy.m in Sources */,
@@ -1991,6 +1998,7 @@
 				25D864401C058A63004A668F /* RepairViewController.m in Sources */,
 				258F682D1BF4846D001FE9AF /* AFURLRequestSerialization.m in Sources */,
 				25AD89191C040C5300FA7D48 /* ProblemListCell.m in Sources */,
+				25A1625F1C43501F00ED7D88 /* LLZTddVersion.m in Sources */,
 				258F68751BF49423001FE9AF /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				258F682F1BF4846D001FE9AF /* AFURLSessionManager.m in Sources */,
 				258F686C1BF49423001FE9AF /* IQUIView+Hierarchy.m in Sources */,

@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 linlizhi. All rights reserved.
 //
 
-#import "Plan.h"
+#import "LLZPlan.h"
 
-@implementation Plan
+@implementation LLZPlan
 
 - (instancetype)initWithDate:(NSDate *)date store:(NSString *)store time:(NSString *)time tips:(NSString *)tips
 {
@@ -22,7 +22,7 @@
 }
 + (instancetype)PlanWithDate:(NSDate *)date store:(NSString *)store time:(NSString *)time tips:(NSString *)tips
 {
-    return  [[Plan alloc] initWithDate:date
+    return  [[LLZPlan alloc] initWithDate:date
                                  store:store
                                   time:time
                                   tips:tips];

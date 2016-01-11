@@ -17,6 +17,8 @@
 #import "LLZNotice.h"
 #import "LLZImage.h"
 #import "LLZPhoto.h"
+#import "LLZTddVersion.h"
+#import "LLZPlan.h"
 
 @implementation DataManager
 
@@ -219,7 +221,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)updateNoticeReadStatus:(LLZNotice *)notice
 {
-    NSString *updateSql = [NSString stringWithFormat:@"update Message set isRead='%d' where id='%d';",notice.readFlag,notice.noticeId];
+    NSString *updateSql = [NSString stringWithFormat:@"update Message set isRead='%d' where id='%ld';",notice.readFlag,notice.noticeId];
     [_dataBase executeUpdate:updateSql];
 }
 
@@ -615,6 +617,84 @@ static NSString *dataBaseName = @"StoreCheck.db";
 - (void)dropPhotoTable
 {
     [self dropTable:@"Photo"];
+}
+
+#pragma mark ################ Question #####################
+- (void)createQuestionTable
+{
+    NSString *questionTableCreateSql = @"create table if not exists Question(QuestionId integer primary key autoincrement,storeId varchar(20),Date varchar(30),UserId varchar(20),itemId integer,QuesionDesc varchar(200),ImageFile1 varchar(60),ImageFile2 varchar(60),IsSolved bool,SortNo int,ModifyTime varchar(30),ModifyUserId varchar(20),TranStatus int);";
+    [self createTable:questionTableCreateSql];
+}
+
+
+#pragma mark ################ tdd_version #####################
+- (void)createTddVersionTable
+{
+    NSString *tddVersionCreateSql = @"create table if not exists Tdd_Version(ItemId varchar(30),TabName varchar(80),ModifyDate varchar(30));";
+    [self createTable:tddVersionCreateSql];
+}
+
+- (void)insertTddVersion:(LLZTddVersion *)tddVersion
+{
+    NSString *tddVersionSearchSql = [NSString stringWithFormat:@"select * from Tdd_Version where ItemId='%@';",tddVersion.itemId];
+    NSArray *arr = [self searchTddVersion:tddVersionSearchSql];
+    if (arr.count > 0) {
+        [self updateTddVersion:tddVersion];
+    }else{
+    NSString *insertVersionSql = [NSString stringWithFormat:@"insert into Tdd_Version(ItemId,TabName,ModifyDate) values('%@','%@','%@');",tddVersion.itemId,tddVersion.tableName,tddVersion.modifyDate];
+    [self insertData:insertVersionSql];
+    }
+}
+
+- (void)updateTddVersion:(LLZTddVersion *)tddVersion
+{
+    NSString *updateTddVersionSql = [NSString stringWithFormat:@"update Tdd_Version set TabName='%@',ModifyDate='%@' where ItemId='%@';",tddVersion.tableName,tddVersion.modifyDate,tddVersion.itemId];
+    BOOL rec = [_dataBase executeUpdate:updateTddVersionSql];
+    if (!rec) {
+        NSLog(@"error is %@",[_dataBase lastErrorMessage]);
+    }
+}
+
+- (NSArray *)searchTddVersion:(NSString *)searchSql
+{
+    NSMutableArray *arrM = [[NSMutableArray alloc] init];
+    FMResultSet *set = [_dataBase executeQuery:searchSql];
+    while ([set next]) {
+        NSString *itemId = [set stringForColumn:@"ItemId"];
+        NSString *tabName = [set stringForColumn:@"TabName"];
+        NSString *modifyDate = [set stringForColumn:@"ModifyDate"];
+        LLZTddVersion *tddVerison = [LLZTddVersion tddVersionWithItemId:itemId
+                                                              tableName:tabName
+                                                             modifyDate:modifyDate];
+        [arrM addObject:tddVerison];
+    }
+    return arrM;
+}
+
+- (void)deleteTddVersion
+{
+    [self dropTable:@"Tdd_Version"];
+}
+
+#pragma mark ################ shopPlan #####################
+- (void)createShopPlanTable
+{
+    NSString *shopPlanTableCreateSql = @"create table if not exists ShopPlan(planId integer primary key autoincrement,planDate varchar(30),userId varchar(20),storeId varchar(20),CheckType int,DurationTime int, Memo varchar(200),CreateTime varchar(30),CreateUserId varchar(30),CheckTime varchar(30),CheckUserId varchar(30),ModifyTime varchar(30),ModifyUserId varchar(30));";
+    [self createTable:shopPlanTableCreateSql];
+}
+
+- (void)insertShopPlan:(LLZPlan *)plan
+{
+
+}
+- (NSArray *)fetchShopPlan:(NSString *)searchSql
+{
+    NSMutableArray *planArrM = [[NSMutableArray alloc] init];
+    FMResultSet *set = [_dataBase executeQuery:searchSql];
+    while ([set next]) {
+        
+    }
+    return planArrM;
 }
 #pragma mark ################ public #####################
 - (void)dropTable:(NSString *)tableName

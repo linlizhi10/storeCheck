@@ -18,6 +18,8 @@
 @class LLZScore;
 @class LLZImage;
 @class LLZPhoto;
+@class LLZTddVersion;
+@class LLZPlan;
 
 @interface DataManager : NSObject
 {
@@ -102,5 +104,12 @@
 #pragma mark ################ Question #####################
 - (void)createQuestionTable;
 //- (void)insertQuestion:
+#pragma mark ################ TddVersion #####################
+- (void)createTddVersionTable;
+- (void)insertTddVersion:(LLZTddVersion *)tddVersion;
+- (void)deleteTddVersion;
+#pragma mark ################ checkPlan #####################
+- (void)createShopPlanTable;
+- (void)insertShopPlan:(LLZPlan *)plan;
 
 @end

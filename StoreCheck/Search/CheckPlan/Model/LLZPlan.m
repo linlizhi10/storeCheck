@@ -10,22 +10,64 @@
 
 @implementation LLZPlan
 
-- (instancetype)initWithDate:(NSDate *)date store:(NSString *)store time:(NSString *)time tips:(NSString *)tips
+//object init
+- (instancetype)initWithplanDate:(NSString *)planDate
+                          userId:(NSString *)userId
+                         storeId:(NSString *)storeId
+                       checkType:(int)checkType
+                    durationTime:(int)durationTime
+                            memo:(NSString *)memo
+                      createTime:(NSString *)createTime
+                    createUserId:(NSString *)createUserId
+                       checkTime:(NSString *)checkTime
+                     checkUserId:(NSString *)checkUserId
+                      modifyTime:(NSString *)modifyTime
+                    modifyUserId:(NSString *)modifyUserId
 {
     if (self = [super init]) {
-        self.date = date;
-        self.store = store;
-        self.time = time;
-        self.tips = tips;
+        self.planDate = planDate;
+        self.userId = userId;
+        self.storeId = storeId;
+        self.checkType = checkType;
+        self.durationTime = durationTime;
+        self.memo = memo;
+        self.createTime = createTime;
+        self.createUserId = createUserId;
+        self.checkTime = checkTime;
+        self.checkTime = checkTime;
+        self.checkUserId = checkUserId;
+        self.modifyTime = modifyTime;
+        self.modifyUserId = modifyUserId;
     }
     return self;
 }
-+ (instancetype)PlanWithDate:(NSDate *)date store:(NSString *)store time:(NSString *)time tips:(NSString *)tips
+//class init
++ (instancetype)PlanWithplanDate:(NSString *)planDate
+                          userId:(NSString *)userId
+                         storeId:(NSString *)storeId
+                       checkType:(int)checkType
+                    durationTime:(int)durationTime
+                            memo:(NSString *)memo
+                      createTime:(NSString *)createTime
+                    createUserId:(NSString *)createUserId
+                       checkTime:(NSString *)checkTime
+                     checkUserId:(NSString *)checkUserId
+                      modifyTime:(NSString *)modifyTime
+                    modifyUserId:(NSString *)modifyUserId
 {
-    return  [[LLZPlan alloc] initWithDate:date
-                                 store:store
-                                  time:time
-                                  tips:tips];
+    return [LLZPlan PlanWithplanDate:planDate
+                              userId:userId
+                             storeId:storeId
+                           checkType:checkType
+                        durationTime:durationTime
+                                memo:memo
+                          createTime:createTime
+                        createUserId:createUserId
+                           checkTime:checkTime
+                         checkUserId:checkUserId
+                          modifyTime:modifyTime
+                        modifyUserId:modifyUserId];
+
 }
 
 @end

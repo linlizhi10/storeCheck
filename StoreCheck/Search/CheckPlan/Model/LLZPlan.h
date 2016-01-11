@@ -15,7 +15,7 @@
 @property (nonatomic, copy) NSString * userId;
 @property (nonatomic, copy) NSString * storeId;
 @property (nonatomic, assign) int checkType;
-@property (nonatomic, copy) NSString * durationTime;
+@property (nonatomic, assign) int durationTime;
 @property (nonatomic, copy) NSString * memo;
 @property (nonatomic, copy) NSString * createTime;
 @property (nonatomic, copy) NSString * createUserId;
@@ -24,14 +24,30 @@
 @property (nonatomic, copy) NSString * modifyTime;
 @property (nonatomic, copy) NSString * modifyUserId;
 //object init
-- (instancetype)initWithDate:(NSDate *)date
-                       store:(NSString *)store
-                        time:(NSString *)time
-                        tips:(NSString *)tips;
+- (instancetype)initWithplanDate:(NSString *)planDate
+                        userId:(NSString *)userId
+                        storeId:(NSString *)storeId
+                       checkType:(int)checkType
+                    durationTime:(int)durationTime
+                            memo:(NSString *)memo
+                      createTime:(NSString *)createTime
+                    createUserId:(NSString *)createUserId
+                       checkTime:(NSString *)checkTime
+                     checkUserId:(NSString *)checkUserId
+                      modifyTime:(NSString *)modifyTime
+                    modifyUserId:(NSString *)modifyUserId;
 //class init
-+ (instancetype)PlanWithDate:(NSDate *)date
-                       store:(NSString *)store
-                        time:(NSString *)time
-                        tips:(NSString *)tips;
++ (instancetype)PlanWithplanDate:(NSString *)planDate
+                          userId:(NSString *)userId
+                         storeId:(NSString *)storeId
+                       checkType:(int)checkType
+                    durationTime:(int)durationTime
+                            memo:(NSString *)memo
+                      createTime:(NSString *)createTime
+                    createUserId:(NSString *)createUserId
+                       checkTime:(NSString *)checkTime
+                     checkUserId:(NSString *)checkUserId
+                      modifyTime:(NSString *)modifyTime
+                    modifyUserId:(NSString *)modifyUserId;
 
 @end

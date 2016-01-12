@@ -305,7 +305,6 @@
 		258F68791BF494EF001FE9AF /* LLZTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLZTabBarController.m; sourceTree = "<group>"; };
 		258F687C1BF495CC001FE9AF /* LLZTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLZTabBar.h; sourceTree = "<group>"; };
 		258F687D1BF495CC001FE9AF /* LLZTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLZTabBar.m; sourceTree = "<group>"; };
-		258F687F1BF49652001FE9AF /* LLZTabBarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLZTabBarButton.h; sourceTree = "<group>"; };
 		258F68801BF49652001FE9AF /* LLZTabBarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLZTabBarButton.m; sourceTree = "<group>"; };
 		259C69461C046764002A7B32 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		259C69471C046764002A7B32 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
@@ -1062,7 +1061,6 @@
 				258F68791BF494EF001FE9AF /* LLZTabBarController.m */,
 				258F687C1BF495CC001FE9AF /* LLZTabBar.h */,
 				258F687D1BF495CC001FE9AF /* LLZTabBar.m */,
-				258F687F1BF49652001FE9AF /* LLZTabBarButton.h */,
 				258F68801BF49652001FE9AF /* LLZTabBarButton.m */,
 			);
 			path = TabbarController;

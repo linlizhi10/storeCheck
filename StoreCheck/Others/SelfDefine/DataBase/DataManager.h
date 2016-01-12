@@ -18,6 +18,9 @@
 @class LLZScore;
 @class LLZImage;
 @class LLZPhoto;
+@class LLZTddVersion;
+@class LLZPlan;
+@class LLZQuestion;
 
 @interface DataManager : NSObject
 {
@@ -69,6 +72,7 @@
 - (void)createCheckItemTable;
 - (NSArray *)getNewStoreCheckItem;
 - (NSArray *)getDailyCheckItem;
+- (NSArray *)getProblemItem;
 - (void)updateCheckItemTable;
 - (void)dropCheckItemTable;
 - (void)insertCheckItem:(LLZCheckItem *)item;
@@ -101,6 +105,19 @@
                           userId:(NSString *)userId;
 #pragma mark ################ Question #####################
 - (void)createQuestionTable;
-//- (void)insertQuestion:
+- (void)insertQuestion:(LLZQuestion *)question;
+- (NSArray *)getQuestionWithUserId:(NSString *)userId
+                           storeId:(NSString *)storeId
+                              date:(NSString *)date;
+#pragma mark ################ TddVersion #####################
+- (void)createTddVersionTable;
+- (void)insertTddVersion:(LLZTddVersion *)tddVersion;
+- (void)deleteTddVersion;
+#pragma mark ################ checkPlan #####################
+- (void)createShopPlanTable;
+- (void)insertShopPlan:(LLZPlan *)plan;
+- (NSArray *)getCheckPlanOrderByDateByUserId:(NSString *)userId;
+- (NSArray *)getCheckPlanOrderByStoreIdByUserId:(NSString *)userId;
+- (void)dropShopPlanTable;
 
 @end

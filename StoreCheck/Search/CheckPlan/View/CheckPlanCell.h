@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@class Plan;
+@class LLZPlan;
 @interface CheckPlanCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *date;
 @property (weak, nonatomic) IBOutlet UILabel *store;
 @property (weak, nonatomic) IBOutlet UILabel *time;
 @property (weak, nonatomic) IBOutlet UILabel *tips;
 
-- (void)fillCellWithPlan:(Plan *)plan;
+- (void)fillCellWithPlan:(LLZPlan *)plan;
 
 @end

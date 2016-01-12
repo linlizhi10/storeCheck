@@ -17,6 +17,9 @@
 #import "LLZNotice.h"
 #import "LLZImage.h"
 #import "LLZPhoto.h"
+#import "LLZTddVersion.h"
+#import "LLZPlan.h"
+#import "LLZQuestion.h"
 
 @implementation DataManager
 
@@ -219,7 +222,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)updateNoticeReadStatus:(LLZNotice *)notice
 {
-    NSString *updateSql = [NSString stringWithFormat:@"update Message set isRead='%d' where id='%d';",notice.readFlag,notice.noticeId];
+    NSString *updateSql = [NSString stringWithFormat:@"update Message set isRead='%d' where id='%ld';",notice.readFlag,notice.noticeId];
     [_dataBase executeUpdate:updateSql];
 }
 
@@ -330,6 +333,12 @@ static NSString *dataBaseName = @"StoreCheck.db";
     //select * from CheckItem where CheckType=10 and UseStatus=0 order by sortNo,itemId
     NSString *dailyCheckItemSearchSql = @"select * from CheckItem where CheckType=10 and UseStatus=0 order by sortNo,itemId";
     return [self fetchItem:dailyCheckItemSearchSql];
+}
+
+- (NSArray *)getProblemItem
+{
+    NSString *problemListItemSearchSql = @"select * from CheckItem where CheckType=30 and UseStatus=0 order by sortNo,itemId";
+    return [self fetchItem:problemListItemSearchSql];
 }
 
 - (NSArray *)fetchItem:(NSString *)sql
@@ -616,6 +625,150 @@ static NSString *dataBaseName = @"StoreCheck.db";
 {
     [self dropTable:@"Photo"];
 }
+
+#pragma mark ################ Question #####################
+- (void)createQuestionTable
+{
+    NSString *questionTableCreateSql = @"create table if not exists Question(QuestionId integer primary key autoincrement,storeId varchar(20),Date varchar(30),UserId varchar(20),itemId integer,QuesionDesc varchar(200),ImageFile1 varchar(60),ImageFile2 varchar(60),IsSolved bool,SortNo int,ModifyTime varchar(30),ModifyUserId varchar(20),TranStatus int);";
+    [self createTable:questionTableCreateSql];
+}
+- (void)insertQuestion:(LLZQuestion *)question
+{
+    NSString *questionInsertSql = [NSString stringWithFormat:@"insert into Question(storeId,Date,UserId,itemId,QuesionDesc,ImageFile1,ImageFile2,IsSolved ,SortNo ,ModifyTime ,ModifyUserId ,TranStatus) values('%@','%@','%@','%ld','%@','%@','%@','%d','%d','%@','%@','%d');",question.storeId,question.photoDate,question.userId,question.itemId,question.questionDesc,question.imageFile1,question.imageFile2,question.isSolved,question.sortNo,question.modifyTime,question.modifyUserId,question.tranStatus];
+    [self insertData:questionInsertSql];
+}
+- (NSArray *)getQuestionWithUserId:(NSString *)userId
+                           storeId:(NSString *)storeId
+                              date:(NSString *)date
+{
+    NSString *questionSearchSql = [NSString stringWithFormat:@"select Question.QuestionId,Question.itemId,CheckItem.Title,Question.QuestionDesc,Question.ImageFile1,Question.Date ,Question.IsSolved from Question left join Checkitem on Question.itemId = Checkitem.itemid where Question.storeId='%@' and Question.[UserId]='%@' and Question.Date>'%@';",storeId,userId,date];
+    return [self fetchQuestion:questionSearchSql];
+}
+
+- (NSArray *)fetchQuestion:(NSString *)searchSql
+{
+    NSMutableArray *quesitonArrM = [[NSMutableArray alloc] init];
+    FMResultSet *set = [_dataBase executeQuery:searchSql];
+    while ([set next]) {
+        
+    }
+    return quesitonArrM;
+}
+
+#pragma mark ################ tdd_version #####################
+- (void)createTddVersionTable
+{
+    NSString *tddVersionCreateSql = @"create table if not exists Tdd_Version(ItemId varchar(30),TabName varchar(80),ModifyDate varchar(30));";
+    [self createTable:tddVersionCreateSql];
+}
+
+- (void)insertTddVersion:(LLZTddVersion *)tddVersion
+{
+    NSString *tddVersionSearchSql = [NSString stringWithFormat:@"select * from Tdd_Version where ItemId='%@';",tddVersion.itemId];
+    NSArray *arr = [self searchTddVersion:tddVersionSearchSql];
+    if (arr.count > 0) {
+        [self updateTddVersion:tddVersion];
+    }else{
+    NSString *insertVersionSql = [NSString stringWithFormat:@"insert into Tdd_Version(ItemId,TabName,ModifyDate) values('%@','%@','%@');",tddVersion.itemId,tddVersion.tableName,tddVersion.modifyDate];
+    [self insertData:insertVersionSql];
+    }
+}
+
+- (void)updateTddVersion:(LLZTddVersion *)tddVersion
+{
+    NSString *updateTddVersionSql = [NSString stringWithFormat:@"update Tdd_Version set TabName='%@',ModifyDate='%@' where ItemId='%@';",tddVersion.tableName,tddVersion.modifyDate,tddVersion.itemId];
+    BOOL rec = [_dataBase executeUpdate:updateTddVersionSql];
+    if (!rec) {
+        NSLog(@"error is %@",[_dataBase lastErrorMessage]);
+    }
+}
+
+- (NSArray *)searchTddVersion:(NSString *)searchSql
+{
+    NSMutableArray *arrM = [[NSMutableArray alloc] init];
+    FMResultSet *set = [_dataBase executeQuery:searchSql];
+    while ([set next]) {
+        NSString *itemId = [set stringForColumn:@"ItemId"];
+        NSString *tabName = [set stringForColumn:@"TabName"];
+        NSString *modifyDate = [set stringForColumn:@"ModifyDate"];
+        LLZTddVersion *tddVerison = [LLZTddVersion tddVersionWithItemId:itemId
+                                                              tableName:tabName
+                                                             modifyDate:modifyDate];
+        [arrM addObject:tddVerison];
+    }
+    return arrM;
+}
+
+- (void)deleteTddVersion
+{
+    [self dropTable:@"Tdd_Version"];
+}
+
+#pragma mark ################ shopPlan #####################
+- (void)createShopPlanTable
+{
+    NSString *shopPlanTableCreateSql = @"create table if not exists ShopPlan(planId integer primary key autoincrement,planDate varchar(30),userId varchar(20),storeId varchar(20),CheckType int,DurationTime int, Memo varchar(200),CreateTime varchar(30),CreateUserId varchar(30),CheckTime varchar(30),CheckUserId varchar(30),ModifyTime varchar(30),ModifyUserId varchar(30));";
+    [self createTable:shopPlanTableCreateSql];
+}
+
+- (void)insertShopPlan:(LLZPlan *)plan
+{
+
+}
+
+- (NSArray *)getCheckPlanOrderByDateByUserId:(NSString *)userId
+{
+    NSString *planSearch = [NSString stringWithFormat:@"select * from ShopPlan where userId='%@' order by planDate;",userId];
+    return [self fetchShopPlan:planSearch];
+}
+
+- (NSArray *)getCheckPlanOrderByStoreIdByUserId:(NSString *)userId
+{
+    NSString *planSearch = [NSString stringWithFormat:@"select * from ShopPlan where userId='%@' order by storeId;",userId];
+    return [self fetchShopPlan:planSearch];
+}
+
+- (NSArray *)fetchShopPlan:(NSString *)searchSql
+{
+    NSMutableArray *planArrM = [[NSMutableArray alloc] init];
+    FMResultSet *set = [_dataBase executeQuery:searchSql];
+    while ([set next]) {
+        NSInteger planId = [set longForColumn:@"planId"];
+        NSString *planDate = [set stringForColumn:@"planDate"];
+        NSString *userId = [set stringForColumn:@"userId"];
+        NSString *storeId = [set stringForColumn:@"storeId"];
+        int checkType = [set intForColumn:@"CheckType"];
+        int durationTime = [set intForColumn:@"DurationTime"];
+        NSString *memo = [set stringForColumn:@"Memo"];
+        NSString *createTime = [set stringForColumn:@"CreateTime"];
+        NSString *createUserId = [set stringForColumn:@"CreateUserId"];
+        NSString *checkTime = [set stringForColumn:@"CheckTime"];
+        NSString *checkUserId = [set stringForColumn:@"CheckUserId"];
+        NSString *modifyTime = [set stringForColumn:@"ModifyTime"];
+        NSString *modifyUserId = [set stringForColumn:@"ModifyUserId"];
+        LLZPlan *plan = [LLZPlan PlanWithPlanId:planId
+                                       planDate:planDate
+                                         userId:userId
+                                        storeId:storeId
+                                      checkType:checkType
+                                   durationTime:durationTime
+                                           memo:memo
+                                     createTime:createTime
+                                   createUserId:createUserId
+                                      checkTime:checkTime
+                                    checkUserId:checkUserId
+                                     modifyTime:modifyTime
+                                   modifyUserId:modifyUserId];
+        [planArrM addObject:plan];
+    }
+    return planArrM;
+}
+
+- (void)dropShopPlanTable
+{
+    [self dropTable:@"ShopPlan"];
+}
+
 #pragma mark ################ public #####################
 - (void)dropTable:(NSString *)tableName
 {

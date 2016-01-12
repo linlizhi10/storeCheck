@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *problemDescribe;
 - (IBAction)takePhoto:(id)sender;
 - (IBAction)save:(id)sender;
+@property (weak, nonatomic) IBOutlet UIImageView *problemPhoto;
 
 
 @end

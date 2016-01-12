@@ -12,6 +12,7 @@
 #import "Tools.h"
 #import "AppDelegate.h"
 #import "WToast.h"
+#import "HttpClient.h"
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 /*
@@ -22,6 +23,8 @@
  password       登录密码
  userName       用户名
  */
+#define Server        @"http://115.159.26.99:8080/SCBackstage/"
+#define ServerParam(param) [NSString stringWithFormat:@"%@%@",Server,param]
 
 #define iPhoneWidth   [UIScreen mainScreen].bounds.size.width
 #define iPhoneHeight  [UIScreen mainScreen].bounds.size.height

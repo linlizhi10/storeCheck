@@ -9,6 +9,7 @@
 #import "ProblemListViewController.h"
 #import "ProblemListCell.h"
 #import "AddProblemViewController.h"
+#import "Store.h"
 
 @interface ProblemListViewController ()
 <UITableViewDataSource,UITableViewDelegate>
@@ -29,6 +30,10 @@ static NSString *cellI = @"ProblemListCell";
     [super viewDidLoad];
     [self setCenterButton:@"问题列表"];
     [self setLeftButton:[UIImage imageNamed:@"btn_back"]];
+    Store *store = [self getStoreInfo];
+    self.storeName.text = [NSString stringWithFormat:@"%@(%@)",
+                           [store.storeName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]],
+                           store.storeAddress];
     RegisterNib(cellI, self.problemListTable);
 /*
     UILabel *test = [[UILabel alloc] initWithFrame:CGRectMake(10, 200, 100, 100)];

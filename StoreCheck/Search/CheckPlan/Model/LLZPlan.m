@@ -11,7 +11,8 @@
 @implementation LLZPlan
 
 //object init
-- (instancetype)initWithplanDate:(NSString *)planDate
+- (instancetype)initWithPlanId:(NSInteger)planId
+                        planDate:(NSString *)planDate
                           userId:(NSString *)userId
                          storeId:(NSString *)storeId
                        checkType:(int)checkType
@@ -25,6 +26,7 @@
                     modifyUserId:(NSString *)modifyUserId
 {
     if (self = [super init]) {
+        self.planId = planId;
         self.planDate = planDate;
         self.userId = userId;
         self.storeId = storeId;
@@ -42,7 +44,8 @@
     return self;
 }
 //class init
-+ (instancetype)PlanWithplanDate:(NSString *)planDate
++ (instancetype)PlanWithPlanId:(NSInteger)planId
+                        planDate:(NSString *)planDate
                           userId:(NSString *)userId
                          storeId:(NSString *)storeId
                        checkType:(int)checkType
@@ -55,18 +58,19 @@
                       modifyTime:(NSString *)modifyTime
                     modifyUserId:(NSString *)modifyUserId
 {
-    return [LLZPlan PlanWithplanDate:planDate
-                              userId:userId
-                             storeId:storeId
-                           checkType:checkType
-                        durationTime:durationTime
-                                memo:memo
-                          createTime:createTime
-                        createUserId:createUserId
-                           checkTime:checkTime
-                         checkUserId:checkUserId
-                          modifyTime:modifyTime
-                        modifyUserId:modifyUserId];
+    return [[LLZPlan alloc] initWithPlanId:planId
+                                  planDate:planDate
+                                    userId:userId
+                                   storeId:storeId
+                                 checkType:checkType
+                              durationTime:durationTime
+                                      memo:memo
+                                createTime:createTime
+                              createUserId:createUserId
+                                 checkTime:checkTime
+                               checkUserId:checkUserId
+                                modifyTime:modifyTime
+                              modifyUserId:modifyUserId];
 
 }
 

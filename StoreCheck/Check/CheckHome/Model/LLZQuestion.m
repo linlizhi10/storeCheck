@@ -21,6 +21,7 @@
                          sortNo:(int)sortNo
                      modifyTime:(NSString *)modifyTime
                    modifyUserId:(NSString *)modifyUserId
+                     tranStatus:(int)tranStatus
 {
     if (self = [super init]) {
         self.storeId = storeId;
@@ -34,6 +35,7 @@
         self.sortNo = sortNo;
         self.modifyTime = modifyTime;
         self.modifyUserId = modifyUserId;
+        self.tranStatus = tranStatus;
     }
     return self;
 }
@@ -48,6 +50,7 @@
                              sortNo:(int)sortNo
                          modifyTime:(NSString *)modifyTime
                        modifyUserId:(NSString *)modifyUserId
+                         tranStatus:(int)tranStatus
 {
     return [[LLZQuestion alloc] initWithStoreId:storeId
                                       photoDate:photoDate
@@ -59,7 +62,8 @@
                                        isSolved:isSolved
                                          sortNo:sortNo
                                      modifyTime:modifyTime
-                                   modifyUserId:modifyUserId];
+                                   modifyUserId:modifyUserId
+                                     tranStatus:tranStatus];
 }
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "CheckPlanCell.h"
-#import "Plan.h"
+#import "LLZPlan.h"
 @implementation CheckPlanCell
 
 - (void)awakeFromNib {
@@ -20,9 +20,9 @@
     // Configure the view for the selected state
 }
 
-- (void)fillCellWithPlan:(Plan *)plan
+- (void)fillCellWithPlan:(LLZPlan *)plan
 {
-    self.date.text = [Tools dateToString:plan.date];
+    self.date.text = plan.checkTime;
 }
 
 @end

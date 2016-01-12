@@ -24,7 +24,8 @@
 @property (nonatomic, copy) NSString * modifyTime;
 @property (nonatomic, copy) NSString * modifyUserId;
 //object init
-- (instancetype)initWithplanDate:(NSString *)planDate
+- (instancetype)initWithPlanId:(NSInteger)planId
+                      planDate:(NSString *)planDate
                         userId:(NSString *)userId
                         storeId:(NSString *)storeId
                        checkType:(int)checkType
@@ -37,7 +38,8 @@
                       modifyTime:(NSString *)modifyTime
                     modifyUserId:(NSString *)modifyUserId;
 //class init
-+ (instancetype)PlanWithplanDate:(NSString *)planDate
++ (instancetype)PlanWithPlanId:(NSInteger)planId
+                      planDate:(NSString *)planDate
                           userId:(NSString *)userId
                          storeId:(NSString *)storeId
                        checkType:(int)checkType

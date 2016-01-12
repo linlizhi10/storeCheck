@@ -21,6 +21,7 @@
 @property (nonatomic, assign) int sortNo;
 @property (nonatomic, copy) NSString * modifyTime;
 @property (nonatomic, copy) NSString * modifyUserId;
+@property (nonatomic, assign) int tranStatus;
 
 - (instancetype)initWithStoreId:(NSString *)storeId
                       photoDate:(NSString *)photoDate
@@ -32,7 +33,8 @@
                        isSolved:(BOOL)isSolved
                          sortNo:(int)sortNo
                      modifyTime:(NSString *)modifyTime
-                   modifyUserId:(NSString *)modifyUserId;
+                   modifyUserId:(NSString *)modifyUserId
+                     tranStatus:(int)tranStatus;
 
 + (instancetype)questionWithStoreId:(NSString *)storeId
                           photoDate:(NSString *)photoDate
@@ -44,5 +46,7 @@
                            isSolved:(BOOL)isSolved
                              sortNo:(int)sortNo
                          modifyTime:(NSString *)modifyTime
-                       modifyUserId:(NSString *)modifyUserId;
+                       modifyUserId:(NSString *)modifyUserId
+                         tranStatus:(int)tranStatus;
+;
 @end

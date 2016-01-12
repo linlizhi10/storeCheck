@@ -50,7 +50,7 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
         [manager createDirectoryAtPath:ImagePath(nil) withIntermediateDirectories:YES attributes:nil error:nil];
     }
     _dataM = [DataManager shareDataManager];
-    [self.dataM deleteTddVersion];
+//    [self.dataM deleteTddVersion];
     
     [self.dataM createStoreTable];
     [self.dataM createUserTable];
@@ -58,18 +58,20 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
     [self.dataM createSignStoreTable];
     [self.dataM createCheckItemTable];
     [self.dataM createTddVersionTable];
-   
-    NSString *param = @"transfer_version.do";
-    [[HttpClient sharedClient] post:ServerParam(param) obj:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSArray *arr = responseObject;
-        for (NSDictionary *dic in arr) {
-            LLZTddVersion *tddVersion = [LLZTddVersion parseDic:dic];
-            [self.dataM insertTddVersion:tddVersion];
-            [self getDataFromServerWithTddVersion:tddVersion];
-        }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
-    }];
+    [self.dataM createShopPlanTable];
+    [self.dataM createQuestionTable];
+    
+//    NSString *param = @"transfer_version.do";
+//    [[HttpClient sharedClient] post:ServerParam(param) obj:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        NSArray *arr = responseObject;
+//        for (NSDictionary *dic in arr) {
+//            LLZTddVersion *tddVersion = [LLZTddVersion parseDic:dic];
+//            [self.dataM insertTddVersion:tddVersion];
+//            [self getDataFromServerWithTddVersion:tddVersion];
+//        }
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        
+//    }];
 }
 
 - (void)getDataFromServerWithTddVersion:(LLZTddVersion *)tddVersion

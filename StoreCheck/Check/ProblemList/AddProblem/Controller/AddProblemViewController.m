@@ -153,7 +153,7 @@ UITableViewDelegate>
     BOOL writeFlag = [data writeToFile:ImagePath(imageName) atomically:YES];
     self.imageName = [NSString stringWithFormat:@"%@%@%@",storeId,userId,listId];
     NSLog(@"writeFlag is %d",writeFlag);
-    self.problemPhoto.image = 
+    self.problemPhoto.image = image;
 }
 
 #pragma mark - UITableView Datasource

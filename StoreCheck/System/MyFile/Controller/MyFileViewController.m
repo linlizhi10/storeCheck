@@ -31,9 +31,9 @@ static NSString *collectionViewCellI = @"contentCell";
 
 - (void)prepareData
 {
-    Topic *topic01 = [Topic topicWithImage:@"" title:@"个人信息"];
-    Topic *topic02 = [Topic topicWithImage:@"" title:@"修改资料"];
-    Topic *topic03 = [Topic topicWithImage:@"" title:@"修改密码"];
+    Topic *topic01 = [Topic topicWithImage:@"mydata" title:@""];
+    Topic *topic02 = [Topic topicWithImage:@"changedata" title:@""];
+    Topic *topic03 = [Topic topicWithImage:@"changepwd" title:@""];
     self.topicArray = [NSArray arrayWithObjects:topic01,
                        topic02,
                        topic03,nil];

@@ -21,7 +21,6 @@ static NSString *cellName = @"ContentCollectionViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view addSubview:self.contentCollectionView];
-
 }
 //get method
 - (UICollectionViewFlowLayout *)flowLayout

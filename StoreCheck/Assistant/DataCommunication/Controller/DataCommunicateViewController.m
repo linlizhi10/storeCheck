@@ -28,8 +28,8 @@
 
 - (void)dataPrepared
 {
-    Topic *topic01 = [Topic topicWithImage:@"" title:@"数据上传"];
-    Topic *topic02 = [Topic topicWithImage:@"" title:@"数据下载"];
+    Topic *topic01 = [Topic topicWithImage:@"datadownload" title:@""];
+    Topic *topic02 = [Topic topicWithImage:@"dataupload" title:@""];
     self.topicArray = [NSArray arrayWithObjects:topic01,
                        topic02,nil];
 

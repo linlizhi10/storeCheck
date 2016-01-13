@@ -319,7 +319,6 @@
 		259C69561C04726A002A7B32 /* NewCheckListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewCheckListCell.h; sourceTree = "<group>"; };
 		259C69571C04726A002A7B32 /* NewCheckListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewCheckListCell.m; sourceTree = "<group>"; };
 		259C69581C04726A002A7B32 /* NewCheckListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewCheckListCell.xib; sourceTree = "<group>"; };
-		25A1625A1C4348AF00ED7D88 /* LLZTabBarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLZTabBarButton.h; sourceTree = "<group>"; };
 		25A1625B1C4348C500ED7D88 /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI.framework; sourceTree = "<group>"; };
 		25A1625D1C43501F00ED7D88 /* LLZTddVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LLZTddVersion.h; path = Model/LLZTddVersion.h; sourceTree = "<group>"; };
 		25A1625E1C43501F00ED7D88 /* LLZTddVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LLZTddVersion.m; path = Model/LLZTddVersion.m; sourceTree = "<group>"; };

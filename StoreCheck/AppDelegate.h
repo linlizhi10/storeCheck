@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DataManager.h"
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
@@ -16,6 +17,7 @@
 @property (nonatomic, assign) double longitude;
 @property (nonatomic, strong) DataManager * dataM;
 @property (nonatomic, assign) BOOL locationSuccess;
+@property (nonatomic, assign) NSInteger netStatus;
 
 @end
 

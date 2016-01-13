@@ -27,6 +27,7 @@
     [super viewDidLoad];
     self.appD = (AppDelegate *)[UIApplication sharedApplication].delegate;
     self.navigationController.navigationBarHidden = YES;
+    
 }
 
 - (void)didReceiveMemoryWarning {

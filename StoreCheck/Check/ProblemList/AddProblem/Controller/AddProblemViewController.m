@@ -41,9 +41,8 @@ UITableViewDelegate>
 - (void)dataPrepared
 {
     self.problemListArr = [NSMutableArray arrayWithArray:[self.appD.dataM getProblemItem]];
-    for (LLZCheckItem *item in self.problemListArr) {
-        NSLog(@"title is %@",item.title);
-    }}
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

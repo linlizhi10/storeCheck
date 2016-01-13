@@ -12,6 +12,7 @@
 #import <BaiduMapAPI/BMapKit.h>
 #import "DataManagerT.h"
 #import "LLZTddVersion.h"
+#import "AFNetworkReachabilityManager.h"
 
 @interface AppDelegate ()
 <BMKGeneralDelegate,BMKLocationServiceDelegate,BMKGeoCodeSearchDelegate>
@@ -35,6 +36,7 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
     [[IQKeyboardManager sharedManager] setEnable:YES];
     [self initMapManager];
     [self initData];
+    [self startMonitoringNetStatus];
     LogInViewController *login = [[LogInViewController alloc] init];
     self.window.rootViewController = login;
     return YES;
@@ -170,6 +172,30 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)startMonitoringNetStatus
+{
+    AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
+    [manager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        switch (status) {
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+                NSLog(@"wifi");
+                self.netStatus = 1;
+                break;
+                case AFNetworkReachabilityStatusNotReachable:
+                NSLog(@"not reachable");
+                self.netStatus = 0;
+                break;
+                case AFNetworkReachabilityStatusReachableViaWWAN:
+                NSLog(@"wwan");
+                self.netStatus = 2;
+                break;
+            default:
+                break;
+        }
+    }];
+    [manager startMonitoring];
 }
 
 @end

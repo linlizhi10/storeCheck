@@ -12,6 +12,7 @@
 #import "CheckReportViewController.h"
 #import "PhotoCheckViewController.h"
 #import "Topic.h"
+#import "Store.h"
 
 @interface SearchHomeViewController ()
 <UICollectionViewDelegate,UICollectionViewDataSource>
@@ -29,11 +30,20 @@
     [self prepareData];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if ([UserDefaults objectForKey:@"selectStore"]) {
+        Store *store = [self getStoreInfo];
+        [self setLeftButton:store.storeName];
+    }
+}
+
 - (void)prepareData
 {
-    Topic *topic01 = [Topic topicWithImage:@"" title:@"巡店计划"];
-    Topic *topic02 = [Topic topicWithImage:@"" title:@"巡店报告"];
-    Topic *topic03 = [Topic topicWithImage:@"" title:@"拍照查询"];
+    Topic *topic01 = [Topic topicWithImage:@"storeplan" title:@""];
+    Topic *topic02 = [Topic topicWithImage:@"report" title:@""];
+    Topic *topic03 = [Topic topicWithImage:@"photolist" title:@""];
     self.topicArray = [NSArray arrayWithObjects:topic01,
                        topic02,
                        topic03, nil];

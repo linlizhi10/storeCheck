@@ -11,6 +11,7 @@
 #import "DataCommunicateViewController.h"
 #import "NoticeViewController.h"
 #import "Topic.h"
+#import "Store.h"
 
 @interface AssistantHomeViewController ()
 @property (nonatomic, copy) NSArray * topicArray;
@@ -26,10 +27,19 @@
 
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if ([UserDefaults objectForKey:@"selectStore"]) {
+        Store *store = [self getStoreInfo];
+        [self setLeftButton:store.storeName];
+    }
+}
+
 - (void)prepareData
 {
-    Topic *topic01 = [Topic topicWithImage:@"" title:@"数据通讯"];
-    Topic *topic02 = [Topic topicWithImage:@"" title:@"公告"];
+    Topic *topic01 = [Topic topicWithImage:@"transfer" title:@""];
+    Topic *topic02 = [Topic topicWithImage:@"notify" title:@""];
     self.topicArray = [NSArray arrayWithObjects:topic01,
                        topic02, nil];
 }

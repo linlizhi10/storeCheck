@@ -12,6 +12,7 @@
 		241900431C2FBEF2008E6208 /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 241900411C2FBEF2008E6208 /* ChangePasswordViewController.m */; };
 		241900441C2FBEF2008E6208 /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 241900421C2FBEF2008E6208 /* ChangePasswordViewController.xib */; };
 		2528E7371C0E93AA00C0D663 /* UINavigationController+CustomAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2528E7361C0E93AA00C0D663 /* UINavigationController+CustomAnimation.m */; };
+		252965511C473AEB004250D1 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 252965501C473AEB004250D1 /* Icon.png */; };
 		254A61CA1C3A4908008BBEA4 /* LLZImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A61C91C3A4908008BBEA4 /* LLZImage.m */; };
 		255F69041C32304F0027D665 /* LLZCheckItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 255F69031C32304F0027D665 /* LLZCheckItem.m */; };
 		2565D6491C0BE86A00209BF4 /* DataCommunicateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2565D6471C0BE86A00209BF4 /* DataCommunicateViewController.m */; };
@@ -189,6 +190,7 @@
 		241900421C2FBEF2008E6208 /* ChangePasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangePasswordViewController.xib; sourceTree = "<group>"; };
 		2528E7351C0E93AA00C0D663 /* UINavigationController+CustomAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+CustomAnimation.h"; sourceTree = "<group>"; };
 		2528E7361C0E93AA00C0D663 /* UINavigationController+CustomAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+CustomAnimation.m"; sourceTree = "<group>"; };
+		252965501C473AEB004250D1 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		254A61C81C3A4908008BBEA4 /* LLZImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LLZImage.h; path = Model/LLZImage.h; sourceTree = "<group>"; };
 		254A61C91C3A4908008BBEA4 /* LLZImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LLZImage.m; path = Model/LLZImage.m; sourceTree = "<group>"; };
 		255F69021C32304F0027D665 /* LLZCheckItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LLZCheckItem.h; path = Model/LLZCheckItem.h; sourceTree = "<group>"; };
@@ -656,6 +658,7 @@
 		258F67D31BF48166001FE9AF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				252965501C473AEB004250D1 /* Icon.png */,
 				258F67D41BF48166001FE9AF /* Info.plist */,
 				258F67D51BF48166001FE9AF /* main.m */,
 			);
@@ -1867,6 +1870,7 @@
 				25DCE90B1C30E5170043C480 /* LLZButtonCell.xib in Resources */,
 				2565D6551C0BFAB900209BF4 /* CheckOutViewController.xib in Resources */,
 				25F2EAD81BF5CAF7001D18F0 /* CheckHomeViewController.xib in Resources */,
+				252965511C473AEB004250D1 /* Icon.png in Resources */,
 				258F68311BF4846D001FE9AF /* LICENSE in Resources */,
 				25C920CB1C07F17500104089 /* PhotoCheckViewController.xib in Resources */,
 				256A31D21C0C2B240004BE44 /* PersonalInformationViewController.xib in Resources */,

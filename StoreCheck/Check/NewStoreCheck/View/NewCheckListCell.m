@@ -7,6 +7,7 @@
 //
 
 #import "NewCheckListCell.h"
+#import "NewCheckItem.h"
 #import "LLZCheckItem.h"
 
 @implementation NewCheckListCell
@@ -24,11 +25,11 @@
     self.takePhotoBlock();
 }
 
-- (void)fillCellWithItem:(LLZCheckItem *)item andIndex:(NSInteger)index
+- (void)fillCellWithItem:(NewCheckItem *)item andIndex:(NSInteger)index
 {
     self.listNumber.text = [NSString stringWithFormat:@"%ld",index];
-    self.listContent.text = item.title;
-    self.checkStatus.text = (item.checkFlag == YES) ? @"已检查" : @"未检查";
+    self.listContent.text = item.checkItem.title;
+    self.checkStatus.text = ([item.imageFile isEqualToString:@""]) ? @"未检查" : @"已检查";
 }
 
 @end

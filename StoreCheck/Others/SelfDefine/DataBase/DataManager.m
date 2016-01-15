@@ -20,6 +20,7 @@
 #import "LLZTddVersion.h"
 #import "LLZPlan.h"
 #import "LLZQuestion.h"
+#import "NewCheckItem.h"
 
 @implementation DataManager
 
@@ -321,11 +322,25 @@ static NSString *dataBaseName = @"StoreCheck.db";
     [self createTable:createSql];
 }
 
-- (NSArray *)getNewStoreCheckItem
+- (NSArray *)getNewStoreCheckItemWithStoreId:(NSString *)storeId
+                                      userId:(NSString *)userId
+
 {
     //通过type=40和usestatus来判断？
     NSString *newStoreItemSearchSql = @"select * from CheckItem where CheckType=40 and UseStatus=0 order by sortNo,itemId;";
-    return [self fetchItem:newStoreItemSearchSql];
+    NSArray *arrT = [self fetchItem:newStoreItemSearchSql];
+    NSMutableArray *newItemArr = [[NSMutableArray alloc] init];
+    for (LLZCheckItem *item in arrT) {
+        NewCheckItem *newItem = [[NewCheckItem alloc] initWithCheckItem:item imageFile:@""];
+        NSString *newStoreItemImageSql = [NSString stringWithFormat:@"select ImageFile from Image where storeId='%@' and UserId='%@' and itemId='%ld';",storeId,userId,item.itemId];
+        FMResultSet *set = [_dataBase executeQuery:newStoreItemImageSql];
+        while ([set next]) {
+            NSString *imageFile = [set stringForColumn:@"ImageFile"];
+            newItem.imageFile = imageFile;
+        }
+        [newItemArr addObject:newItem];
+    }
+    return newItemArr;
 }
 
 - (NSArray *)getDailyCheckItem
@@ -524,14 +539,14 @@ static NSString *dataBaseName = @"StoreCheck.db";
 #pragma mark ################ image #####################
 - (void)createImageTable
 {
-    NSString *imageCreateSql = @"create table if not exists Image(imageId integer primary key autoincrement,storeId varchar(20),UserId varchar(20),ImageDate varchar(30),ImageType int,itemId integer,ImageDesc varchar(200),ImageData blob,ImagePath varchar(100),ModifyTime varchar(30),TranStatus int);";
+    NSString *imageCreateSql = @"create table if not exists Image(imageId integer primary key autoincrement,storeId varchar(20),UserId varchar(20),ImageDate varchar(30),ImageType int,itemId integer,ImageDesc varchar(200),ImageData blob,ImageFile varchar(100),ModifyTime varchar(30),TranStatus int);";
     [self createTable:imageCreateSql];
 }
 
 - (void)insertImageItem:(LLZImage *)image
 {
     //old for test
-    NSString *insertImageSql = [NSString stringWithFormat:@"insert into Image(storeId,UserId,ImageDate,ImageType,itemId,ImageDesc,ImageData,ModifyTime,TranStatus) values('%@','%@','%@','%d','%ld','%@','%@','%@','%d');",image.storeId,image.userId,image.imageDate,image.imageType,image.itemId,image.imageDesc,image.imageData,image.modifyTime,image.tranStatus];
+    NSString *insertImageSql = [NSString stringWithFormat:@"insert into Image(storeId,UserId,ImageDate,ImageType,itemId,ImageFile,ImageDesc,ImageData,ModifyTime,TranStatus) values('%@','%@','%@','%d','%ld',,'%@''%@','%@','%@','%d');",image.storeId,image.userId,image.imageDate,image.imageType,image.itemId,image.imagePath,image.imageDesc,image.imageData,image.modifyTime,image.tranStatus];
     //new
 //    NSString *insertImageSql = [NSString stringWithFormat:@"insert into Image(storeId,UserId,ImageDate,ImageType,itemId,ImageDesc,ImageData,ImagePath,ModifyTime,TranStatus) values('%@','%@','%@','%d','%ld','%@','%@','%@','%@','%d');",image.storeId,image.userId,image.imageDate,image.imageType,image.itemId,image.imageDesc,image.imageData,image.imagePath,image.modifyTime,image.tranStatus];
     [self insertData:insertImageSql];
@@ -588,10 +603,10 @@ static NSString *dataBaseName = @"StoreCheck.db";
 - (NSArray *)getPhotoWithStoreId:(NSString *)storeId userId:(NSString *)userId
 {
     NSString *photoSearch = [NSString stringWithFormat:@"select CheckItem.Title,Photo.storeId,Photo.UserId,Photo.PhotoDate,Photo.CheckType,Photo.itemId,Photo.ImageFile1,Photo.ImageFile2,Photo.ModifyTime,Photo.TranStatus from Photo LEFT join CheckItem on Photo.itemId = CheckItem.itemId where storeId='%@' and userId='%@';",storeId,userId];
-    return  [self fechPhoto:photoSearch];
+    return  [self fetchPhoto:photoSearch];
 }
 
-- (NSArray *)fechPhoto:(NSString *)searchSql
+- (NSArray *)fetchPhoto:(NSString *)searchSql
 {
     NSMutableArray *arrM = [[NSMutableArray alloc] init];
     FMResultSet *set = [_dataBase executeQuery:searchSql];
@@ -634,7 +649,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 }
 - (void)insertQuestion:(LLZQuestion *)question
 {
-    NSString *questionInsertSql = [NSString stringWithFormat:@"insert into Question(storeId,Date,UserId,itemId,QuesionDesc,ImageFile1,ImageFile2,IsSolved ,SortNo ,ModifyTime ,ModifyUserId ,TranStatus) values('%@','%@','%@','%ld','%@','%@','%@','%d','%d','%@','%@','%d');",question.storeId,question.photoDate,question.userId,question.itemId,question.questionDesc,question.imageFile1,question.imageFile2,question.isSolved,question.sortNo,question.modifyTime,question.modifyUserId,question.tranStatus];
+    NSString *questionInsertSql = [NSString stringWithFormat:@"insert into Question(storeId,Date,UserId,itemId,QuestionDesc,ImageFile1,ImageFile2,IsSolved ,SortNo ,ModifyTime ,ModifyUserId ,TranStatus) values('%@','%@','%@','%ld','%@','%@','%@','%d','%d','%@','%@','%d');",question.storeId,question.photoDate,question.userId,question.itemId,question.questionDesc,question.imageFile1,question.imageFile2,question.isSolved,question.sortNo,question.modifyTime,question.modifyUserId,question.tranStatus];
     [self insertData:questionInsertSql];
 }
 - (NSArray *)getQuestionWithUserId:(NSString *)userId
@@ -645,14 +660,56 @@ static NSString *dataBaseName = @"StoreCheck.db";
     return [self fetchQuestion:questionSearchSql];
 }
 
+- (NSInteger)numberOfProblemWithUserId:(NSString *)userId
+                         storeId:(NSString *)storeId
+                            date:(NSString *)date;
+{
+    return [self getQuestionWithUserId:userId
+                               storeId:storeId
+                                  date:date].count;
+}
+
+- (NSInteger)numberOfProblemUnsolvedWithUserId:(NSString *)userId
+                                       storeId:(NSString *)storeId
+                                          date:(NSString *)date
+{
+    NSString *unsolvedSql = [NSString stringWithFormat:@"select * from Question where IsSolved=0 and storeId='%@' and UserId = '%@' and Date>'%@'",storeId,userId,date];
+    return [self fetchQuestion:unsolvedSql].count;
+}
+
 - (NSArray *)fetchQuestion:(NSString *)searchSql
 {
-    NSMutableArray *quesitonArrM = [[NSMutableArray alloc] init];
+    NSMutableArray *questionArrM = [[NSMutableArray alloc] init];
     FMResultSet *set = [_dataBase executeQuery:searchSql];
     while ([set next]) {
-        
+        NSInteger qustionId = [set longForColumn:@"QuestionId"];
+        NSString *storeId = [set stringForColumn:@"storeId"];
+        NSString *questionDate = [set stringForColumn:@"Date"];
+        NSString *userId = [set stringForColumn:@"UserId"];
+        NSInteger itemId = [set longForColumn:@"itemId"];
+        NSString *questionDesc = [set stringForColumn:@"QuestionDesc"];
+        NSString *imageFile1 = [set stringForColumn:@"ImageFile1"];
+        NSString *imageFile02 = [set stringForColumn:@"ImageFile2"];
+        BOOL isSolved = [set boolForColumn:@"IsSolved"];
+        int sortNo = [set intForColumn:@"SortNo"];
+        NSString *modifyTime = [set stringForColumn:@"ModifyTime"];
+        NSString *modifyUserId = [set stringForColumn:@"ModifyUserId"];
+        int tranStatus = [set intForColumn:@"TranStatus"];
+        LLZQuestion *question = [LLZQuestion questionWithStoreId:storeId
+                                                       photoDate:questionDate
+                                                          userId:userId
+                                                          itemId:itemId
+                                                    questionDesc:questionDesc
+                                                      imageFile1:imageFile1
+                                                      imageFile2:imageFile02
+                                                        isSolved:isSolved
+                                                          sortNo:sortNo
+                                                      modifyTime:modifyTime
+                                                    modifyUserId:modifyUserId
+                                                      tranStatus:tranStatus];
+        [questionArrM addObject:question];
     }
-    return quesitonArrM;
+    return questionArrM;
 }
 
 #pragma mark ################ tdd_version #####################

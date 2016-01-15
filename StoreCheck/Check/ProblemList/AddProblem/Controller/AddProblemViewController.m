@@ -85,6 +85,7 @@ UITableViewDelegate>
     }else{
         Store *store = [self getStoreInfo];
         LLZUser *user = [self getUserInfo];
+        LLZCheckItem *item = self.problemListArr[self.selectIndex];
         NSString *storeId = store.storeId;
         NSString *userId = user.userId;
         NSString *dateString = [self.dateFormatterOne stringFromDate:[NSDate date]];
@@ -92,10 +93,10 @@ UITableViewDelegate>
         LLZQuestion *question = [LLZQuestion questionWithStoreId:storeId
                                                        photoDate:dateString
                                                           userId:userId
-                                                          itemId:10
-                                                    questionDesc:@""
+                                                          itemId:item.itemId
+                                                    questionDesc:self.problemDescribe.text
                                                       imageFile1:self.imageName
-                                                      imageFile2:self.imageName
+                                                      imageFile2:nil
                                                         isSolved:NO
                                                           sortNo:1
                                                       modifyTime:modifyDateString
@@ -145,9 +146,10 @@ UITableViewDelegate>
     //name should contain storeId userId listId
     Store *store = [self getStoreInfo];
     LLZUser *user = [self getUserInfo];
+    LLZCheckItem *item = self.problemListArr[self.selectIndex];
     NSString *storeId = store.storeId;
     NSString *userId = user.userId;
-    NSString *listId = @"011";
+    NSString *listId = [NSString stringWithFormat:@"%ld",item.itemId];
     NSString *imageName = [NSString stringWithFormat:@"%@%@%@.jpg",storeId,userId,listId];
     BOOL writeFlag = [data writeToFile:ImagePath(imageName) atomically:YES];
     self.imageName = [NSString stringWithFormat:@"%@%@%@",storeId,userId,listId];

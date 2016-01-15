@@ -8,16 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+@class LLZCheckItem;
 @interface NewCheckItem : NSObject
 
-@property (nonatomic, copy) NSString * itemId;
-@property (nonatomic, copy) NSString * content;
-@property (nonatomic, assign) BOOL checkFlag;
+@property (nonatomic, strong) LLZCheckItem * checkItem;
+@property (nonatomic, copy) NSString *imageFile;
 
-- (instancetype)initWithItemId:(NSString *)itemId
-                       content:(NSString *)content
-                     checkFlag:(BOOL)checkFlag;
-+ (instancetype)itemWithItemId:(NSString *)itemId
-                       content:(NSString *)content
-                     checkFlag:(BOOL)checkFlag;
+- (instancetype)initWithCheckItem:(LLZCheckItem *)checkItem
+                     imageFile:(NSString *)imageFile;
+
++ (instancetype)itemWithCheckItem:(LLZCheckItem *)checkItem
+                        imageFile:(NSString *)imageFile;
 @end

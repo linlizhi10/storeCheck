@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class LLZCheckItem;
+@class NewCheckItem;
 typedef void(^TakePhotoBlock) ();
 @interface NewCheckListCell : UITableViewCell
 
@@ -18,6 +18,6 @@ typedef void(^TakePhotoBlock) ();
 @property (nonatomic, copy) TakePhotoBlock takePhotoBlock;
 - (IBAction)takePhoto:(id)sender;
 
-- (void)fillCellWithItem:(LLZCheckItem *)item andIndex:(NSInteger)index;
+- (void)fillCellWithItem:(NewCheckItem *)item andIndex:(NSInteger)index;
 
 @end

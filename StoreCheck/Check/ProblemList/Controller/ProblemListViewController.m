@@ -10,6 +10,7 @@
 #import "ProblemListCell.h"
 #import "AddProblemViewController.h"
 #import "Store.h"
+#import "LLZUser.h"
 
 @interface ProblemListViewController ()
 <UITableViewDataSource,UITableViewDelegate>
@@ -31,10 +32,15 @@ static NSString *cellI = @"ProblemListCell";
     [self setCenterButton:@"问题列表"];
     [self setLeftButton:[UIImage imageNamed:@"btn_back"]];
     Store *store = [self getStoreInfo];
+    LLZUser *user = [self getUserInfo];
     self.storeName.text = [NSString stringWithFormat:@"%@(%@)",
                            [store.storeName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]],
                            store.storeAddress];
     RegisterNib(cellI, self.problemListTable);
+    
+    NSString *dateString = [self.dateFormatterOne stringFromDate:[NSDate date]];
+    self.problemAmount.text = [NSString stringWithFormat:@"%ld",[self.appD.dataM numberOfProblemUnsolvedWithUserId:user.userId storeId:store.storeId date:dateString]];
+    self.unsolvedProblemAmount.text = [NSString stringWithFormat:@"%ld",[self.appD.dataM numberOfProblemWithUserId:user.userId storeId:store.storeId date:dateString]];
 /*
     UILabel *test = [[UILabel alloc] initWithFrame:CGRectMake(10, 200, 100, 100)];
     NSMutableAttributedString *aStr = [[NSMutableAttributedString alloc] init];
@@ -45,6 +51,11 @@ static NSString *cellI = @"ProblemListCell";
     test.attributedText = aStr;
     [self.view addSubview:test];
  */
+}
+
+- (void)dataPrepared
+{
+
 }
 
 - (void)didReceiveMemoryWarning {

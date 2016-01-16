@@ -28,6 +28,7 @@
 }
 
 + (instancetype)shareDataManager;
+
 #pragma mark #################### store ####################
 - (void)createStoreTable;
 - (void)updateStoreTable;
@@ -46,6 +47,7 @@
                              longitude:(double)longitude;
 
 - (void)dropStoreTable;
+
 #pragma mark ################ user #####################
 - (void)createUserTable;
 - (void)updateUserTable;
@@ -54,6 +56,7 @@
 - (NSArray *)getUserWithName:(NSString *)loginName
                     passWord:(NSString *)passWord;
 - (void)dropUserTable;
+
 #pragma mark ################ notice #####################
 - (void)createMessageTable;
 - (void)updateMessageTable;
@@ -62,15 +65,18 @@
 - (NSArray *)getUnreadNotice;
 - (NSArray *)getNotice;
 - (void)dropMessageTable;
+
 #pragma mark ################ action #####################
 - (void)createSignStoreTable;
 - (NSArray *)getAction;
 - (void)dropSignStoreTable;
 - (void)insertAction:(LLZAction *)action;
 - (void)deleteAction;
+
 #pragma mark ################ checkitem #####################
 - (void)createCheckItemTable;
-- (NSArray *)getNewStoreCheckItem;
+- (NSArray *)getNewStoreCheckItemWithStoreId:(NSString *)storeId
+                                      userId:(NSString *)userId;
 - (NSArray *)getDailyCheckItem;
 - (NSArray *)getProblemItem;
 - (void)updateCheckItemTable;
@@ -91,28 +97,40 @@
 - (NSArray *)getResaonByReasonCodeArray:(NSArray *)reasonCodeArray;
 - (void)dropReasonTable;
 - (void)insertReason:(LLZReason *)reason;
+
 #pragma mark ################ score #####################
 - (void)createScoreTable;
 - (BOOL)insertScore:(LLZScore *)score;
+
 #pragma mark ################ Image #####################
 - (void)createImageTable;
 - (void)insertImageItem:(LLZImage *)image;
 - (NSArray *)getImageInfo;
+
 #pragma mark ################ photo #####################
 - (void)createPhotoTable;
 - (void)insertPhoto:(LLZPhoto *)photo;
 - (NSArray *)getPhotoWithStoreId:(NSString *)storeId
                           userId:(NSString *)userId;
+
 #pragma mark ################ Question #####################
 - (void)createQuestionTable;
 - (void)insertQuestion:(LLZQuestion *)question;
 - (NSArray *)getQuestionWithUserId:(NSString *)userId
                            storeId:(NSString *)storeId
                               date:(NSString *)date;
+- (NSInteger)numberOfProblemWithUserId:(NSString *)userId
+                         storeId:(NSString *)storeId
+                            date:(NSString *)date;
+- (NSInteger)numberOfProblemUnsolvedWithUserId:(NSString *)userId
+                                       storeId:(NSString *)storeId
+                                          date:(NSString *)date;
+
 #pragma mark ################ TddVersion #####################
 - (void)createTddVersionTable;
 - (void)insertTddVersion:(LLZTddVersion *)tddVersion;
 - (void)deleteTddVersion;
+
 #pragma mark ################ checkPlan #####################
 - (void)createShopPlanTable;
 - (void)insertShopPlan:(LLZPlan *)plan;

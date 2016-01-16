@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6246"/>
     </dependencies>
     <objects>
@@ -13,10 +14,10 @@
                 <rect key="frame" x="0.0" y="0.0" width="197" height="177"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="page01" translatesAutoresizingMaskIntoConstraints="NO" id="Dba-3N-PTK">
-                        <rect key="frame" x="64" y="34" width="70" height="70"/>
+                        <rect key="frame" x="53" y="33" width="92" height="71"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="70" id="2su-YI-pKh"/>
-                            <constraint firstAttribute="height" constant="70" id="c3G-5i-j2c"/>
+                            <constraint firstAttribute="width" constant="92" id="2su-YI-pKh"/>
+                            <constraint firstAttribute="height" constant="71" id="c3G-5i-j2c"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="入  店" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cUX-eu-W0z">

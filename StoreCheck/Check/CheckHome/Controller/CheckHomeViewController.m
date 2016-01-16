@@ -42,13 +42,13 @@
 }
 - (void)preparedData
 {
-    Topic *topic01 = [Topic topicWithImage:@"" title:@"入店"];
-    Topic *topic02 = [Topic topicWithImage:@"" title:@"离店"];
-    Topic *topic03 = [Topic topicWithImage:@"" title:@"日常巡店"];
-    Topic *topic04 = [Topic topicWithImage:@"" title:@"陈列调整"];
-    Topic *topic05 = [Topic topicWithImage:@"" title:@"问题列表"];
-    Topic *topic06 = [Topic topicWithImage:@"" title:@"新店检查"];
-    Topic *topic07 = [Topic topicWithImage:@"" title:@"报修"];
+    Topic *topic01 = [Topic topicWithImage:@"signin.png" title:@""];
+    Topic *topic02 = [Topic topicWithImage:@"signout.png" title:@""];
+    Topic *topic03 = [Topic topicWithImage:@"check.png" title:@""];
+    Topic *topic04 = [Topic topicWithImage:@"camera.png" title:@""];
+    Topic *topic05 = [Topic topicWithImage:@"questions.png" title:@""];
+    Topic *topic06 = [Topic topicWithImage:@"install.png" title:@""];
+    Topic *topic07 = [Topic topicWithImage:@"repairs.png" title:@""];
     self.topicArray = [NSArray arrayWithObjects:topic01,
                        topic02,
                        topic03,

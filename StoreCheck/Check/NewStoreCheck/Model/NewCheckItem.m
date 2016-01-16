@@ -10,20 +10,20 @@
 
 @implementation NewCheckItem
 
-- (instancetype)initWithItemId:(NSString *)itemId content:(NSString *)content checkFlag:(BOOL)checkFlag
+- (instancetype)initWithCheckItem:(LLZCheckItem *)checkItem
+                        imageFile:(NSString *)imageFile
 {
     if (self = [super init]) {
-        self.itemId = itemId;
-        self.content = content;
-        self.checkFlag = checkFlag;
+        self.checkItem = checkItem;
+        self.imageFile = imageFile;
     }
     return self;
 }
-+ (instancetype)itemWithItemId:(NSString *)itemId content:(NSString *)content checkFlag:(BOOL)checkFlag
++ (instancetype)itemWithCheckItem:(LLZCheckItem *)checkItem
+                        imageFile:(NSString *)imageFile
 {
-    return [[NewCheckItem alloc] initWithItemId:itemId
-                                        content:content
-                                      checkFlag:checkFlag];
+    return [[NewCheckItem alloc] initWithCheckItem:checkItem
+                                         imageFile:imageFile];
 }
 
 @end

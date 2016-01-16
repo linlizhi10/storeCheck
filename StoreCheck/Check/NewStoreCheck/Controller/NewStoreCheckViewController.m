@@ -21,6 +21,7 @@ UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
 @property (nonatomic, strong) NSMutableArray * itemArray;
 @property (nonatomic, assign) NSInteger selectItem;
+@property (nonatomic, copy) NSString * imageFile;
 
 @end
 
@@ -30,8 +31,14 @@ static NSString *cellI = @"NewCheckListCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.imageFile = @"";
     [self setCenterButton:@"新店检查"];
     [self setLeftButton:[UIImage imageNamed:@"btn_back"]];
+    Store *store = [self getStoreInfo];
+    self.storeName.text = [NSString stringWithFormat:@"%@(%@)",
+                           [store.storeName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]],
+                           store.storeAddress];
+
     self.selectItem = 0;
     [self prepareData];
     RegisterNib(cellI, self.checkListTable);
@@ -40,9 +47,11 @@ static NSString *cellI = @"NewCheckListCell";
 
 - (void)prepareData
 {
-    self.itemArray = [NSMutableArray arrayWithArray:[self.appD.dataM getNewStoreCheckItem]];
-    
-
+    Store *store = [self getStoreInfo];
+    LLZUser *user = [self getUserInfo];
+    self.itemArray = [NSMutableArray arrayWithArray:
+                      [self.appD.dataM getNewStoreCheckItemWithStoreId:store.storeId
+                                                                userId:user.userId]];
     
 }
 
@@ -65,11 +74,11 @@ static NSString *cellI = @"NewCheckListCell";
     NewCheckListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellI];
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    LLZCheckItem *item = self.itemArray[indexPath.item];
+    NewCheckItem *item = self.itemArray[indexPath.item];
     cell.takePhotoBlock = ^(void){
         self.selectItem = indexPath.row;
         [self takePhoto];
-        item.checkFlag = YES;
+        item.imageFile = self.imageFile;
         [self.checkListTable reloadData];
     };
     [cell fillCellWithItem:item andIndex:indexPath.item + 1];
@@ -130,10 +139,11 @@ static NSString *cellI = @"NewCheckListCell";
     //name should contain storeId userId listId
     NSString *storeId = store.storeId;
     NSString *userId = user.userId;
-    NSString *listId = [NSString stringWithFormat:@"%d",item.itemId];
+    NSString *listId = [NSString stringWithFormat:@"%ld",item.itemId];
     NSString *imageName = [NSString stringWithFormat:@"%@%@%@.jpg",storeId,userId,listId];
     BOOL writeFlag = [data writeToFile:ImagePath(imageName) atomically:YES];
     NSLog(@"writeFlag is %d",writeFlag);
+    self.imageFile = [NSString stringWithFormat:@"%@%@%@",storeId,userId,listId];
     NSString *imageDate = [self.dateFormatterOne stringFromDate:[NSDate date]];
     NSString *modifyTime = [self.dateFormatterTwo stringFromDate:[NSDate date]];
     LLZImage *imageItem = [LLZImage imageWithStoreId:storeId

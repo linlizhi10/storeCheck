@@ -13,6 +13,7 @@
 #import "SystemSetViewController.h"
 #import "Topic.h"
 #import "LogInViewController.h"
+#import "Store.h"
 
 @interface SystemHomeViewController ()
 <UICollectionViewDataSource,UICollectionViewDelegate,UIAlertViewDelegate>
@@ -31,12 +32,21 @@ static NSString *collectionViewCellI = @"contentCell";
     [self prepareData];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if ([UserDefaults objectForKey:@"selectStore"]) {
+        Store *store = [self getStoreInfo];
+        [self setLeftButton:store.storeName];
+    }
+}
+
 - (void)prepareData
 {
-    Topic *topic01 = [Topic topicWithImage:@"" title:@"我"];
-    Topic *topic02 = [Topic topicWithImage:@"" title:@"更新"];
-    Topic *topic03 = [Topic topicWithImage:@"" title:@"退出"];
-    Topic *topic04 = [Topic topicWithImage:@"" title:@"系统设置"];
+    Topic *topic01 = [Topic topicWithImage:@"me" title:@""];
+    Topic *topic02 = [Topic topicWithImage:@"update" title:@""];
+    Topic *topic03 = [Topic topicWithImage:@"exit" title:@""];
+    Topic *topic04 = [Topic topicWithImage:@"setsystem" title:@""];
     self.topicArray = [NSArray arrayWithObjects:topic01,
                        topic02,
                        topic03,
@@ -76,7 +86,11 @@ static NSString *collectionViewCellI = @"contentCell";
             break;
         case 2:
         {
-            Alert(@"确认退出当前账号？", self,1001);
+            if ([UserDefaults boolForKey:@"checkIn"]) {
+                Alert(@"请先离店", self,1002);
+            }else{
+                Alert(@"确认退出当前账号？", self,1001);
+            }
         }
             break;
             case 3:
@@ -95,25 +109,20 @@ static NSString *collectionViewCellI = @"contentCell";
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (alertView.tag == 1001) {
-        if ([UserDefaults boolForKey:@"checkIn"]) {
-            Alert(@"请先离店", self,1002);
+        if (buttonIndex == 1) {
+            NSLog(@"exit");
+            [UserDefaults setObject:nil forKey:@"selectStore"];
+            [UserDefaults setObject:nil forKey:@"user"];
+            [UserDefaults setBool:NO forKey:@"checkIn"];
+            LogInViewController *login = [[LogInViewController alloc] init];
+            [self presentViewController:login animated:YES completion:nil];
         }else{
-            if (buttonIndex == 1) {
-                NSLog(@"exit");
-                [UserDefaults setObject:nil forKey:@"selectStore"];
-                [UserDefaults setObject:nil forKey:@"user"];
-                [UserDefaults setBool:NO forKey:@"checkIn"];
-                LogInViewController *login = [[LogInViewController alloc] init];
-                [self presentViewController:login animated:YES completion:nil];
-            }else{
-                NSLog(@"cancle");
-            }
+            NSLog(@"cancle");
         }
- 
     }else{
-        NSLog(@"confirm");
+        NSLog(@"other alert");
     }
     
-    }
+}
 
 @end

@@ -38,6 +38,8 @@
     if ([UserDefaults objectForKey:@"selectStore"]) {
         Store *store = [self getStoreInfo];
         [self setLeftButton:store.storeName];
+    }else{
+        [self setLeftButton:@""];
     }
 }
 - (void)preparedData

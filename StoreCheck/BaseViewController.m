@@ -9,6 +9,7 @@
 #import "BaseViewController.h"
 #import "LLZUser.h"
 #import "Store.h"
+#import "AppDelegate.h"
 
 @interface BaseViewController ()
 
@@ -27,12 +28,22 @@
     [super viewDidLoad];
     self.appD = (AppDelegate *)[UIApplication sharedApplication].delegate;
     self.navigationController.navigationBarHidden = YES;
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(outOfStore)
+                                                 name:@"outOfStore"
+                                               object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"outOfStore"
+                                                  object:nil];
 }
 
 - (void)setNavigationBar:(UIColor *)color
@@ -103,6 +114,21 @@
 - (void)setRightButton:(id)obj
 {
     if ([obj isKindOfClass:[NSString class]]) {
+        NSLog(@"self.backview is %@",self.backView);
+        if (!self.rightNavigationLabel) {
+            self.rightNavigationLabel = [UILabel new];
+            [self.rightNavigationLabel setFrame:CGRectMake(iPhoneWidth - 90, 20, 80, 40)];
+            [self.rightNavigationLabel setTextColor:[UIColor yellowColor]];
+            [self.rightNavigationLabel setFont:[UIFont systemFontOfSize:14]];
+            self.rightNavigationLabel.backgroundColor = [UIColor redColor];
+            AppDelegate *appD = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            [appD.window addSubview:self.rightNavigationLabel];
+        }else{
+            NSLog(@"self.rightlabel is %@",self.rightNavigationLabel);
+            NSLog(@"super view is %@",self.rightNavigationLabel.superview);
+        }
+        self.rightNavigationLabel.text = obj;
+       
         
     }else if ([obj isKindOfClass:[UIImage class]])
     {
@@ -200,6 +226,43 @@
         [_dateFormatterTwo setTimeZone:timeZoneTwo];
     }
     return _dateFormatterTwo;
+}
+
+- (void)startTimeCount
+{
+    __block  int timeCount = 0;
+    if (!self.timeCount) {
+        self.timeCount = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
+        dispatch_source_set_timer(self.timeCount,dispatch_walltime(NULL, 0), 2.0 * NSEC_PER_SEC, 0);
+        dispatch_source_set_event_handler(self.timeCount, ^{
+            NSLog(@"timecount is %d",timeCount);
+            timeCount ++;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setRightButton:[NSString stringWithFormat:@"%d分钟",timeCount]];
+
+    });
+        });
+        
+    }else{
+        NSLog(@"exists");
+    }
+    dispatch_resume(self.timeCount);
+
+}
+
+- (void)outOfStore
+{
+    if (self.timeCount) {
+        dispatch_cancel(self.timeCount);
+    }else{
+        NSLog(@"no timer");
+    }
+    if (self.rightNavigationLabel) {
+        [self setRightButton:@""];
+ 
+    }else{
+        NSLog(@"no right label");
+    }
 }
 
 @end

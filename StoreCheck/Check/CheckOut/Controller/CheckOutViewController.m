@@ -125,6 +125,7 @@ static NSString *cellI = @"CheckOutCell";
         }
         [UserDefaults setObject:nil forKey:@"selectStore"];
         [UserDefaults setBool:NO forKey:@"checkIn"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"outOfStore" object:nil];
     
     };
     [self.view addSubview:signView];

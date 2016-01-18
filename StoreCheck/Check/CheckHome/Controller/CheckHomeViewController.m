@@ -30,8 +30,11 @@
     [super viewDidLoad];
     [self setCenterButton:@"巡店"];
     [self preparedData];
-    
+    if ([UserDefaults stringForKey:@"checkInTime"]) {
+        [self startTimeCountWithTimeString:[UserDefaults stringForKey:@"checkInTime"]];
+    }
 }
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -42,6 +45,7 @@
         [self setLeftButton:@""];
     }
 }
+
 - (void)preparedData
 {
     Topic *topic01 = [Topic topicWithImage:@"signin.png" title:@""];

@@ -148,9 +148,7 @@ static NSString *cellI = @"StoreListCell";
         //     [dataA addObject:data];
         //     [[NSUserDefaults standardUserDefaults] setObject:dataA forKey:@"VersionModel"];
         //     [[NSUserDefaults standardUserDefaults] synchronize];
-        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:store];
-        [UserDefaults setValue:data forKey:@"selectStore"];
-        [UserDefaults setBool:YES forKey:@"checkIn"];
+        
         //入店写入
         if ([UserDefaults objectForKey:@"user"]) {
             LLZUser *user = [self getUserInfo];
@@ -165,13 +163,17 @@ static NSString *cellI = @"StoreListCell";
                                                         signName:nil];
                 //test
             [self.appD.dataM insertAction:action];
+            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:store];
+            [UserDefaults setValue:data forKey:@"selectStore"];
+            [UserDefaults setBool:YES forKey:@"checkIn"];
+            [UserDefaults setValue:signTime forKey:@"checkInTime"];
             
         }else{
             NSLog(@"not login");
         }
         
         //time count start
-        [self startTimeCount];
+        [self startTimeCountWithTimeString:nil];
         
         //pop to last viewcontroller
         for (UIViewController *vc in self.navigationController.viewControllers) {

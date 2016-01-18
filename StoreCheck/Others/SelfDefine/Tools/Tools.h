@@ -14,4 +14,6 @@
 
 + (float)getDistance:(float)lat1 lng1:(float)lng1 lat2:(float)lat2 lng2:(float)lng2;
 
++ (int)calculateTimeAmountWithStartDate:(NSDate *)startDate andEndDate:(NSDate *)endDate;
+
 @end

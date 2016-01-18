@@ -58,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StoreCheck/BaseViewController.m"
-            timestampString = "474346605.052584"
+            timestampString = "474787504.521828"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
-            landmarkName = "-shouldAutorotate"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "-setRightButton:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

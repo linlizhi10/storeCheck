@@ -825,7 +825,17 @@ static NSString *dataBaseName = @"StoreCheck.db";
 {
     [self dropTable:@"ShopPlan"];
 }
-
+#pragma mark ################ param #####################
+- (void)createParamTable
+{
+    NSString *paramTableCreateSql = [NSString stringWithFormat:@"create table if not exists Params(id int,param varchar(40),description varchar(200));"];
+    [self createTable:paramTableCreateSql];
+}
+- ()
+- (void)deleteParamTable
+{
+    [self dropTable:@"Params"];
+}
 #pragma mark ################ public #####################
 - (void)dropTable:(NSString *)tableName
 {

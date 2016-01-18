@@ -30,5 +30,11 @@
     return round(s);
 }
 
++ (int)calculateTimeAmountWithStartDate:(NSDate *)startDate andEndDate:(NSDate *)endDate
+{
+    int timeOff = [endDate timeIntervalSince1970] - [startDate timeIntervalSince1970];
+    int dayAmount = timeOff / 60;
+    return dayAmount;
+}
 
 @end

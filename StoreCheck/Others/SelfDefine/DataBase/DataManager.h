@@ -138,4 +138,7 @@
 - (NSArray *)getCheckPlanOrderByStoreIdByUserId:(NSString *)userId;
 - (void)dropShopPlanTable;
 
+#pragma mark ################ param #####################
+- (void)createParamTable;
+
 @end

@@ -14,6 +14,7 @@
 @property (nonatomic, strong) AppDelegate * appD;
 @property (nonatomic, strong) NSDateFormatter * dateFormatterOne;
 @property (nonatomic, strong) NSDateFormatter * dateFormatterTwo;
+@property (nonatomic, strong) dispatch_source_t timeCount;
 
 //set left button
 - (void)setLeftButton:(id)obj;
@@ -23,7 +24,7 @@
 - (void)setCenterButton:(id)obj;
 //push action
 - (void)pushToViewContrller:(Class)className;
-
+- (void)startTimeCount;
 - (void)leftButtonAction:(UIButton *)sender;
 - (void)setNavigationBar:(UIColor *)color;
 

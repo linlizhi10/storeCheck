@@ -169,7 +169,9 @@ static NSString *cellI = @"StoreListCell";
         }else{
             NSLog(@"not login");
         }
-
+        
+        //time count start
+        [self startTimeCount];
         
         //pop to last viewcontroller
         for (UIViewController *vc in self.navigationController.viewControllers) {

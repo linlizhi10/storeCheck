@@ -15,6 +15,7 @@
 #import "LLZNavigationController.h"
 #import "LLZUser.h"
 #import "NSString+MD5String.h"
+#import "LLZParam.h"
 
 @interface LogInViewController ()<UIAlertViewDelegate>
 
@@ -22,6 +23,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *userName;
 @property (weak, nonatomic) IBOutlet UITextField *password;
 @property (weak, nonatomic) IBOutlet UIImageView *rememberStatus;
+@property (strong, nonatomic) LLZParam *contactParam;
+
 - (IBAction)rememberAction:(id)sender;
 - (IBAction)logIn:(id)sender;
 - (IBAction)forget:(id)sender;
@@ -33,6 +36,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setCenterButton:@"登录"];
+    [self dataPrepared];
     self.rememberFlag = [UserDefaults boolForKey:@"rememberFlag"];
     self.userName.text = [UserDefaults stringForKey:@"userName"];
     if (self.rememberFlag) {
@@ -45,7 +49,10 @@
     }
 }
 
-
+- (void)dataPrepared
+{
+    self.contactParam = [self.appD.dataM getParamWithId:1];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -139,7 +146,8 @@
 }
 
 - (IBAction)forget:(id)sender {
-    Alert(@"请联系管理员", self,10002);
+    NSString *contactMessage = [NSString stringWithFormat:@"请联系管理员:%@",self.contactParam.paramContent];
+    Alert(contactMessage, self,10002);
 }
 
 - (BOOL)isChinese:(NSString *)string{

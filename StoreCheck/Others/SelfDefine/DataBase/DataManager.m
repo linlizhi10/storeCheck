@@ -21,6 +21,7 @@
 #import "LLZPlan.h"
 #import "LLZQuestion.h"
 #import "NewCheckItem.h"
+#import "LLZParam.h"
 
 @implementation DataManager
 
@@ -831,7 +832,31 @@ static NSString *dataBaseName = @"StoreCheck.db";
     NSString *paramTableCreateSql = [NSString stringWithFormat:@"create table if not exists Params(id int,param varchar(40),description varchar(200));"];
     [self createTable:paramTableCreateSql];
 }
-- ()
+
+- (LLZParam *)getParamWithId:(int)paramId
+{
+    NSString *paramSearchSql = [NSString stringWithFormat:@"select * from Params where id='%d';",paramId];
+    return [self fetchParams:paramSearchSql][0];
+}
+
+- (NSArray *)fetchParams:(NSString *)fetchSql
+{
+    NSMutableArray *arrM = [[NSMutableArray alloc] init];
+    FMResultSet *set = [_dataBase executeQuery:fetchSql];
+    while ([set next]) {
+        int paramId = [set intForColumn:@"id"];
+        NSString *paramContent = [set stringForColumn:@"param"];
+//        NSString *paramDescription = [set stringForColumn:@"description"];
+        //test before data come
+        NSString *paramDescription = [set stringForColumn:@"descripton"];
+        LLZParam *param = [LLZParam paramWithParamId:paramId
+                                        paramContent:paramContent
+                                    paramDescription:paramDescription];
+        [arrM addObject:param];
+    }
+    return arrM;
+}
+
 - (void)deleteParamTable
 {
     [self dropTable:@"Params"];

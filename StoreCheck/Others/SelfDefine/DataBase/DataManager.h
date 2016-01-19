@@ -21,6 +21,7 @@
 @class LLZTddVersion;
 @class LLZPlan;
 @class LLZQuestion;
+@class LLZParam;
 
 @interface DataManager : NSObject
 {
@@ -140,5 +141,6 @@
 
 #pragma mark ################ param #####################
 - (void)createParamTable;
+- (LLZParam *)getParamWithId:(int)paramId;
 
 @end

@@ -30,8 +30,16 @@
     [super viewDidLoad];
     [self setCenterButton:@"巡店"];
     [self preparedData];
+    
     if ([UserDefaults stringForKey:@"checkInTime"]) {
-        [self startTimeCountWithTimeString:[UserDefaults stringForKey:@"checkInTime"]];
+        if (![[UserDefaults stringForKey:@"checkInTime"] isEqualToString:@""]) {
+            [self startTimeCountWithTimeString:[UserDefaults stringForKey:@"checkInTime"]];
+
+        }else{
+            NSLog(@"no time");
+        }
+    }else{
+        NSLog(@"not time");
     }
 }
 

@@ -227,7 +227,7 @@
 {
     if (_dateFormatterTwo == nil) {
         _dateFormatterTwo = [[NSDateFormatter alloc] init];
-        [_dateFormatterTwo setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+        [_dateFormatterTwo setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         NSTimeZone *timeZoneTwo = [NSTimeZone timeZoneWithName:@"Asia/Shanghai"];
         [_dateFormatterTwo setTimeZone:timeZoneTwo];
     }
@@ -258,9 +258,8 @@
                 }else{
                     NSLog(@"too long");
                 }
-
+                timeCountInt ++;
             });
-            timeCountInt ++;
         });
         
     }else{

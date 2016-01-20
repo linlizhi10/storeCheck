@@ -51,7 +51,7 @@ static NSString *cellI = @"StoreListCell";
         NSLog(@"location success");
     }
     
-    self.aroundStoreArr = [self.dataM getAroudStoreWithLatitude:self.appD.latitude longitude:self.appD.longitude];
+    self.aroundStoreArr = [self datafilter:[self.appD.dataM getStore] type:0];
     //set tableview
     [self.storeListTableView setBackgroundColor:[UIColor clearColor]];
     [self.storeListTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -59,13 +59,18 @@ static NSString *cellI = @"StoreListCell";
 
 }
 
-- (NSArray *)datafilter:(NSArray *)storeArr
+- (NSArray *)datafilter:(NSArray *)storeArr type:(int)type
 {
-    self.appD.latitude = 31.177277;
-    self.appD.longitude = 121.427922;
+    double circleRadius = 0.00;
+    if (type == 0) {
+        circleRadius = 3.00;
+    }else if(type == 1)
+    {
+        circleRadius = [self.aroundSearch.text doubleValue];
+    }
     NSMutableArray *arrm = [[NSMutableArray alloc] init];
     for (Store *store in storeArr) {
-        BOOL ptInCircle = BMKCircleContainsCoordinate(CLLocationCoordinate2DMake(store.Latitude, store.longitude), CLLocationCoordinate2DMake(self.appD.latitude, self.appD.longitude), [self.aroundSearch.text doubleValue] * 1000);
+        BOOL ptInCircle = BMKCircleContainsCoordinate(CLLocationCoordinate2DMake(store.Latitude, store.longitude), CLLocationCoordinate2DMake(self.appD.latitude, self.appD.longitude), circleRadius * 1000);
         NSLog(@"ptInCircle is %d",ptInCircle);
         if (ptInCircle) {
             [arrm addObject:store];
@@ -130,7 +135,7 @@ static NSString *cellI = @"StoreListCell";
 - (IBAction)confirmAction:(id)sender {
     [self.aroundSearch resignFirstResponder];
     NSArray *arr = [self.appD.dataM getStore];
-    self.aroundStoreArr = [self datafilter:arr];
+    self.aroundStoreArr = [self datafilter:arr type:1];
     [self.storeListTableView reloadData];
 }
 

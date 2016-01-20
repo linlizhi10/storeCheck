@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StoreCheck/Check/CheckOut/Controller/CheckOutViewController.m"
-            timestampString = "473914244.559909"
+            timestampString = "474964210.057033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
             landmarkName = "-signViewPop"
             landmarkType = "5">
          </BreakpointContent>
@@ -170,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StoreCheck/Check/CheckOut/Controller/CheckOutViewController.m"
-            timestampString = "473742514.861303"
+            timestampString = "474964210.057033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
             landmarkName = "-checkOutAction:"
             landmarkType = "5">
          </BreakpointContent>

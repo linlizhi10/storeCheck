@@ -19,7 +19,7 @@
                         isNeed:(int)isNeed
                         sortNo:(int)sortNo
                     modifyTime:(NSString *)modifyTime
-                  modifyUserId:(int)modifyUserId
+                  modifyUserId:(NSString *)modifyUserId
                      useStatus:(int)useStatus
 {
     if (self = [super init]) {
@@ -49,7 +49,7 @@
                         isNeed:(int)isNeed
                         sortNo:(int)sortNo
                     modifyTime:(NSString *)modifyTime
-                  modifyUserId:(int)modifyUserId
+                  modifyUserId:(NSString *)modifyUserId
                      useStatus:(int)useStatus
 {
     return [[LLZCheckItem alloc] initWithItemId:itemId

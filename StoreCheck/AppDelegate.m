@@ -128,7 +128,7 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
 - (void)onGetNetworkState:(int)iError
 {
     NSLog(@"error code is %d",iError);
-    self.locationSuccess = YES;
+    self.locationSuccess = NO;
 
 }
 
@@ -139,7 +139,7 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
 - (void)onGetPermissionState:(int)iError
 {
     NSLog(@"error code is %d",iError);
-    self.locationSuccess = YES;
+    self.locationSuccess = NO;
 
 }
 

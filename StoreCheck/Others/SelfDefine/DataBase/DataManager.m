@@ -262,10 +262,10 @@ static NSString *dataBaseName = @"StoreCheck.db";
     [self createTable:createSql];
 }
 
-- (NSArray *)getAction
+- (NSArray *)getActionByDate:(NSString *)dateString
 {
     //关联查找
-    NSString *actionSearchSql = @"select users.LoginName,store.storeName,SignStore.UserId,SignStore.SignTime,SignStore.storeCode,SignStore.signName,SignStore.Remark,SignStore.TranStatus from SignStore LEFT join Users on SignStore.UserId = users.userId left join Store on SignStore.storeCode = Store.id";
+    NSString *actionSearchSql = [NSString stringWithFormat:@"select users.LoginName,store.storeName,SignStore.UserId,SignStore.SignTime,SignStore.storeCode,SignStore.signName,SignStore.Remark,SignStore.TranStatus from SignStore LEFT join Users on SignStore.UserId = users.userId left join Store on SignStore.storeCode = Store.StoreId  where (julianday(date(signtime)) - julianday(date('%@')) = 0) order by SignStore.SignTime desc;",dateString];
     return [self fetchAction:actionSearchSql];
 }
 
@@ -319,7 +319,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 #pragma mark ################ checkItem #####################
 - (void)createCheckItemTable
 {
-    NSString *createSql = @"create table if not exists CheckItem(itemId integer primary key autoincrement,Title varchar(40),Content varchar(100),CheckType int,Score int,reasonCode varchar(40),isNeed int,SortNo int,ModifyTime varchar(30),ModifyUserId int,UseStatus int);";
+    NSString *createSql = @"create table if not exists CheckItem(itemId integer primary key autoincrement,Title varchar(40),Content varchar(100),CheckType int,Score int,reasonCode varchar(40),isNeed int,SortNo int,ModifyTime varchar(30),ModifyUserId varchar(30),UseStatus int);";
     [self createTable:createSql];
 }
 
@@ -371,7 +371,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
         int isNeed = [set intForColumn:@"IsNeed"];
         int sortNo = [set intForColumn:@"SortNo"];
         NSString *modifyTime = [set stringForColumn:@"ModifyTime"];
-        int modifyUserId = [set intForColumn:@"modifyUserId"];
+        NSString *modifyUserId = [set stringForColumn:@"modifyUserId"];
         int useStatus = [set intForColumn:@"UseStatus"];
         LLZCheckItem *item = [LLZCheckItem itemWithItemId:itemId
                                                     title:title
@@ -396,9 +396,21 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)insertCheckItem:(LLZCheckItem *)item
 {
-    NSString *itemInsertSql = [NSString stringWithFormat:@"insert into CheckItem(itemId ,Title ,Content ,CheckType ,Score ,reasonCode ,isNeed ,SortNo ,ModifyTime ,ModifyUserId ,UseStatus) values('%ld','%@','%@','%d','%d','%@','%d','%d','%@','%d','%d');",item.itemId,item.title,item.content,item.checkType,item.score,item.reasonCode,item.isNeed,item.sortNo,item.modifyTime,item.modifyUserId,item.useStatus];
-    [self insertData:itemInsertSql];
+    NSString *searchItemSql = [NSString stringWithFormat:@"select * from CheckItem where itemId='%ld';",item.itemId];
+    NSArray *itemArr = [self fetchItem:searchItemSql];
+    if (itemArr.count > 0) {
+        [self updateItem:item];
+    }else{
+        NSString *itemInsertSql = [NSString stringWithFormat:@"insert into CheckItem(itemId ,Title ,Content ,CheckType ,Score ,reasonCode ,isNeed ,SortNo ,ModifyTime ,ModifyUserId ,UseStatus) values('%ld','%@','%@','%d','%d','%@','%d','%d','%@','%@','%d');",item.itemId,item.title,item.content,item.checkType,item.score,item.reasonCode,item.isNeed,item.sortNo,item.modifyTime,item.modifyUserId,item.useStatus];
+        [self insertData:itemInsertSql];
+    }
     //    [_dataBase executeUpdate:@"insert into CheckItem(itemId ,Title ,Content ,CheckType ,Score ,reasonCode ,isNeed ,SortNo ,ModifyTime ,ModifyUserId ,UseStatus) values(?,?,?,?);",item.itemId,item.title];
+}
+
+- (void)updateItem:(LLZCheckItem *)item
+{
+    NSString *updateItemSql = [NSString stringWithFormat:@"update CheckItem set itemId='%ld',Title='%@',Content='%@',CheckType='%d',Score='%d',reasonCode='%@',IsNeed='%d',SortNo='%d',ModifyTime='%@',ModifyUserId='%@',UseStatus='%d';",item.itemId,item.title,item.content,item.checkType,item.score,item.reasonCode,item.isNeed,item.sortNo,item.modifyTime,item.modifyUserId,item.useStatus];
+    [_dataBase executeUpdate:updateItemSql];
 }
 
 - (void)updateCheckItemTable
@@ -449,14 +461,20 @@ static NSString *dataBaseName = @"StoreCheck.db";
 #pragma mark ################ reason #####################
 - (void)createReasonTable
 {
-    NSString *reasonTableCreateSql = @"create table if not exists Reason(reasonId integer primary key autoincrement,reasonCode varchar(5),reasonDesc varchar(40),createUserId int, modifyTime varchar(30),UseStatus int);";
+    NSString *reasonTableCreateSql = @"create table if not exists Reason(reasonId integer primary key autoincrement,reasonCode varchar(5),reasonDesc varchar(40),createUserId varchar(20), modifyTime varchar(30),UseStatus int);";
     [self createTable:reasonTableCreateSql];
 }
 
 - (void)insertReason:(LLZReason *)reason
 {
-    NSString *reasonInsertSql = [NSString stringWithFormat:@"insert into Reason(reasonCode,reasonDesc,createUserId,modifyTime,UseStatus) values('%@','%@','%d','%@','%d');",reason.reasonCode,reason.reasonDesc,reason.createUserId,reason.modifyTime,reason.useStatus];
-    [self insertData:reasonInsertSql];
+    NSString *searchReasonSql = [NSString stringWithFormat:@"select * from Reason where reasonCode='%@';",reason.reasonCode];
+    NSArray *arrReason = [self fetchReason:searchReasonSql];
+    if (arrReason.count > 0) {
+        [self updateReason:reason];
+    }else{
+        NSString *reasonInsertSql = [NSString stringWithFormat:@"insert into Reason(reasonCode,reasonDesc,createUserId,modifyTime,UseStatus) values('%@','%@','%@','%@','%d');",reason.reasonCode,reason.reasonDesc,reason.createUserId,reason.modifyTime,reason.useStatus];
+        [self insertData:reasonInsertSql];
+    }
 }
 
 - (LLZReason *)getResaonByReasonCode:(NSString *)reasonId
@@ -493,7 +511,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
         NSInteger reasonId = [set longForColumn:@"reasonId"];
         NSString *reasonCode = [set stringForColumn:@"reasonCode"];
         NSString *reasonDesc = [set stringForColumn:@"reasonDesc"];
-        int createUserId = [set intForColumn:@"createUserId"];
+        NSString *createUserId = [set stringForColumn:@"createUserId"];
         NSString *modifyTime = [set stringForColumn:@"modifyTime"];
         int userStatus = [set intForColumn:@"UseStatus"];
         LLZReason *reason = [LLZReason reasonWithReasonId:reasonId
@@ -505,6 +523,12 @@ static NSString *dataBaseName = @"StoreCheck.db";
         [arrM addObject:reason];
     }
     return arrM;
+}
+
+- (void)updateReason:(LLZReason *)reason
+{
+    NSString *updateReasonSql = [NSString stringWithFormat:@"update Reason set reasonCode='%@',reasonDesc='%@',createUserId='%@',modifyTime='%@',UseStatus='%d';",reason.reasonCode,reason.reasonDesc,reason.createUserId,reason.modifyTime,reason.useStatus];
+    [_dataBase executeUpdate:updateReasonSql];
 }
 
 - (void)dropReasonTable

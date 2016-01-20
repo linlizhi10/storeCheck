@@ -18,7 +18,7 @@
 @property (nonatomic, assign) int isNeed;
 @property (nonatomic, assign) int sortNo;
 @property (nonatomic, strong) NSString * modifyTime;
-@property (nonatomic, assign) int modifyUserId;
+@property (nonatomic, assign) NSString * modifyUserId;
 @property (nonatomic, assign) int useStatus;
 //用于新店检查，是否拍照，默认是为NO
 @property (nonatomic, assign) BOOL checkFlag;
@@ -32,7 +32,7 @@
                         isNeed:(int)isNeed
                         sortNo:(int)sortNo
                     modifyTime:(NSString *)modifyTime
-                  modifyUserId:(int)modifyUserId
+                  modifyUserId:(NSString *)modifyUserId
                      useStatus:(int)useStatus;
 + (instancetype)itemWithItemId:(NSInteger)itemId
                          title:(NSString *)title
@@ -43,6 +43,6 @@
                         isNeed:(int)isNeed
                         sortNo:(int)sortNo
                     modifyTime:(NSString *)modifyTime
-                  modifyUserId:(int)modifyUserId
+                  modifyUserId:(NSString *)modifyUserId
                      useStatus:(int)useStatus;
 @end

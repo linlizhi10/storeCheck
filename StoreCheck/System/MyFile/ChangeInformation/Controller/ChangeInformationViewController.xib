@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6246"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -23,43 +23,43 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="编号：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wcp-Po-tUd">
-                    <rect key="frame" x="70" y="120" width="48" height="19.5"/>
+                    <rect key="frame" x="252" y="120" width="48" height="20"/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="登录名：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Zh-yG-eZn">
-                    <rect key="frame" x="54" y="159" width="64" height="19.5"/>
+                    <rect key="frame" x="236" y="160" width="64" height="20"/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="姓名：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sGg-dn-CyM">
-                    <rect key="frame" x="70" y="199" width="48" height="19.5"/>
+                    <rect key="frame" x="252" y="200" width="48" height="20"/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="电话：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3jM-Wl-2Qq">
-                    <rect key="frame" x="70" y="238" width="48" height="19.5"/>
+                    <rect key="frame" x="252" y="240" width="48" height="20"/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="11012" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kq1-by-Fpy">
-                    <rect key="frame" x="128" y="120" width="41" height="19.5"/>
+                    <rect key="frame" x="310" y="120" width="46" height="20"/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="江安查看" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="53v-9A-NpU">
-                    <rect key="frame" x="128" y="159" width="64" height="19.5"/>
+                    <rect key="frame" x="310" y="160" width="64" height="20"/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6d1-Nb-68Z">
-                    <rect key="frame" x="128" y="194" width="97" height="30"/>
+                    <rect key="frame" x="310" y="195" width="97" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="97" id="ZNT-cw-zzO"/>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="97" id="ZUz-hd-KGQ"/>
@@ -68,7 +68,7 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vve-d5-hPD">
-                    <rect key="frame" x="128" y="233" width="97" height="30"/>
+                    <rect key="frame" x="310" y="235" width="97" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="97" id="QKs-ys-jBz"/>
                     </constraints>
@@ -76,7 +76,7 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qKE-Nr-P97">
-                    <rect key="frame" x="160" y="293" width="120" height="40"/>
+                    <rect key="frame" x="160" y="295" width="120" height="40"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="120" id="7HV-mn-qIS"/>
@@ -90,7 +90,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DpS-B6-eu2">
-                    <rect key="frame" x="320" y="293" width="120" height="40"/>
+                    <rect key="frame" x="320" y="295" width="120" height="40"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="DgS-KA-Nrc"/>
@@ -123,6 +123,7 @@
                 <constraint firstItem="53v-9A-NpU" firstAttribute="leading" secondItem="3Zh-yG-eZn" secondAttribute="trailing" constant="10" id="fCa-ej-pu4"/>
                 <constraint firstItem="Wcp-Po-tUd" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="70" id="ggX-cf-mfg"/>
                 <constraint firstItem="Wcp-Po-tUd" firstAttribute="centerY" secondItem="Kq1-by-Fpy" secondAttribute="centerY" id="iFP-YQ-g6W"/>
+                <constraint firstAttribute="centerX" secondItem="Wcp-Po-tUd" secondAttribute="trailing" id="p7b-E4-43s"/>
                 <constraint firstItem="3jM-Wl-2Qq" firstAttribute="top" secondItem="sGg-dn-CyM" secondAttribute="bottom" constant="20" id="pQh-4Q-Sar"/>
                 <constraint firstItem="3Zh-yG-eZn" firstAttribute="trailing" secondItem="sGg-dn-CyM" secondAttribute="trailing" id="qbx-32-6Bv"/>
                 <constraint firstItem="DpS-B6-eu2" firstAttribute="centerY" secondItem="qKE-Nr-P97" secondAttribute="centerY" id="sU0-rd-JDl"/>
@@ -132,6 +133,7 @@
             </constraints>
             <variation key="default">
                 <mask key="constraints">
+                    <exclude reference="ggX-cf-mfg"/>
                     <exclude reference="BiC-uM-WdJ"/>
                     <exclude reference="P2o-5e-ubu"/>
                     <exclude reference="R00-hP-Sla"/>

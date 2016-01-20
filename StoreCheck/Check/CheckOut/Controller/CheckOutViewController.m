@@ -44,8 +44,8 @@ static NSString *cellI = @"CheckOutCell";
     self.storeId.text = store.storeId;
     self.storeName.text = [store.storeName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     self.storeAddress.text = [store.storeAddress stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    
-    self.actionArr = [self.appD.dataM getAction];
+
+    self.actionArr = [self.appD.dataM getActionByDate:[self.dateFormatterTwo stringFromDate:[NSDate date]]];
     for (LLZAction *action in self.actionArr) {
         NSLog(@"action is %@",action);
     }
@@ -73,8 +73,6 @@ static NSString *cellI = @"CheckOutCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     CheckOutCell *cell = [tableView dequeueReusableCellWithIdentifier:cellI];
-    
-    ;
     LLZAction *action = self.actionArr[indexPath.row];
     [cell fillCellWithAction:action];
     return cell;
@@ -114,8 +112,10 @@ static NSString *cellI = @"CheckOutCell";
                                                             signTime:signTime
                                                             signName:imageData];
 
-                //test
                 [self.appD.dataM insertAction:action];
+                //send to server
+                
+                
             }else{
                 NSLog(@"not checkin");
             }
@@ -125,11 +125,26 @@ static NSString *cellI = @"CheckOutCell";
         }
         [UserDefaults setObject:nil forKey:@"selectStore"];
         [UserDefaults setBool:NO forKey:@"checkIn"];
+        [UserDefaults setValue:@"" forKey:@"checkInTime"];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"outOfStore" object:nil];
     
     };
     [self.view addSubview:signView];
     
+}
+
+- (void)sendMessage
+{
+    NSString *param = @"transfer_upload.do";
+    
+    NSString *jsonString = @"";
+    [[HttpClient sharedClient] post:ServerParam(param)
+                                obj:jsonString
+                            success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                
+                            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                
+                            }];
 }
 
 @end

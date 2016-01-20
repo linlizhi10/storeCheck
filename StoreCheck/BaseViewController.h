@@ -24,7 +24,7 @@
 - (void)setCenterButton:(id)obj;
 //push action
 - (void)pushToViewContrller:(Class)className;
-- (void)startTimeCount;
+- (void)startTimeCountWithTimeString:(NSString *)timeString;
 - (void)leftButtonAction:(UIButton *)sender;
 - (void)setNavigationBar:(UIColor *)color;
 

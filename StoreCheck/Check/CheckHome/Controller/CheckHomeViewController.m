@@ -31,7 +31,18 @@
     [self setCenterButton:@"巡店"];
     [self preparedData];
     
+    if ([UserDefaults stringForKey:@"checkInTime"]) {
+        if (![[UserDefaults stringForKey:@"checkInTime"] isEqualToString:@""]) {
+            [self startTimeCountWithTimeString:[UserDefaults stringForKey:@"checkInTime"]];
+
+        }else{
+            NSLog(@"no time");
+        }
+    }else{
+        NSLog(@"not time");
+    }
 }
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -42,6 +53,7 @@
         [self setLeftButton:@""];
     }
 }
+
 - (void)preparedData
 {
     Topic *topic01 = [Topic topicWithImage:@"signin.png" title:@""];

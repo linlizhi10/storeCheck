@@ -12,7 +12,7 @@
 - (instancetype)initWithReasonId:(NSInteger)reasonId
                       reasonCode:(NSString *)reasonCode
                       reasonDesc:(NSString *)reasonDesc
-                    createUserId:(int)createUserId
+                    createUserId:(NSString *)createUserId
                       modifyTime:(NSString *)modifyTime
                        useStatus:(int)useStatus
 {
@@ -32,7 +32,7 @@
 + (instancetype)reasonWithReasonId:(NSInteger)reasonId
                         reasonCode:(NSString *)reasonCode
                         reasonDesc:(NSString *)reasonDesc
-                      createUserId:(int)createUserId
+                      createUserId:(NSString *)createUserId
                         modifyTime:(NSString *)modifyTime
                          useStatus:(int)useStatus
 {

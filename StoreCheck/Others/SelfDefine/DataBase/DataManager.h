@@ -21,6 +21,7 @@
 @class LLZTddVersion;
 @class LLZPlan;
 @class LLZQuestion;
+@class LLZParam;
 
 @interface DataManager : NSObject
 {
@@ -68,7 +69,7 @@
 
 #pragma mark ################ action #####################
 - (void)createSignStoreTable;
-- (NSArray *)getAction;
+- (NSArray *)getActionByDate:(NSString *)dateString;
 - (void)dropSignStoreTable;
 - (void)insertAction:(LLZAction *)action;
 - (void)deleteAction;
@@ -95,6 +96,7 @@
 - (void)createReasonTable;
 - (LLZReason *)getResaonByReasonCode:(NSString *)reasonCode;
 - (NSArray *)getResaonByReasonCodeArray:(NSArray *)reasonCodeArray;
+- (void)updateReason:(LLZReason *)reason;
 - (void)dropReasonTable;
 - (void)insertReason:(LLZReason *)reason;
 
@@ -137,5 +139,9 @@
 - (NSArray *)getCheckPlanOrderByDateByUserId:(NSString *)userId;
 - (NSArray *)getCheckPlanOrderByStoreIdByUserId:(NSString *)userId;
 - (void)dropShopPlanTable;
+
+#pragma mark ################ param #####################
+- (void)createParamTable;
+- (LLZParam *)getParamWithId:(int)paramId;
 
 @end

@@ -20,43 +20,53 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="jack" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lvm-au-aYr">
-                                <rect key="frame" x="0.0" y="14" width="64" height="16"/>
+                                <rect key="frame" x="0.0" y="14" width="61" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="田林店" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m0P-0I-0cg">
-                                <rect key="frame" x="64" y="14" width="64" height="16"/>
+                                <rect key="frame" x="66" y="14" width="67" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="离店" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dJk-RW-Ghm">
-                                <rect key="frame" x="128" y="14" width="54" height="16"/>
+                                <rect key="frame" x="133" y="14" width="49" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2015-10-09 08:10:30" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1VW-z1-BxO">
                                 <rect key="frame" x="182" y="14" width="138" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dl9-HI-DLV">
+                                <rect key="frame" x="0.0" y="41" width="320" height="1"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="U9B-pc-o42"/>
+                                </constraints>
+                            </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerY" secondItem="1VW-z1-BxO" secondAttribute="centerY" id="5Zc-Ne-eco"/>
                             <constraint firstAttribute="centerY" secondItem="Lvm-au-aYr" secondAttribute="centerY" id="8eD-w3-zpI"/>
+                            <constraint firstAttribute="trailing" secondItem="Dl9-HI-DLV" secondAttribute="trailing" id="C8s-Sk-0bt"/>
+                            <constraint firstItem="Dl9-HI-DLV" firstAttribute="leading" secondItem="EMQ-GZ-2fb" secondAttribute="leading" id="HHG-cl-dqA"/>
                             <constraint firstAttribute="trailing" secondItem="1VW-z1-BxO" secondAttribute="trailing" id="OJl-BD-oKN"/>
                             <constraint firstItem="1VW-z1-BxO" firstAttribute="width" secondItem="EMQ-GZ-2fb" secondAttribute="width" multiplier="2:5" constant="10" id="Pe5-Zo-gmM"/>
                             <constraint firstItem="Lvm-au-aYr" firstAttribute="leading" secondItem="EMQ-GZ-2fb" secondAttribute="leading" id="Rqk-Zk-lTe"/>
+                            <constraint firstAttribute="bottom" secondItem="Dl9-HI-DLV" secondAttribute="bottom" constant="1" id="SYd-L4-9c4"/>
                             <constraint firstAttribute="centerY" secondItem="m0P-0I-0cg" secondAttribute="centerY" id="XMc-6a-E5C"/>
-                            <constraint firstAttribute="width" secondItem="m0P-0I-0cg" secondAttribute="width" multiplier="5:1" id="e0w-LV-ekb"/>
+                            <constraint firstAttribute="width" secondItem="m0P-0I-0cg" secondAttribute="width" multiplier="5:1" constant="-15" id="e0w-LV-ekb"/>
                             <constraint firstItem="1VW-z1-BxO" firstAttribute="leading" secondItem="dJk-RW-Ghm" secondAttribute="trailing" id="i8d-Up-OQz"/>
                             <constraint firstAttribute="centerY" secondItem="dJk-RW-Ghm" secondAttribute="centerY" id="igM-jv-vjn"/>
-                            <constraint firstItem="dJk-RW-Ghm" firstAttribute="width" secondItem="EMQ-GZ-2fb" secondAttribute="width" multiplier="1:5" constant="-10" id="nx6-PU-lSp"/>
-                            <constraint firstAttribute="width" secondItem="Lvm-au-aYr" secondAttribute="width" multiplier="5:1" id="xh3-Ja-Zwg"/>
+                            <constraint firstItem="dJk-RW-Ghm" firstAttribute="width" secondItem="EMQ-GZ-2fb" secondAttribute="width" multiplier="1:5" constant="-15" id="nx6-PU-lSp"/>
+                            <constraint firstAttribute="width" secondItem="Lvm-au-aYr" secondAttribute="width" multiplier="5:1" constant="15" id="xh3-Ja-Zwg"/>
                             <constraint firstItem="dJk-RW-Ghm" firstAttribute="leading" secondItem="m0P-0I-0cg" secondAttribute="trailing" id="zSq-7i-aVW"/>
                         </constraints>
                     </view>
@@ -74,6 +84,7 @@
                 <outlet property="name" destination="Lvm-au-aYr" id="Jlo-7O-vPQ"/>
                 <outlet property="storeName" destination="m0P-0I-0cg" id="kkq-hJ-oKV"/>
             </connections>
+            <point key="canvasLocation" x="435" y="319"/>
         </tableViewCell>
     </objects>
 </document>

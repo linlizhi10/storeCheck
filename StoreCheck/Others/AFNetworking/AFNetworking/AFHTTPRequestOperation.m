@@ -120,7 +120,6 @@ static dispatch_group_t http_request_operation_completion_group() {
             if (self.error) {
                 if (failure) {
                     dispatch_group_async(self.completionGroup ?: http_request_operation_completion_group(), self.completionQueue ?: dispatch_get_main_queue(), ^{
-                        NSLog(@"\n[-------failure----[%ld]--]:%@\n\n",[self.error code],self.error);
                         switch ([self.error code]) {
      
                             case kCFURLErrorTimedOut:
@@ -194,9 +193,7 @@ static dispatch_group_t http_request_operation_completion_group() {
                 } else {
                     if (success) {
                         dispatch_group_async(self.completionGroup ?: http_request_operation_completion_group(), self.completionQueue ?: dispatch_get_main_queue(), ^{
-                            
-                            
-                            NSLog(@"\n\n[-------Result----%ld--]:%@--\n----->%@\n\n",[self.response statusCode],self.responseString,self.request);
+                            NSLog(@"request url is %@",self.request.URL);
                             //在这里json转对象
                             NSDictionary *resultsDictionary = [ self.responseData objectFromJSONData];
                             NSDictionary *body = [resultsDictionary objectForKey:@"data"];

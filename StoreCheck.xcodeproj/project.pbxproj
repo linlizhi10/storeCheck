@@ -136,6 +136,7 @@
 		25C920D71C07FAB900104089 /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C920D61C07FAB900104089 /* Tools.m */; };
 		25CF782C1C337CAA0028A451 /* LLZReason.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CF782B1C337CAA0028A451 /* LLZReason.m */; };
 		25CF782F1C338DFF0028A451 /* LLZScore.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CF782E1C338DFF0028A451 /* LLZScore.m */; };
+		25D4AD501C4CC34F00BFC5D8 /* LLZParam.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D4AD4F1C4CC34F00BFC5D8 /* LLZParam.m */; };
 		25D8643C1C055F73004A668F /* NewCheckItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D8643B1C055F73004A668F /* NewCheckItem.m */; };
 		25D864401C058A63004A668F /* RepairViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D8643E1C058A63004A668F /* RepairViewController.m */; };
 		25D864411C058A63004A668F /* RepairViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25D8643F1C058A63004A668F /* RepairViewController.xib */; };
@@ -414,6 +415,8 @@
 		25CF782B1C337CAA0028A451 /* LLZReason.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LLZReason.m; path = Model/LLZReason.m; sourceTree = "<group>"; };
 		25CF782D1C338DFF0028A451 /* LLZScore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LLZScore.h; path = Model/LLZScore.h; sourceTree = "<group>"; };
 		25CF782E1C338DFF0028A451 /* LLZScore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LLZScore.m; path = Model/LLZScore.m; sourceTree = "<group>"; };
+		25D4AD4E1C4CC34F00BFC5D8 /* LLZParam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LLZParam.h; path = Model/LLZParam.h; sourceTree = "<group>"; };
+		25D4AD4F1C4CC34F00BFC5D8 /* LLZParam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LLZParam.m; path = Model/LLZParam.m; sourceTree = "<group>"; };
 		25D8643A1C055F73004A668F /* NewCheckItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewCheckItem.h; sourceTree = "<group>"; };
 		25D8643B1C055F73004A668F /* NewCheckItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewCheckItem.m; sourceTree = "<group>"; };
 		25D8643D1C058A63004A668F /* RepairViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepairViewController.h; sourceTree = "<group>"; };
@@ -1242,6 +1245,8 @@
 				25829BA41C3FA59900E240D5 /* LLZQuestion.m */,
 				25A1625D1C43501F00ED7D88 /* LLZTddVersion.h */,
 				25A1625E1C43501F00ED7D88 /* LLZTddVersion.m */,
+				25D4AD4E1C4CC34F00BFC5D8 /* LLZParam.h */,
+				25D4AD4F1C4CC34F00BFC5D8 /* LLZParam.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -2019,6 +2024,7 @@
 				258F687A1BF494EF001FE9AF /* LLZTabBarController.m in Sources */,
 				25CF782C1C337CAA0028A451 /* LLZReason.m in Sources */,
 				258067EB1C2BA2CD00E0B911 /* LLZUser.m in Sources */,
+				25D4AD501C4CC34F00BFC5D8 /* LLZParam.m in Sources */,
 				25AD46561BFD71F300F44EDC /* JSONModel.m in Sources */,
 				25D864401C058A63004A668F /* RepairViewController.m in Sources */,
 				258F682D1BF4846D001FE9AF /* AFURLRequestSerialization.m in Sources */,

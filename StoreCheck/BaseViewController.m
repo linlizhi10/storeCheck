@@ -10,6 +10,8 @@
 #import "LLZUser.h"
 #import "Store.h"
 #import "AppDelegate.h"
+#import "Tools.h"
+#import "LogInViewController.h"
 
 @interface BaseViewController ()
 
@@ -79,7 +81,6 @@
 
         }
         self.centerLabel.text = obj;
-//        [self.backView addSubview:self.centerLabel];
 
     }
 }
@@ -114,18 +115,23 @@
 - (void)setRightButton:(id)obj
 {
     if ([obj isKindOfClass:[NSString class]]) {
-        NSLog(@"self.backview is %@",self.backView);
         if (!self.rightNavigationLabel) {
             self.rightNavigationLabel = [UILabel new];
             [self.rightNavigationLabel setFrame:CGRectMake(iPhoneWidth - 90, 20, 80, 40)];
+            self.rightNavigationLabel.center = CGPointMake(self.rightNavigationLabel.center.x, 44);
             [self.rightNavigationLabel setTextColor:[UIColor yellowColor]];
+            self.rightNavigationLabel.textAlignment = NSTextAlignmentCenter;
             [self.rightNavigationLabel setFont:[UIFont systemFontOfSize:14]];
-            self.rightNavigationLabel.backgroundColor = [UIColor redColor];
             AppDelegate *appD = (AppDelegate *)[UIApplication sharedApplication].delegate;
             [appD.window addSubview:self.rightNavigationLabel];
         }else{
             NSLog(@"self.rightlabel is %@",self.rightNavigationLabel);
             NSLog(@"super view is %@",self.rightNavigationLabel.superview);
+        }
+        if ([self isKindOfClass:[LogInViewController class]]) {
+            [self.rightNavigationLabel setHidden:YES];
+        }else{
+            [self.rightNavigationLabel setHidden:NO];
         }
         self.rightNavigationLabel.text = obj;
        
@@ -221,26 +227,39 @@
 {
     if (_dateFormatterTwo == nil) {
         _dateFormatterTwo = [[NSDateFormatter alloc] init];
-        [_dateFormatterTwo setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+        [_dateFormatterTwo setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         NSTimeZone *timeZoneTwo = [NSTimeZone timeZoneWithName:@"Asia/Shanghai"];
         [_dateFormatterTwo setTimeZone:timeZoneTwo];
     }
     return _dateFormatterTwo;
 }
 
-- (void)startTimeCount
+- (void)startTimeCountWithTimeString:(NSString *)timeString
 {
-    __block  int timeCount = 0;
+    NSString *startTime = [self.dateFormatterTwo stringFromDate:[NSDate date]];
+    NSLog(@"startTime is %@",startTime);
+    
     if (!self.timeCount) {
+        __block  int timeCountInt = 0;
+        if (!timeString) {
+            timeCountInt = 0;
+        }else{
+            NSDate *startDate = [self.dateFormatterTwo dateFromString:timeString];
+            timeCountInt = [Tools calculateTimeAmountWithStartDate:startDate andEndDate:[NSDate date]];
+        }
         self.timeCount = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
-        dispatch_source_set_timer(self.timeCount,dispatch_walltime(NULL, 0), 2.0 * NSEC_PER_SEC, 0);
+        dispatch_source_set_timer(self.timeCount,dispatch_walltime(NULL, 0), 60.0 * NSEC_PER_SEC, 0);
         dispatch_source_set_event_handler(self.timeCount, ^{
-            NSLog(@"timecount is %d",timeCount);
-            timeCount ++;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self setRightButton:[NSString stringWithFormat:@"%d分钟",timeCount]];
-
-    });
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (timeCountInt < 60) {
+                    [self setRightButton:[NSString stringWithFormat:@"入店%d分钟",timeCountInt]];
+                }else if(timeCountInt < 60 * 24){
+                    [self setRightButton:[NSString stringWithFormat:@"入店%d小时",(timeCountInt / 60)]];
+                }else{
+                    NSLog(@"too long");
+                }
+                timeCountInt ++;
+            });
         });
         
     }else{
@@ -252,13 +271,16 @@
 
 - (void)outOfStore
 {
+    NSString *leaveTime = [self.dateFormatterTwo stringFromDate:[NSDate date]];
+    NSLog(@"leaveTime is %@",leaveTime);
     if (self.timeCount) {
         dispatch_cancel(self.timeCount);
     }else{
         NSLog(@"no timer");
     }
     if (self.rightNavigationLabel) {
-        [self setRightButton:@""];
+        self.rightNavigationLabel.text = @"";
+        [self.rightNavigationLabel removeFromSuperview];
  
     }else{
         NSLog(@"no right label");

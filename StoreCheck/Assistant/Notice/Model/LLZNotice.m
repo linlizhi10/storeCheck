@@ -40,4 +40,21 @@
     
 }
 
++ (instancetype)parseNoticeDic:(NSDictionary *)dic
+{
+    NSString *noticeTitle = [NSString stringWithFormat:@"%@",dic[@"MessTitle"]];
+    NSString *createTime = [NSString stringWithFormat:@"%@",dic[@"CreateTime"]];
+    NSString *createUserId = [NSString stringWithFormat:@"%@",dic[@"CreateEmpId"]];
+    NSString *noticeContent = [NSString stringWithFormat:@"%@",dic[@"MessContent"]];
+    NSInteger noticeId = [dic[@"MessId"] integerValue];
+    int messageType = [dic[@"MessType"] intValue];
+    NSString *modifyDate = [NSString stringWithFormat:@"%@",dic[@"ModifyDate"]];
+    int status= [dic[@"Status"] intValue];
+    return [[LLZNotice alloc] initWithNoticeTitle:noticeTitle
+                                       noticeDate:modifyDate
+                                    noticeContent:noticeContent
+                                         readFlag:NO
+                                         noticeId:noticeId];
+}
+
 @end

@@ -27,4 +27,6 @@
                         noticeContent:(NSString *)noticeContent
                              readFlag:(BOOL)readFlag
                              noticeId:(NSInteger)noticeId;
++ (instancetype)parseNoticeDic:(NSDictionary *)dic;
+
 @end

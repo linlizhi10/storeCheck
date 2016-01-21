@@ -31,4 +31,16 @@
                             paramDescription:paramDescription];
 }
 
++ (instancetype)parseWithDic:(NSDictionary *)dic
+{
+    NSString *modifyDate = [NSString stringWithFormat:@"%@",dic[@"ModifyDate"]];
+    NSString *modifyUserId = [NSString stringWithFormat:@"%@",dic[@"ModifyEmpId"]];
+    NSString *description = [NSString stringWithFormat:@"%@",dic[@"descripton"]];
+    int paramId = [dic[@"id"] intValue];
+    NSString *paramContent = [NSString stringWithFormat:@"%@",dic[@"param"]];
+    return [[LLZParam alloc] initWithParamId:paramId
+                                paramContent:paramContent
+                            paramDescription:description];
+}
+
 @end

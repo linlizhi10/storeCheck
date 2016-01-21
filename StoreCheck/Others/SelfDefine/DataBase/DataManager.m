@@ -195,7 +195,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 - (void)createMessageTable
 {
     //INTEGER primary key autoIncrement
-    NSString *createSql = @"create table if not exists Message(id integer primary key autoIncrement,title varchar(20),message varchar(200),dateTime varchar(30),isRead bool);";
+    NSString *createSql = @"create table if not exists Message(id integer,title varchar(20),message varchar(200),dateTime varchar(30),isRead bool);";
     [self createTable:createSql];
 }
 
@@ -218,13 +218,31 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)insertMessage:(LLZNotice *)notice
 {
-    NSString *messageInsertSql = [NSString stringWithFormat:@"insert into Message(title,message,dateTime,isRead) values('%@','%@','%@','%d');",notice.noticeTitle,notice.noticeContent,notice.noticeDate,notice.readFlag];
+    NSString *messageInsertSql = [NSString stringWithFormat:@"insert into Message(id,title,message,dateTime,isRead) values('%d','%@','%@','%@','%d');",notice.noticeId,notice.noticeTitle,notice.noticeContent,notice.noticeDate,notice.readFlag];
     [self insertData:messageInsertSql];
+    //完善 效率
+//    NSString *messageSearchSql = [NSString stringWithFormat:@"select * from Message where id='%d';",notice.noticeId];
+//    NSArray *messageSearchArr = [self fetchNotice:messageSearchSql];
+//    if (messageSearchArr.count > 0) {
+//        [self updateNotice:notice];
+//    }else{
+//        NSString *messageInsertSql = [NSString stringWithFormat:@"insert into Message(id,title,message,dateTime,isRead) values('%d','%@','%@','%@','%d');",notice.noticeId,notice.noticeTitle,notice.noticeContent,notice.noticeDate,notice.readFlag];
+//        [self insertData:messageInsertSql];
+//    }
+}
+
+- (void)updateNotice:(LLZNotice *)notice
+{
+    NSString *noticeUpdateSql = [NSString stringWithFormat:@"update Message set title='%@',message='%@',dateTime='%@';",notice.noticeTitle,notice.noticeContent,notice.noticeDate];
+    BOOL rec = [_dataBase executeUpdate:noticeUpdateSql];
+    if (!rec) {
+        NSLog(@"error is %@",[_dataBase lastErrorMessage]);
+    }
 }
 
 - (void)updateNoticeReadStatus:(LLZNotice *)notice
 {
-    NSString *updateSql = [NSString stringWithFormat:@"update Message set isRead='%d' where id='%ld';",notice.readFlag,notice.noticeId];
+    NSString *updateSql = [NSString stringWithFormat:@"update Message set isRead='%d' where id='%d';",notice.readFlag,notice.noticeId];
     [_dataBase executeUpdate:updateSql];
 }
 
@@ -756,6 +774,15 @@ static NSString *dataBaseName = @"StoreCheck.db";
     }
 }
 
+- (LLZTddVersion *)getMaxTddVersion
+{
+    NSString *searchMaxSql = @"select * from Tdd_Version  where ItemId=(select max(ItemId) from Tdd_Version);";
+    if ([self searchTddVersion:searchMaxSql].count > 0) {
+        return [self searchTddVersion:searchMaxSql][0];
+    }
+    return nil;
+}
+
 - (void)updateTddVersion:(LLZTddVersion *)tddVersion
 {
     NSString *updateTddVersionSql = [NSString stringWithFormat:@"update Tdd_Version set TabName='%@',ModifyDate='%@' where ItemId='%@';",tddVersion.tableName,tddVersion.modifyDate,tddVersion.itemId];
@@ -860,7 +887,12 @@ static NSString *dataBaseName = @"StoreCheck.db";
 - (LLZParam *)getParamWithId:(int)paramId
 {
     NSString *paramSearchSql = [NSString stringWithFormat:@"select * from Params where id='%d';",paramId];
-    return [self fetchParams:paramSearchSql][0];
+    if ([self fetchParams:paramSearchSql].count > 0) {
+        return [self fetchParams:paramSearchSql][0];
+
+    }else{
+        return nil;
+    }
 }
 
 - (NSArray *)fetchParams:(NSString *)fetchSql
@@ -870,15 +902,38 @@ static NSString *dataBaseName = @"StoreCheck.db";
     while ([set next]) {
         int paramId = [set intForColumn:@"id"];
         NSString *paramContent = [set stringForColumn:@"param"];
-//        NSString *paramDescription = [set stringForColumn:@"description"];
-        //test before data come
-        NSString *paramDescription = [set stringForColumn:@"descripton"];
+        NSString *paramDescription = [set stringForColumn:@"description"];
         LLZParam *param = [LLZParam paramWithParamId:paramId
                                         paramContent:paramContent
                                     paramDescription:paramDescription];
         [arrM addObject:param];
     }
     return arrM;
+}
+
+- (void)insertParam:(LLZParam *)param
+{
+    //test
+    NSString *paramInsertSql = [NSString stringWithFormat:@"insert into Params(id,param,description) values('%d','%@','%@');",param.paramId,param.paramContent,param.paramDescription];
+    [self insertData:paramInsertSql];
+    
+    //完善 效率问题
+//    NSString *searchParamSql = [NSString stringWithFormat:@"select * from Params where id='%d';",param.paramId];
+//    NSArray *searchArr = [self fetchParams:searchParamSql];
+//    if (searchArr.count > 0) {
+//        [self updateParam:param];
+//    }else{
+//        NSString *paramInsertSql = [NSString stringWithFormat:@"insert into Params(id,param,description) values('%d','%@','%@');",param.paramId,param.paramContent,param.paramDescription];
+//        [self insertData:paramInsertSql];
+//    }
+}
+- (void)updateParam:(LLZParam *)param
+{
+    NSString *updateParamSql = [NSString stringWithFormat:@"update Params set id='%d',param='%@',description='%@';",param.paramId,param.paramContent,param.paramDescription];
+    BOOL rec = [_dataBase executeUpdate:updateParamSql];
+    if (!rec) {
+        NSLog(@"error is %@",[_dataBase lastErrorMessage]);
+    }
 }
 
 - (void)deleteParamTable

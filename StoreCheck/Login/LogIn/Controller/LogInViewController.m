@@ -23,7 +23,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *userName;
 @property (weak, nonatomic) IBOutlet UITextField *password;
 @property (weak, nonatomic) IBOutlet UIImageView *rememberStatus;
-@property (strong, nonatomic) LLZParam *contactParam;
 
 - (IBAction)rememberAction:(id)sender;
 - (IBAction)logIn:(id)sender;
@@ -36,7 +35,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setCenterButton:@"登录"];
-    [self dataPrepared];
     self.rememberFlag = [UserDefaults boolForKey:@"rememberFlag"];
     self.userName.text = [UserDefaults stringForKey:@"userName"];
     if (self.rememberFlag) {
@@ -47,11 +45,6 @@
         self.rememberStatus.image = [UIImage imageNamed:@"select_no"];
         self.password.text = @"";
     }
-}
-
-- (void)dataPrepared
-{
-    self.contactParam = [self.appD.dataM getParamWithId:1];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -146,7 +139,13 @@
 }
 
 - (IBAction)forget:(id)sender {
-    NSString *contactMessage = [NSString stringWithFormat:@"请联系管理员:%@",self.contactParam.paramContent];
+    LLZParam *contactParam = [self.appD.dataM getParamWithId:1];
+    NSString *contactMessage = @"请联系管理员";
+    if (contactParam != nil) {
+         contactMessage = [NSString stringWithFormat:@"请联系管理员:%@",contactParam.paramContent];
+    }else{
+        NSLog(@"message is not get");
+    }
     Alert(contactMessage, self,10002);
 }
 

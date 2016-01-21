@@ -10,33 +10,8 @@
 
 @implementation Store
 
-- (instancetype)initWithStoreId:(NSString *)storeId
-                      storeName:(NSString *)storeName
-                     storeName2:(NSString *)storeName2
-                   storeAddress:(NSString *)storeAddress
-                       telphone:(NSString *)telphone
-                     modifyTime:(NSString *)modifyTime
-                       latitude:(double)latitude
-                      longitude:(double)longitude
-                     useStatus:(int)userStatus
-                   modifyUserId:(int)modifyUserId
-{
-    if (self = [super init]) {
-        _storeId = storeId;
-        _storeName = storeName;
-        _storeAddress = storeAddress;
-        _Telphone = telphone;
-        _modifyTime = modifyTime;
-        _Latitude = latitude;
-        _longitude = longitude;
-        _useStatus = userStatus;
-        _modifyUserId = modifyUserId;
-        _storeName2 = storeName2;
-    }
-    return self;
-}
-
-+ (instancetype)storeWithStoreId:(NSString *)storeId
+- (instancetype)initWithServerId:(NSString *)serverId
+                         storeId:(NSString *)storeId
                        storeName:(NSString *)storeName
                       storeName2:(NSString *)storeName2
                     storeAddress:(NSString *)storeAddress
@@ -44,10 +19,39 @@
                       modifyTime:(NSString *)modifyTime
                         latitude:(double)latitude
                        longitude:(double)longitude
-                      useStatus:(int)useStatus
+                       useStatus:(int)useStatus
                     modifyUserId:(int)modifyUserId
 {
-    return [[Store alloc] initWithStoreId:storeId
+    if (self = [super init]) {
+        _serverId = serverId;
+        _storeId = storeId;
+        _storeName = storeName;
+        _storeAddress = storeAddress;
+        _Telphone = telphone;
+        _modifyTime = modifyTime;
+        _Latitude = latitude;
+        _longitude = longitude;
+        _useStatus = useStatus;
+        _modifyUserId = modifyUserId;
+        _storeName2 = storeName2;
+    }
+    return self;
+}
+
++ (instancetype)storeWithServerId:(NSString *)serverId
+                          storeId:(NSString *)storeId
+                        storeName:(NSString *)storeName
+                       storeName2:(NSString *)storeName2
+                     storeAddress:(NSString *)storeAddress
+                         telphone:(NSString *)telphone
+                       modifyTime:(NSString *)modifyTime
+                         latitude:(double)latitude
+                        longitude:(double)longitude
+                        useStatus:(int)useStatus
+                     modifyUserId:(int)modifyUserId;
+{
+    return [[Store alloc] initWithServerId:serverId
+                                   storeId:storeId
                                 storeName:storeName
                                storeName2:(NSString *)storeName2
                              storeAddress:storeAddress
@@ -88,6 +92,13 @@
         self.modifyUserId = [[aDecoder decodeObjectForKey:@"modifyUserId"] intValue];
     }
     return self;
+}
+
++ (instancetype)parseStoreDic:(NSDictionary *)dic
+{
+    NSString *address = [NSString stringWithFormat:@"%@",dic[@"CorpAddr"]];
+    NSString *storeId = [NSString stringWithFormat:@"%@",dic[@"CorpCode"]];
+    return nil;
 }
 
 @end

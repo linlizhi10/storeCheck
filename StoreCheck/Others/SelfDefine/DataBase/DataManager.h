@@ -130,6 +130,7 @@
 
 #pragma mark ################ TddVersion #####################
 - (void)createTddVersionTable;
+- (LLZTddVersion *)getMaxTddVersion;
 - (void)insertTddVersion:(LLZTddVersion *)tddVersion;
 - (void)deleteTddVersion;
 
@@ -143,5 +144,7 @@
 #pragma mark ################ param #####################
 - (void)createParamTable;
 - (LLZParam *)getParamWithId:(int)paramId;
+- (void)insertParam:(LLZParam *)param;
+- (void)deleteParamTable;
 
 @end

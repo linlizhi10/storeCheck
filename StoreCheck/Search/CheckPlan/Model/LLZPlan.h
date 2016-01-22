@@ -51,5 +51,6 @@
                      checkUserId:(NSString *)checkUserId
                       modifyTime:(NSString *)modifyTime
                     modifyUserId:(NSString *)modifyUserId;
++ (instancetype)parsePlanDic:(NSDictionary *)dic;
 
 @end

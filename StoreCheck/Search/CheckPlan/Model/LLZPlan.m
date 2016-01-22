@@ -74,4 +74,8 @@
 
 }
 
++ (instancetype)parsePlanDic:(NSDictionary *)dic
+{
+    return nil;
+}
 @end

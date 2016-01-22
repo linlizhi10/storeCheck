@@ -16,6 +16,7 @@
 #import "LLZParam.h"
 #import "LLZNotice.h"
 #import "Store.h"
+#import "LLZReason.h"
 
 @interface AppDelegate ()
 <BMKGeneralDelegate,BMKLocationServiceDelegate,BMKGeoCodeSearchDelegate>
@@ -55,8 +56,6 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
         [manager createDirectoryAtPath:ImagePath(nil) withIntermediateDirectories:YES attributes:nil error:nil];
     }
     _dataM = [DataManager shareDataManager];
-//    [self.dataM deleteTddVersion];
-    
     [self.dataM createStoreTable];
     [self.dataM createUserTable];
     [self.dataM dropMessageTable];
@@ -78,6 +77,7 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
     }
     //tdd_version message
     [[HttpClient sharedClient] post:ServerParam(param) obj:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"responseObject is %@",responseObject);
         NSArray *arr = responseObject;
         if (arr.count > 0) {
             for (NSDictionary *dic in arr) {
@@ -130,16 +130,23 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
                                     //
                                 }else if ([tddVersion.tableName isEqualToString:@"TbbCorp"]){
                                     //store table
-                                    Store *store = [Store parseStoreDic:dic];
-                                    [self.dataM insertStore:store];
+                                    for (NSDictionary *dic in arrDic) {
+                                        Store *store = [Store parseStoreDic:dic];
+                                        [self.dataM insertStore:store];
+                                    }
                                     
-                                }else if ([tddVersion.tableName isEqualToString:@""]){
+                                }else if ([tddVersion.tableName isEqualToString:@"Tbs_Reason"]){
+                                    for (NSDictionary *dic in arrDic) {
+                                        LLZReason *reason = [LLZReason parseResonDic:dic];
+                                        [self.dataM insertReason:reason];
+                                    }
                                 
-                                }else if ([tddVersion.tableName isEqualToString:@""]){
+                                }else if ([tddVersion.tableName isEqualToString:@"Tbs_ShopPlanList"]){
+                                    
                                 
-                                }else if ([tddVersion.tableName isEqualToString:@""]){
+                                }else if ([tddVersion.tableName isEqualToString:@"TgmEmployee"]){
                                 
-                                }else if ([tddVersion.tableName isEqualToString:@""]){
+                                }else if ([tddVersion.tableName isEqualToString:@"Tbs_CheckItem"]){
                                 
                                 }
                                 

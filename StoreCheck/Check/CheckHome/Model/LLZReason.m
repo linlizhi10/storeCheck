@@ -44,4 +44,43 @@
                                      useStatus:useStatus];
 
 }
+
++ (instancetype)parseResonDic:(NSDictionary *)dic
+{
+    NSString *modifyDate = @"";
+    if (![dic[@"ModifyDate"] isEqual:[NSNull null]]) {
+        modifyDate = [NSString stringWithFormat:@"%@",dic[@"ModifyDate"]];
+    }
+    NSString *modifyUseId = @"";
+    if (![dic[@"ModifyEmpId"] isEqual:[NSNull null]]) {
+        modifyDate = [NSString stringWithFormat:@"%@",dic[@"ModifyEmpId"]];
+    }
+    NSString *reasonCode = @"";
+    if (![dic[@"ReasonCode"] isEqual:[NSNull null]]) {
+        reasonCode = [NSString stringWithFormat:@"%@",dic[@"ReasonCode"]];
+    }
+    NSString *reasonContent = @"";
+    if (![dic[@"ReasonContent"] isEqual:[NSNull null]]) {
+        reasonContent = [NSString stringWithFormat:@"%@",dic[@"ReasonContent"]];
+    }
+    NSInteger reasonId = 0;
+    if (![dic[@"ReasonId"] isEqual:[NSNull null]]) {
+        reasonId = [dic[@"ReasonId"] integerValue];
+    }
+    int sortNo = 0;
+    if (![dic[@"SortNo"] isEqual:[NSNull null]]) {
+        sortNo = [dic[@"SortNo"] intValue];
+    }
+    int status = 0;
+    if (![dic[@"Status"] isEqual:[NSNull null]]) {
+        status = [dic[@"Status"] intValue];
+    }
+    return [[LLZReason alloc] initWithReasonId:reasonId
+                                    reasonCode:reasonCode
+                                    reasonDesc:reasonContent
+                                  createUserId:modifyUseId
+                                    modifyTime:modifyDate
+                                     useStatus:status];
+}
+
 @end

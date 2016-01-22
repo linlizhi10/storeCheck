@@ -42,14 +42,43 @@
 
 + (instancetype)parseNoticeDic:(NSDictionary *)dic
 {
-    NSString *noticeTitle = [NSString stringWithFormat:@"%@",dic[@"MessTitle"]];
-    NSString *createTime = [NSString stringWithFormat:@"%@",dic[@"CreateTime"]];
-    NSString *createUserId = [NSString stringWithFormat:@"%@",dic[@"CreateEmpId"]];
-    NSString *noticeContent = [NSString stringWithFormat:@"%@",dic[@"MessContent"]];
-    NSInteger noticeId = [dic[@"MessId"] integerValue];
-    int messageType = [dic[@"MessType"] intValue];
-    NSString *modifyDate = [NSString stringWithFormat:@"%@",dic[@"ModifyDate"]];
-    int status= [dic[@"Status"] intValue];
+    NSString *noticeTitle = @"";
+    if (![dic[@"MessTitle"] isEqual:[NSNull null]]) {
+        noticeTitle = [NSString stringWithFormat:@"%@",dic[@"MessTitle"]];
+    }
+    
+    NSString *createTime = @"";
+    if (![dic[@"CreateTime"] isEqual:[NSNull null]]) {
+        createTime = [NSString stringWithFormat:@"%@",dic[@"CreateTime"]];
+    }
+    
+    NSString *createUserId = @"";
+    if (![dic[@"CreateEmpId"] isEqual:[NSNull null]]) {
+        createUserId = [NSString stringWithFormat:@"%@",dic[@"CreateEmpId"]];
+    }
+    NSString *noticeContent = @"";
+    if (![dic[@"MessContent"] isEqual:[NSNull null]]) {
+        noticeContent = [NSString stringWithFormat:@"%@",dic[@"MessContent"]];
+    }
+   
+    NSInteger noticeId = 0;
+    if (![dic[@"MessId"] isEqual:[NSNull null]]) {
+        noticeId = [dic[@"MessId"] integerValue];
+    }
+    
+    int messageType = 0;
+    if (![dic[@"MessType"] isEqual:[NSNull null]]) {
+        messageType = [dic[@"MessType"] intValue];
+    }
+    NSString *modifyDate = @"";
+    if (![dic[@"ModifyDate"] isEqual:[NSNull null]]) {
+        modifyDate = [NSString stringWithFormat:@"%@",dic[@"ModifyDate"]];
+    }
+    int status= 0;
+    if (![dic[@"Status"] isEqual:[NSNull null]]) {
+        status = [dic[@"Status"] intValue];
+    }
+    
     return [[LLZNotice alloc] initWithNoticeTitle:noticeTitle
                                        noticeDate:modifyDate
                                     noticeContent:noticeContent

@@ -56,11 +56,6 @@ static NSString *dataBaseName = @"StoreCheck.db";
     [self createTable:createSqlString];
 }
 
-- (void)updateStoreTable
-{
-
-}
-
 - (void)insertStore:(Store *)store
 {
     NSString *storeSearchSql = [NSString stringWithFormat:@"select * from Store where id='%d';",store.serverId];
@@ -159,11 +154,6 @@ static NSString *dataBaseName = @"StoreCheck.db";
     }
 }
 
-- (void)updateUserTable
-{
-
-}
-
 - (NSArray *)getUserWithName:(NSString *)loginName passWord:(NSString *)passWord
 {
     NSString *searchSql = [NSString stringWithFormat:@"select * from Users where LoginName = '%@' and userPwd = '%@';",loginName,passWord];
@@ -214,11 +204,6 @@ static NSString *dataBaseName = @"StoreCheck.db";
     //INTEGER primary key autoIncrement
     NSString *createSql = @"create table if not exists Message(id integer,title varchar(20),message varchar(200),dateTime varchar(30),isRead bool);";
     [self createTable:createSql];
-}
-
-- (void)updateMessageTable
-{
-
 }
 
 - (NSArray *)getNotice
@@ -368,7 +353,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
     NSMutableArray *newItemArr = [[NSMutableArray alloc] init];
     for (LLZCheckItem *item in arrT) {
         NewCheckItem *newItem = [[NewCheckItem alloc] initWithCheckItem:item imageFile:@""];
-        NSString *newStoreItemImageSql = [NSString stringWithFormat:@"select ImageFile from Image where storeId='%@' and UserId='%@' and itemId='%ld';",storeId,userId,item.itemId];
+        NSString *newStoreItemImageSql = [NSString stringWithFormat:@"select ImageFile from Image where storeId='%@' and UserId='%@' and itemId='%d';",storeId,userId,item.itemId];
         FMResultSet *set = [_dataBase executeQuery:newStoreItemImageSql];
         while ([set next]) {
             NSString *imageFile = [set stringForColumn:@"ImageFile"];
@@ -431,12 +416,12 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)insertCheckItem:(LLZCheckItem *)item
 {
-    NSString *searchItemSql = [NSString stringWithFormat:@"select * from CheckItem where itemId='%ld';",item.itemId];
+    NSString *searchItemSql = [NSString stringWithFormat:@"select * from CheckItem where itemId='%d';",item.itemId];
     NSArray *itemArr = [self fetchItem:searchItemSql];
     if (itemArr.count > 0) {
         [self updateItem:item];
     }else{
-        NSString *itemInsertSql = [NSString stringWithFormat:@"insert into CheckItem(itemId ,Title ,Content ,CheckType ,Score ,reasonCode ,isNeed ,SortNo ,ModifyTime ,ModifyUserId ,UseStatus) values('%ld','%@','%@','%d','%d','%@','%d','%d','%@','%@','%d');",item.itemId,item.title,item.content,item.checkType,item.score,item.reasonCode,item.isNeed,item.sortNo,item.modifyTime,item.modifyUserId,item.useStatus];
+        NSString *itemInsertSql = [NSString stringWithFormat:@"insert into CheckItem(itemId ,Title ,Content ,CheckType ,Score ,reasonCode ,isNeed ,SortNo ,ModifyTime ,ModifyUserId ,UseStatus) values('%d','%@','%@','%d','%d','%@','%d','%d','%@','%@','%d');",item.itemId,item.title,item.content,item.checkType,item.score,item.reasonCode,item.isNeed,item.sortNo,item.modifyTime,item.modifyUserId,item.useStatus];
         [self insertData:itemInsertSql];
     }
     //    [_dataBase executeUpdate:@"insert into CheckItem(itemId ,Title ,Content ,CheckType ,Score ,reasonCode ,isNeed ,SortNo ,ModifyTime ,ModifyUserId ,UseStatus) values(?,?,?,?);",item.itemId,item.title];
@@ -444,7 +429,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)updateItem:(LLZCheckItem *)item
 {
-    NSString *updateItemSql = [NSString stringWithFormat:@"update CheckItem set itemId='%ld',Title='%@',Content='%@',CheckType='%d',Score='%d',reasonCode='%@',IsNeed='%d',SortNo='%d',ModifyTime='%@',ModifyUserId='%@',UseStatus='%d';",item.itemId,item.title,item.content,item.checkType,item.score,item.reasonCode,item.isNeed,item.sortNo,item.modifyTime,item.modifyUserId,item.useStatus];
+    NSString *updateItemSql = [NSString stringWithFormat:@"update CheckItem set itemId='%d',Title='%@',Content='%@',CheckType='%d',Score='%d',reasonCode='%@',IsNeed='%d',SortNo='%d',ModifyTime='%@',ModifyUserId='%@',UseStatus='%d';",item.itemId,item.title,item.content,item.checkType,item.score,item.reasonCode,item.isNeed,item.sortNo,item.modifyTime,item.modifyUserId,item.useStatus];
     [_dataBase executeUpdate:updateItemSql];
 }
 
@@ -606,7 +591,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 - (void)insertImageItem:(LLZImage *)image
 {
     //old for test
-    NSString *insertImageSql = [NSString stringWithFormat:@"insert into Image(storeId,UserId,ImageDate,ImageType,itemId,ImageFile,ImageDesc,ImageData,ModifyTime,TranStatus) values('%@','%@','%@','%d','%ld',,'%@''%@','%@','%@','%d');",image.storeId,image.userId,image.imageDate,image.imageType,image.itemId,image.imagePath,image.imageDesc,image.imageData,image.modifyTime,image.tranStatus];
+    NSString *insertImageSql = [NSString stringWithFormat:@"insert into Image(storeId,UserId,ImageDate,ImageType,itemId,ImageFile,ImageDesc,ImageData,ModifyTime,TranStatus) values('%@','%@','%@','%d','%d',,'%@''%@','%@','%@','%d');",image.storeId,image.userId,image.imageDate,image.imageType,image.itemId,image.imagePath,image.imageDesc,image.imageData,image.modifyTime,image.tranStatus];
     //new
 //    NSString *insertImageSql = [NSString stringWithFormat:@"insert into Image(storeId,UserId,ImageDate,ImageType,itemId,ImageDesc,ImageData,ImagePath,ModifyTime,TranStatus) values('%@','%@','%@','%d','%ld','%@','%@','%@','%@','%d');",image.storeId,image.userId,image.imageDate,image.imageType,image.itemId,image.imageDesc,image.imageData,image.imagePath,image.modifyTime,image.tranStatus];
     [self insertData:insertImageSql];
@@ -656,7 +641,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)insertPhoto:(LLZPhoto *)photo
 {
-    NSString *photoInsertSql = [NSString stringWithFormat:@"insert into Photo(storeId,UserId,PhotoDate,CheckType,itemId,ImageFile1,ImageFile2,ModifyTime,TranStatus) values('%@','%@','%@','%d','%ld','%@','%@','%@','%d');",photo.storeId,photo.userId,photo.photoDate,photo.checkType,photo.itemId,photo.imageFile1,photo.imageFile2,photo.modifyTime,photo.tranStatus];
+    NSString *photoInsertSql = [NSString stringWithFormat:@"insert into Photo(storeId,UserId,PhotoDate,CheckType,itemId,ImageFile1,ImageFile2,ModifyTime,TranStatus) values('%@','%@','%@','%d','%d','%@','%@','%@','%d');",photo.storeId,photo.userId,photo.photoDate,photo.checkType,photo.itemId,photo.imageFile1,photo.imageFile2,photo.modifyTime,photo.tranStatus];
     [self insertData:photoInsertSql];
 }
 

@@ -96,9 +96,65 @@
 
 + (instancetype)parseStoreDic:(NSDictionary *)dic
 {
-    NSString *address = [NSString stringWithFormat:@"%@",dic[@"CorpAddr"]];
-    NSString *storeId = [NSString stringWithFormat:@"%@",dic[@"CorpCode"]];
-    return nil;
+    NSString *address = @"";
+    if (![dic[@"CorpAddr"] isEqual:[NSNull null]]) {
+        address = [NSString stringWithFormat:@"%@",dic[@"CorpAddr"]];
+    }
+    
+    NSString *storeId = @"";
+    if (![dic[@"CorpCode"] isEqual:[NSNull null]]) {
+        storeId = [NSString stringWithFormat:@"%@",dic[@"CorpCode"]];
+    }
+    NSInteger serverId = 0;
+    if (![dic[@"CorpId"] isEqual:[NSNull null]]) {
+        serverId = [dic[@"CorpId"] integerValue];
+    }
+    NSString *storeName = @"";
+    if (![dic[@"CorpName"] isEqual:[NSNull null]]) {
+        storeName = [[NSString stringWithFormat:@"%@",dic[@"CorpName"]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    }
+    NSString *telphone = @"";
+    if (![dic[@"CorpPhone"] isEqual:[NSNull null]]) {
+        telphone = [NSString stringWithFormat:@"%@",dic[@"CorpPhone"]];
+    }
+    double latitude = 0;
+    if (![dic[@"Latitude"] isEqual:[NSNull null]]) {
+        latitude = [dic[@"Latitude"] doubleValue];
+    }
+    double longitude = 0;
+    if (![dic[@"Longitude"] isEqual:[NSNull null]]) {
+      longitude = [dic[@"Longitude"] doubleValue];
+    }
+    NSString *modifyDate = @"";
+    if (![dic[@"ModifyDate"] isEqual:[NSNull null]]) {
+        modifyDate = [NSString stringWithFormat:@"%@",dic[@"ModifyDate"]];
+//        modifyDate = [modifyDate stringByReplacingOccurrencesOfString:@"T" withString:@" "];
+    }
+    NSString *optrId = @"";
+    if (![dic[@"OptrId"] isEqual:[NSNull null]]) {
+        optrId = [NSString stringWithFormat:@"%@",dic[@"OptrId"]];
+    }
+    int useStatus = 0;
+    if (![dic[@"UseStatus"] isEqual:[NSNull null]]) {
+        useStatus = [dic[@"UseStatus"] intValue];
+    }
+    NSString *vmEmpId = @"";
+    if (![dic[@"VmEmpId"] isEqual:[NSNull null]]) {
+        vmEmpId = [NSString stringWithFormat:@"%@",dic[@"VmEmpId"]];
+    }
+   
+    
+    return [Store storeWithServerId:serverId
+                            storeId:storeId
+                          storeName:storeName
+                         storeName2:storeName
+                       storeAddress:address
+                           telphone:telphone
+                         modifyTime:modifyDate
+                           latitude:latitude
+                          longitude:longitude
+                          useStatus:useStatus
+                       modifyUserId:optrId];
 }
 
 @end

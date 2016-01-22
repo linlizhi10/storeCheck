@@ -31,4 +31,6 @@
                       createUserId:(NSString *)createUserId
                         modifyTime:(NSString *)modifyTime
                          useStatus:(int)useStatus;
++ (instancetype)parseResonDic:(NSDictionary *)dic;
+
 @end

@@ -10,7 +10,7 @@
 
 @implementation Store
 
-- (instancetype)initWithServerId:(NSString *)serverId
+- (instancetype)initWithServerId:(NSInteger)serverId
                          storeId:(NSString *)storeId
                        storeName:(NSString *)storeName
                       storeName2:(NSString *)storeName2
@@ -20,7 +20,7 @@
                         latitude:(double)latitude
                        longitude:(double)longitude
                        useStatus:(int)useStatus
-                    modifyUserId:(int)modifyUserId
+                    modifyUserId:(NSString *)modifyUserId
 {
     if (self = [super init]) {
         _serverId = serverId;
@@ -38,7 +38,7 @@
     return self;
 }
 
-+ (instancetype)storeWithServerId:(NSString *)serverId
++ (instancetype)storeWithServerId:(NSInteger)serverId
                           storeId:(NSString *)storeId
                         storeName:(NSString *)storeName
                        storeName2:(NSString *)storeName2
@@ -48,7 +48,7 @@
                          latitude:(double)latitude
                         longitude:(double)longitude
                         useStatus:(int)useStatus
-                     modifyUserId:(int)modifyUserId;
+                     modifyUserId:(NSString *)modifyUserId;
 {
     return [[Store alloc] initWithServerId:serverId
                                    storeId:storeId
@@ -74,7 +74,7 @@
     [aCoder encodeObject:[NSNumber numberWithDouble:self.Latitude] forKey:@"Latitude"];
     [aCoder encodeObject:[NSNumber numberWithDouble:self.longitude] forKey:@"longitude"];
     [aCoder encodeObject:[NSNumber numberWithInt:self.useStatus] forKey:@"useStatus"];
-    [aCoder encodeObject:[NSNumber numberWithInt:self.modifyUserId] forKey:@"modifyUserId"];
+    [aCoder encodeObject:self.modifyUserId forKey:@"modifyUserId"];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -89,7 +89,7 @@
         self.Latitude = [[aDecoder decodeObjectForKey:@"Latitude"] doubleValue];
         self.longitude = [[aDecoder decodeObjectForKey:@"longitude"] doubleValue];
         self.useStatus = [[aDecoder decodeObjectForKey:@"useStatus"] intValue];
-        self.modifyUserId = [[aDecoder decodeObjectForKey:@"modifyUserId"] intValue];
+        self.modifyUserId = [aDecoder decodeObjectForKey:@"modifyUserId"];
     }
     return self;
 }

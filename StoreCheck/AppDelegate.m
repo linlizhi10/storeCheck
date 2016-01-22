@@ -15,6 +15,7 @@
 #import "AFNetworkReachabilityManager.h"
 #import "LLZParam.h"
 #import "LLZNotice.h"
+#import "Store.h"
 
 @interface AppDelegate ()
 <BMKGeneralDelegate,BMKLocationServiceDelegate,BMKGeoCodeSearchDelegate>
@@ -113,20 +114,25 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
                                 NSLog(@"table is %@ \n res is %@",tddVersion.tableName,responseObject);
                                 
                                 NSArray *arrDic = responseObject;
+                                //param table
                                 if ([tddVersion.tableName isEqualToString:@"Params"]) {
                                     for (NSDictionary *dic in arrDic) {
                                         LLZParam *param = [LLZParam parseWithDic:dic];
                                         [self.dataM insertParam:param];
                                     }
                                 }else if ([tddVersion.tableName isEqualToString:@"Tbs_Message"]){
+                                    //message table
                                     for (NSDictionary *dic in arrDic) {
                                         LLZNotice *notice = [LLZNotice parseNoticeDic:dic];
                                         [self.dataM insertMessage:notice];
                                     }
                                 }else if ([tddVersion.tableName isEqualToString:@"TgmEmpStore"]){
-                                
+                                    //
                                 }else if ([tddVersion.tableName isEqualToString:@"TbbCorp"]){
-                                    Store *store = [Store ];
+                                    //store table
+                                    Store *store = [Store parseStoreDic:dic];
+                                    [self.dataM insertStore:store];
+                                    
                                 }else if ([tddVersion.tableName isEqualToString:@""]){
                                 
                                 }else if ([tddVersion.tableName isEqualToString:@""]){

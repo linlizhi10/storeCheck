@@ -52,7 +52,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)createStoreTable
 {
-    NSString *createSqlString = @"create table if not exists Store(id INTEGER primary key autoIncrement,StoreId varchar(20),storeName varchar(100),storeName2 varchar(100),storeAddress varchar(200),Telphone varchar(20),Latitude double,Longitude double,UseStatus int,ModifyTime varchar(30),ModifyUserId int,VmEmpld varchar(40));";
+    NSString *createSqlString = @"create table if not exists Store(id INTEGER,StoreId varchar(20),storeName varchar(100),storeName2 varchar(100),storeAddress varchar(200),Telphone varchar(20),Latitude double,Longitude double,UseStatus int,ModifyTime varchar(30),ModifyUserId varchar(30),VmEmpld varchar(40));";
     [self createTable:createSqlString];
 }
 
@@ -63,8 +63,23 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)insertStore:(Store *)store
 {
-    NSString *insertSql = [NSString stringWithFormat:@"insert into Store(StoreId,storeName,storeName2,storeAddress,Telphone,Latitude ,Longitude ,UseStatus,ModifyTime ,ModifyUserId) values('%@','%@','%@','%@','%@','%lf','%lf','%d','%@','%d');",store.storeId,store.storeName,store.storeName2,store.storeAddress,store.Telphone,store.Latitude,store.longitude,store.useStatus,store.modifyTime,store.modifyUserId];
-    [self insertData:insertSql];
+    NSString *storeSearchSql = [NSString stringWithFormat:@"select * from Store where id='%d';",store.serverId];
+    NSArray *storeSearchArr  = [self fetchStore:storeSearchSql];
+    if (storeSearchArr.count > 0) {
+        [self updateStore:store];
+    }else{
+        NSString *insertSql = [NSString stringWithFormat:@"insert into Store(id,StoreId,storeName,storeName2,storeAddress,Telphone,Latitude ,Longitude ,UseStatus,ModifyTime ,ModifyUserId) values('%d','%@','%@','%@','%@','%@','%lf','%lf','%d','%@','%@');",store.serverId,store.storeId,store.storeName,store.storeName2,store.storeAddress,store.Telphone,store.Latitude,store.longitude,store.useStatus,store.modifyTime,store.modifyUserId];
+        [self insertData:insertSql];
+    }
+}
+
+- (void)updateStore:(Store *)store
+{
+    NSString *updateSql = [NSString stringWithFormat:@"update Store set StoreId='%@',storeName='%@',storeName2='%@',storeAddress='%@',Telphone='%@',Latitude='%lf',Longitude='%lf',UseStatus='%d',ModfyTime='%@',ModifyUserId='%@';",store.storeId,store.storeName,store.storeName2,store.storeAddress,store.Telphone,store.Latitude,store.longitude,store.useStatus,store.modifyTime,store.modifyUserId];
+    BOOL rec = [_dataBase executeUpdate:updateSql];
+    if (!rec) {
+        NSLog(@"error is %@",[_dataBase lastErrorMessage]);
+    }
 }
 
 - (NSArray *)getStore
@@ -90,6 +105,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
     NSMutableArray *arrM = [[NSMutableArray alloc] init];
     FMResultSet *set = [_dataBase executeQuery:fetchSql];
     while ([set next]) {
+        NSInteger serverId = [set longForColumn:@"id"];
         NSString *storeId = [set stringForColumn:@"storeId"];
         NSString *storeName = [set stringForColumn:@"storeName"];
         NSString *storeName2 = [set stringForColumn:@"storeName2"];
@@ -99,8 +115,9 @@ static NSString *dataBaseName = @"StoreCheck.db";
         double longitude = [set doubleForColumn:@"Longitude"];
         int userStatus = [set intForColumn:@"useStatus"];
         NSString *modifyDate = [set stringForColumn:@"modifyTime"];
-        int modifyUserId = [set intForColumn:@"modifyUserId"];
-        Store *store = [Store storeWithStoreId:storeId
+        NSString *modifyUserId = [set stringForColumn:@"modifyUserId"];
+        Store *store = [Store storeWithServerId:serverId
+                                        storeId:storeId
                                      storeName:storeName
                                     storeName2:storeName2
                                   storeAddress:storeAddress
@@ -121,13 +138,13 @@ static NSString *dataBaseName = @"StoreCheck.db";
 }
 
 - (void)createUserTable{
-    NSString *createSqlString = @"create table if not exists Users(userId varchar(20),userCode varchar(20),userName varchar(20),LoginName varchar(20),userPwd varchar(20),duty varchar(20),contactPhone varchar(20),OrgId int,UseStatus int,ModifyTime varchar(30),ModifyUserId int,remark varchar(200));";
+    NSString *createSqlString = @"create table if not exists Users(userId varchar(20),userCode varchar(20),userName varchar(20),LoginName varchar(20),userPwd varchar(20),duty varchar(20),contactPhone varchar(20),OrgId int,UseStatus int,ModifyTime varchar(30),ModifyUserId varchar(20),remark varchar(200));";
     [self createTable:createSqlString];
 }
 
 - (void)insertUser:(LLZUser *)user
 {
-    NSString *insertSqlString = [NSString stringWithFormat:@"insert into Users (userId ,userCode ,userName ,LoginName ,userPwd ,duty ,contactPhone ,OrgId ,UseStatus ,ModifyTime ,ModifyUserId ,remark ) values('%@','%@','%@','%@','%@','%@','%@','%d','%d','%@','%d','%@');",user.userId,user.userCode,user.userName,user.loginName,user.loginPwd,user.duty,user.contactNumber,user.orgId,user.useStatus,user.modifyTime,user.modifyUserId,user.remark];
+    NSString *insertSqlString = [NSString stringWithFormat:@"insert into Users (userId ,userCode ,userName ,LoginName ,userPwd ,duty ,contactPhone ,OrgId ,UseStatus ,ModifyTime ,ModifyUserId ,remark ) values('%@','%@','%@','%@','%@','%@','%@','%d','%d','%@','%@','%@');",user.userId,user.userCode,user.userName,user.loginName,user.loginPwd,user.duty,user.contactNumber,user.orgId,user.useStatus,user.modifyTime,user.modifyUserId,user.remark];
     [self insertData:insertSqlString];
 }
 
@@ -168,7 +185,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
         NSString *remark = [set stringForColumn:@"remark"];
         int orgId = [set intForColumn:@"OrgId"];
         int useStatus = [set intForColumn:@"UseStatus"];
-        int modifyUserId = [set intForColumn:@"ModifyUserId"];
+        NSString *modifyUserId = [set stringForColumn:@"ModifyUserId"];
         NSString *modifyTime = [set stringForColumn:@"ModifyTime"];
         LLZUser *user = [LLZUser userWithuserId:userId
                                        userCode:userCode

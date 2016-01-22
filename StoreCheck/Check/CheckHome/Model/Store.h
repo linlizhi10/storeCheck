@@ -21,7 +21,7 @@
 @property (nonatomic, assign) double Latitude;
 @property (nonatomic, assign) double longitude;
 @property (nonatomic, assign) int useStatus;
-@property (nonatomic, assign) int modifyUserId;
+@property (nonatomic, assign) NSString *modifyUserId;
 
 - (instancetype)initWithServerId:(NSInteger)serverId
                          storeId:(NSString *)storeId
@@ -33,7 +33,7 @@
                        latitude:(double)latitude
                       longitude:(double)longitude
                      useStatus:(int)useStatus
-                   modifyUserId:(int)modifyUserId;
+                   modifyUserId:(NSString *)modifyUserId;
 
 + (instancetype)storeWithServerId:(NSInteger)serverId
                           storeId:(NSString *)storeId
@@ -45,7 +45,7 @@
                          latitude:(double)latitude
                         longitude:(double)longitude
                         useStatus:(int)useStatus
-                     modifyUserId:(int)modifyUserId;
+                     modifyUserId:(NSString *)modifyUserId;
 
 + (instancetype)parseStoreDic:(NSDictionary *)dic;
 

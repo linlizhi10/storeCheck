@@ -20,7 +20,7 @@
                         remark:(NSString *)remark
                          orgId:(int)orgId
                      useStatus:(int)useStatus
-                  modifyUserId:(int)modifyUserId
+                  modifyUserId:(NSString *)modifyUserId
                     modifyTime:(NSString *)modifyTime
 {
     if (self = [super init]) {
@@ -50,7 +50,7 @@
                         remark:(NSString *)remark
                          orgId:(int)orgId
                      useStatus:(int)useStatus
-                  modifyUserId:(int)modifyUserId
+                  modifyUserId:(NSString *)modifyUserId
                     modifyTime:(NSString *)modifyTime
 {
     return [[LLZUser alloc] initWithuserId:userId
@@ -82,7 +82,7 @@
     [aCoder encodeObject:self.remark forKey:@"remark"];
     [aCoder encodeObject:[NSNumber numberWithInt:self.orgId] forKey:@"orgId"];
     [aCoder encodeObject:[NSNumber numberWithInt:self.useStatus] forKey:@"useStatus"];
-    [aCoder encodeObject:[NSNumber numberWithInt:self.modifyUserId] forKey:@"modifyUserId"];
+    [aCoder encodeObject:self.modifyUserId forKey:@"modifyUserId"];
     [aCoder encodeObject:self.modifyTime forKey:@"modifyTime"];
 
 }
@@ -100,7 +100,7 @@
         self.remark = [aDecoder decodeObjectForKey:@"remark"];
         self.orgId = [[aDecoder decodeObjectForKey:@"orgId"] intValue];
         self.useStatus = [[aDecoder decodeObjectForKey:@"useStatus"] intValue];
-        self.modifyUserId = [[aDecoder decodeObjectForKey:@"modifyUserId"] intValue];
+        self.modifyUserId = [aDecoder decodeObjectForKey:@"modifyUserId"];
         self.modifyTime = [aDecoder decodeObjectForKey:@"modifyTime"];
 
     }

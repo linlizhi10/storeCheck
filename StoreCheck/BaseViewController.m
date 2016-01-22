@@ -180,7 +180,8 @@
         Store *store = [NSKeyedUnarchiver unarchiveObjectWithData:storeData];
         return store;
     }
-    return [Store storeWithStoreId:@""
+    return [Store storeWithServerId:0
+                            storeId:@""
                          storeName:@""
                         storeName2:@""
                       storeAddress:@""

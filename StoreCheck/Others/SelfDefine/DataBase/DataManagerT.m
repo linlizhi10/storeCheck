@@ -74,7 +74,7 @@ static NSString *dataBaseName = @"StoreCheckOriginal.db";
     NSMutableArray *arrM = [[NSMutableArray alloc] init];
     FMResultSet *set = [_dataBase executeQuery:fetchSql];
     while ([set next]) {
-        NSString *serverId = [set longForColumn:@"id"];
+        NSInteger serverId = [set longForColumn:@"id"];
         NSString *storeId = [set stringForColumn:@"StoreId"];
         NSString *storeName = [set stringForColumn:@"StoreName"];
         NSString *storeName2 = [set stringForColumn:@"storeName2"];
@@ -83,12 +83,13 @@ static NSString *dataBaseName = @"StoreCheckOriginal.db";
         double latitude = [set doubleForColumn:@"Latitude"];
         double longitude = [set doubleForColumn:@"Longitude"];
         int userStatus = [set intForColumn:@"UseStatus"];
-        NSDate *modifyDate = [set dateForColumn:@"ModifyTime"];
-        int modifyUserId = [set intForColumn:@"ModifyUserId"];
+        NSString *modifyDate = [set stringForColumn:@"ModifyTime"];
+        NSString *modifyUserId = [set stringForColumn:@"ModifyUserId"];
         
         NSLog(@"error is %@",[_dataBase lastErrorMessage]);
         
-        Store *store = [Store storeWithStoreId:storeId
+        Store *store = [Store storeWithServerId:serverId
+                                        storeId:storeId
                                      storeName:storeName
                                     storeName2:storeName2
                                   storeAddress:storeAddress

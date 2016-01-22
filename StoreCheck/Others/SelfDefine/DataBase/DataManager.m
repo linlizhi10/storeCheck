@@ -52,19 +52,29 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)createStoreTable
 {
-    NSString *createSqlString = @"create table if not exists Store(id INTEGER primary key autoIncrement,StoreId varchar(20),storeName varchar(100),storeName2 varchar(100),storeAddress varchar(200),Telphone varchar(20),Latitude double,Longitude double,UseStatus int,ModifyTime varchar(30),ModifyUserId int,VmEmpld varchar(40));";
+    NSString *createSqlString = @"create table if not exists Store(id INTEGER,StoreId varchar(20),storeName varchar(100),storeName2 varchar(100),storeAddress varchar(200),Telphone varchar(20),Latitude double,Longitude double,UseStatus int,ModifyTime varchar(30),ModifyUserId varchar(30),VmEmpld varchar(40));";
     [self createTable:createSqlString];
-}
-
-- (void)updateStoreTable
-{
-
 }
 
 - (void)insertStore:(Store *)store
 {
-    NSString *insertSql = [NSString stringWithFormat:@"insert into Store(StoreId,storeName,storeName2,storeAddress,Telphone,Latitude ,Longitude ,UseStatus,ModifyTime ,ModifyUserId) values('%@','%@','%@','%@','%@','%lf','%lf','%d','%@','%d');",store.storeId,store.storeName,store.storeName2,store.storeAddress,store.Telphone,store.Latitude,store.longitude,store.useStatus,store.modifyTime,store.modifyUserId];
-    [self insertData:insertSql];
+    NSString *storeSearchSql = [NSString stringWithFormat:@"select * from Store where id='%d';",store.serverId];
+    NSArray *storeSearchArr  = [self fetchStore:storeSearchSql];
+    if (storeSearchArr.count > 0) {
+        [self updateStore:store];
+    }else{
+        NSString *insertSql = [NSString stringWithFormat:@"insert into Store(id,StoreId,storeName,storeName2,storeAddress,Telphone,Latitude ,Longitude ,UseStatus,ModifyTime ,ModifyUserId) values('%d','%@','%@','%@','%@','%@','%lf','%lf','%d','%@','%@');",store.serverId,store.storeId,store.storeName,store.storeName2,store.storeAddress,store.Telphone,store.Latitude,store.longitude,store.useStatus,store.modifyTime,store.modifyUserId];
+        [self insertData:insertSql];
+    }
+}
+
+- (void)updateStore:(Store *)store
+{
+    NSString *updateSql = [NSString stringWithFormat:@"update Store set StoreId='%@',storeName='%@',storeName2='%@',storeAddress='%@',Telphone='%@',Latitude='%lf',Longitude='%lf',UseStatus='%d',ModfyTime='%@',ModifyUserId='%@';",store.storeId,store.storeName,store.storeName2,store.storeAddress,store.Telphone,store.Latitude,store.longitude,store.useStatus,store.modifyTime,store.modifyUserId];
+    BOOL rec = [_dataBase executeUpdate:updateSql];
+    if (!rec) {
+        NSLog(@"error is %@",[_dataBase lastErrorMessage]);
+    }
 }
 
 - (NSArray *)getStore
@@ -90,6 +100,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
     NSMutableArray *arrM = [[NSMutableArray alloc] init];
     FMResultSet *set = [_dataBase executeQuery:fetchSql];
     while ([set next]) {
+        NSInteger serverId = [set longForColumn:@"id"];
         NSString *storeId = [set stringForColumn:@"storeId"];
         NSString *storeName = [set stringForColumn:@"storeName"];
         NSString *storeName2 = [set stringForColumn:@"storeName2"];
@@ -99,8 +110,9 @@ static NSString *dataBaseName = @"StoreCheck.db";
         double longitude = [set doubleForColumn:@"Longitude"];
         int userStatus = [set intForColumn:@"useStatus"];
         NSString *modifyDate = [set stringForColumn:@"modifyTime"];
-        int modifyUserId = [set intForColumn:@"modifyUserId"];
-        Store *store = [Store storeWithStoreId:storeId
+        NSString *modifyUserId = [set stringForColumn:@"modifyUserId"];
+        Store *store = [Store storeWithServerId:serverId
+                                        storeId:storeId
                                      storeName:storeName
                                     storeName2:storeName2
                                   storeAddress:storeAddress
@@ -121,13 +133,13 @@ static NSString *dataBaseName = @"StoreCheck.db";
 }
 
 - (void)createUserTable{
-    NSString *createSqlString = @"create table if not exists Users(userId varchar(20),userCode varchar(20),userName varchar(20),LoginName varchar(20),userPwd varchar(20),duty varchar(20),contactPhone varchar(20),OrgId int,UseStatus int,ModifyTime varchar(30),ModifyUserId int,remark varchar(200));";
+    NSString *createSqlString = @"create table if not exists Users(userId varchar(20),userCode varchar(20),userName varchar(20),LoginName varchar(20),userPwd varchar(20),duty varchar(20),contactPhone varchar(20),OrgId int,UseStatus int,ModifyTime varchar(30),ModifyUserId varchar(20),remark varchar(200));";
     [self createTable:createSqlString];
 }
 
 - (void)insertUser:(LLZUser *)user
 {
-    NSString *insertSqlString = [NSString stringWithFormat:@"insert into Users (userId ,userCode ,userName ,LoginName ,userPwd ,duty ,contactPhone ,OrgId ,UseStatus ,ModifyTime ,ModifyUserId ,remark ) values('%@','%@','%@','%@','%@','%@','%@','%d','%d','%@','%d','%@');",user.userId,user.userCode,user.userName,user.loginName,user.loginPwd,user.duty,user.contactNumber,user.orgId,user.useStatus,user.modifyTime,user.modifyUserId,user.remark];
+    NSString *insertSqlString = [NSString stringWithFormat:@"insert into Users (userId ,userCode ,userName ,LoginName ,userPwd ,duty ,contactPhone ,OrgId ,UseStatus ,ModifyTime ,ModifyUserId ,remark ) values('%@','%@','%@','%@','%@','%@','%@','%d','%d','%@','%@','%@');",user.userId,user.userCode,user.userName,user.loginName,user.loginPwd,user.duty,user.contactNumber,user.orgId,user.useStatus,user.modifyTime,user.modifyUserId,user.remark];
     [self insertData:insertSqlString];
 }
 
@@ -140,11 +152,6 @@ static NSString *dataBaseName = @"StoreCheck.db";
     }else{
         NSLog(@"update sucess");
     }
-}
-
-- (void)updateUserTable
-{
-
 }
 
 - (NSArray *)getUserWithName:(NSString *)loginName passWord:(NSString *)passWord
@@ -168,7 +175,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
         NSString *remark = [set stringForColumn:@"remark"];
         int orgId = [set intForColumn:@"OrgId"];
         int useStatus = [set intForColumn:@"UseStatus"];
-        int modifyUserId = [set intForColumn:@"ModifyUserId"];
+        NSString *modifyUserId = [set stringForColumn:@"ModifyUserId"];
         NSString *modifyTime = [set stringForColumn:@"ModifyTime"];
         LLZUser *user = [LLZUser userWithuserId:userId
                                        userCode:userCode
@@ -195,13 +202,8 @@ static NSString *dataBaseName = @"StoreCheck.db";
 - (void)createMessageTable
 {
     //INTEGER primary key autoIncrement
-    NSString *createSql = @"create table if not exists Message(id integer primary key autoIncrement,title varchar(20),message varchar(200),dateTime varchar(30),isRead bool);";
+    NSString *createSql = @"create table if not exists Message(id integer,title varchar(20),message varchar(200),dateTime varchar(30),isRead bool);";
     [self createTable:createSql];
-}
-
-- (void)updateMessageTable
-{
-
 }
 
 - (NSArray *)getNotice
@@ -218,13 +220,31 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)insertMessage:(LLZNotice *)notice
 {
-    NSString *messageInsertSql = [NSString stringWithFormat:@"insert into Message(title,message,dateTime,isRead) values('%@','%@','%@','%d');",notice.noticeTitle,notice.noticeContent,notice.noticeDate,notice.readFlag];
+    NSString *messageInsertSql = [NSString stringWithFormat:@"insert into Message(id,title,message,dateTime,isRead) values('%d','%@','%@','%@','%d');",notice.noticeId,notice.noticeTitle,notice.noticeContent,notice.noticeDate,notice.readFlag];
     [self insertData:messageInsertSql];
+    //完善 效率
+//    NSString *messageSearchSql = [NSString stringWithFormat:@"select * from Message where id='%d';",notice.noticeId];
+//    NSArray *messageSearchArr = [self fetchNotice:messageSearchSql];
+//    if (messageSearchArr.count > 0) {
+//        [self updateNotice:notice];
+//    }else{
+//        NSString *messageInsertSql = [NSString stringWithFormat:@"insert into Message(id,title,message,dateTime,isRead) values('%d','%@','%@','%@','%d');",notice.noticeId,notice.noticeTitle,notice.noticeContent,notice.noticeDate,notice.readFlag];
+//        [self insertData:messageInsertSql];
+//    }
+}
+
+- (void)updateNotice:(LLZNotice *)notice
+{
+    NSString *noticeUpdateSql = [NSString stringWithFormat:@"update Message set title='%@',message='%@',dateTime='%@';",notice.noticeTitle,notice.noticeContent,notice.noticeDate];
+    BOOL rec = [_dataBase executeUpdate:noticeUpdateSql];
+    if (!rec) {
+        NSLog(@"error is %@",[_dataBase lastErrorMessage]);
+    }
 }
 
 - (void)updateNoticeReadStatus:(LLZNotice *)notice
 {
-    NSString *updateSql = [NSString stringWithFormat:@"update Message set isRead='%d' where id='%ld';",notice.readFlag,notice.noticeId];
+    NSString *updateSql = [NSString stringWithFormat:@"update Message set isRead='%d' where id='%d';",notice.readFlag,notice.noticeId];
     [_dataBase executeUpdate:updateSql];
 }
 
@@ -333,7 +353,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
     NSMutableArray *newItemArr = [[NSMutableArray alloc] init];
     for (LLZCheckItem *item in arrT) {
         NewCheckItem *newItem = [[NewCheckItem alloc] initWithCheckItem:item imageFile:@""];
-        NSString *newStoreItemImageSql = [NSString stringWithFormat:@"select ImageFile from Image where storeId='%@' and UserId='%@' and itemId='%ld';",storeId,userId,item.itemId];
+        NSString *newStoreItemImageSql = [NSString stringWithFormat:@"select ImageFile from Image where storeId='%@' and UserId='%@' and itemId='%d';",storeId,userId,item.itemId];
         FMResultSet *set = [_dataBase executeQuery:newStoreItemImageSql];
         while ([set next]) {
             NSString *imageFile = [set stringForColumn:@"ImageFile"];
@@ -396,12 +416,12 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)insertCheckItem:(LLZCheckItem *)item
 {
-    NSString *searchItemSql = [NSString stringWithFormat:@"select * from CheckItem where itemId='%ld';",item.itemId];
+    NSString *searchItemSql = [NSString stringWithFormat:@"select * from CheckItem where itemId='%d';",item.itemId];
     NSArray *itemArr = [self fetchItem:searchItemSql];
     if (itemArr.count > 0) {
         [self updateItem:item];
     }else{
-        NSString *itemInsertSql = [NSString stringWithFormat:@"insert into CheckItem(itemId ,Title ,Content ,CheckType ,Score ,reasonCode ,isNeed ,SortNo ,ModifyTime ,ModifyUserId ,UseStatus) values('%ld','%@','%@','%d','%d','%@','%d','%d','%@','%@','%d');",item.itemId,item.title,item.content,item.checkType,item.score,item.reasonCode,item.isNeed,item.sortNo,item.modifyTime,item.modifyUserId,item.useStatus];
+        NSString *itemInsertSql = [NSString stringWithFormat:@"insert into CheckItem(itemId ,Title ,Content ,CheckType ,Score ,reasonCode ,isNeed ,SortNo ,ModifyTime ,ModifyUserId ,UseStatus) values('%d','%@','%@','%d','%d','%@','%d','%d','%@','%@','%d');",item.itemId,item.title,item.content,item.checkType,item.score,item.reasonCode,item.isNeed,item.sortNo,item.modifyTime,item.modifyUserId,item.useStatus];
         [self insertData:itemInsertSql];
     }
     //    [_dataBase executeUpdate:@"insert into CheckItem(itemId ,Title ,Content ,CheckType ,Score ,reasonCode ,isNeed ,SortNo ,ModifyTime ,ModifyUserId ,UseStatus) values(?,?,?,?);",item.itemId,item.title];
@@ -409,7 +429,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)updateItem:(LLZCheckItem *)item
 {
-    NSString *updateItemSql = [NSString stringWithFormat:@"update CheckItem set itemId='%ld',Title='%@',Content='%@',CheckType='%d',Score='%d',reasonCode='%@',IsNeed='%d',SortNo='%d',ModifyTime='%@',ModifyUserId='%@',UseStatus='%d';",item.itemId,item.title,item.content,item.checkType,item.score,item.reasonCode,item.isNeed,item.sortNo,item.modifyTime,item.modifyUserId,item.useStatus];
+    NSString *updateItemSql = [NSString stringWithFormat:@"update CheckItem set itemId='%d',Title='%@',Content='%@',CheckType='%d',Score='%d',reasonCode='%@',IsNeed='%d',SortNo='%d',ModifyTime='%@',ModifyUserId='%@',UseStatus='%d';",item.itemId,item.title,item.content,item.checkType,item.score,item.reasonCode,item.isNeed,item.sortNo,item.modifyTime,item.modifyUserId,item.useStatus];
     [_dataBase executeUpdate:updateItemSql];
 }
 
@@ -571,7 +591,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 - (void)insertImageItem:(LLZImage *)image
 {
     //old for test
-    NSString *insertImageSql = [NSString stringWithFormat:@"insert into Image(storeId,UserId,ImageDate,ImageType,itemId,ImageFile,ImageDesc,ImageData,ModifyTime,TranStatus) values('%@','%@','%@','%d','%ld',,'%@''%@','%@','%@','%d');",image.storeId,image.userId,image.imageDate,image.imageType,image.itemId,image.imagePath,image.imageDesc,image.imageData,image.modifyTime,image.tranStatus];
+    NSString *insertImageSql = [NSString stringWithFormat:@"insert into Image(storeId,UserId,ImageDate,ImageType,itemId,ImageFile,ImageDesc,ImageData,ModifyTime,TranStatus) values('%@','%@','%@','%d','%d',,'%@''%@','%@','%@','%d');",image.storeId,image.userId,image.imageDate,image.imageType,image.itemId,image.imagePath,image.imageDesc,image.imageData,image.modifyTime,image.tranStatus];
     //new
 //    NSString *insertImageSql = [NSString stringWithFormat:@"insert into Image(storeId,UserId,ImageDate,ImageType,itemId,ImageDesc,ImageData,ImagePath,ModifyTime,TranStatus) values('%@','%@','%@','%d','%ld','%@','%@','%@','%@','%d');",image.storeId,image.userId,image.imageDate,image.imageType,image.itemId,image.imageDesc,image.imageData,image.imagePath,image.modifyTime,image.tranStatus];
     [self insertData:insertImageSql];
@@ -621,7 +641,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)insertPhoto:(LLZPhoto *)photo
 {
-    NSString *photoInsertSql = [NSString stringWithFormat:@"insert into Photo(storeId,UserId,PhotoDate,CheckType,itemId,ImageFile1,ImageFile2,ModifyTime,TranStatus) values('%@','%@','%@','%d','%ld','%@','%@','%@','%d');",photo.storeId,photo.userId,photo.photoDate,photo.checkType,photo.itemId,photo.imageFile1,photo.imageFile2,photo.modifyTime,photo.tranStatus];
+    NSString *photoInsertSql = [NSString stringWithFormat:@"insert into Photo(storeId,UserId,PhotoDate,CheckType,itemId,ImageFile1,ImageFile2,ModifyTime,TranStatus) values('%@','%@','%@','%d','%d','%@','%@','%@','%d');",photo.storeId,photo.userId,photo.photoDate,photo.checkType,photo.itemId,photo.imageFile1,photo.imageFile2,photo.modifyTime,photo.tranStatus];
     [self insertData:photoInsertSql];
 }
 
@@ -756,6 +776,15 @@ static NSString *dataBaseName = @"StoreCheck.db";
     }
 }
 
+- (LLZTddVersion *)getMaxTddVersion
+{
+    NSString *searchMaxSql = @"select * from Tdd_Version  where ItemId=(select max(ItemId) from Tdd_Version);";
+    if ([self searchTddVersion:searchMaxSql].count > 0) {
+        return [self searchTddVersion:searchMaxSql][0];
+    }
+    return nil;
+}
+
 - (void)updateTddVersion:(LLZTddVersion *)tddVersion
 {
     NSString *updateTddVersionSql = [NSString stringWithFormat:@"update Tdd_Version set TabName='%@',ModifyDate='%@' where ItemId='%@';",tddVersion.tableName,tddVersion.modifyDate,tddVersion.itemId];
@@ -860,7 +889,12 @@ static NSString *dataBaseName = @"StoreCheck.db";
 - (LLZParam *)getParamWithId:(int)paramId
 {
     NSString *paramSearchSql = [NSString stringWithFormat:@"select * from Params where id='%d';",paramId];
-    return [self fetchParams:paramSearchSql][0];
+    if ([self fetchParams:paramSearchSql].count > 0) {
+        return [self fetchParams:paramSearchSql][0];
+
+    }else{
+        return nil;
+    }
 }
 
 - (NSArray *)fetchParams:(NSString *)fetchSql
@@ -870,15 +904,38 @@ static NSString *dataBaseName = @"StoreCheck.db";
     while ([set next]) {
         int paramId = [set intForColumn:@"id"];
         NSString *paramContent = [set stringForColumn:@"param"];
-//        NSString *paramDescription = [set stringForColumn:@"description"];
-        //test before data come
-        NSString *paramDescription = [set stringForColumn:@"descripton"];
+        NSString *paramDescription = [set stringForColumn:@"description"];
         LLZParam *param = [LLZParam paramWithParamId:paramId
                                         paramContent:paramContent
                                     paramDescription:paramDescription];
         [arrM addObject:param];
     }
     return arrM;
+}
+
+- (void)insertParam:(LLZParam *)param
+{
+    //test
+    NSString *paramInsertSql = [NSString stringWithFormat:@"insert into Params(id,param,description) values('%d','%@','%@');",param.paramId,param.paramContent,param.paramDescription];
+    [self insertData:paramInsertSql];
+    
+    //完善 效率问题
+//    NSString *searchParamSql = [NSString stringWithFormat:@"select * from Params where id='%d';",param.paramId];
+//    NSArray *searchArr = [self fetchParams:searchParamSql];
+//    if (searchArr.count > 0) {
+//        [self updateParam:param];
+//    }else{
+//        NSString *paramInsertSql = [NSString stringWithFormat:@"insert into Params(id,param,description) values('%d','%@','%@');",param.paramId,param.paramContent,param.paramDescription];
+//        [self insertData:paramInsertSql];
+//    }
+}
+- (void)updateParam:(LLZParam *)param
+{
+    NSString *updateParamSql = [NSString stringWithFormat:@"update Params set id='%d',param='%@',description='%@';",param.paramId,param.paramContent,param.paramDescription];
+    BOOL rec = [_dataBase executeUpdate:updateParamSql];
+    if (!rec) {
+        NSLog(@"error is %@",[_dataBase lastErrorMessage]);
+    }
 }
 
 - (void)deleteParamTable

@@ -32,7 +32,6 @@
 
 #pragma mark #################### store ####################
 - (void)createStoreTable;
-- (void)updateStoreTable;
 - (void)insertStore:(Store *)store;
 - (NSArray *)searchStoreByKeyWord:(NSString *)keyWord;
 - (NSArray *)getStore;
@@ -51,7 +50,6 @@
 
 #pragma mark ################ user #####################
 - (void)createUserTable;
-- (void)updateUserTable;
 - (void)updateUserInformation:(LLZUser *)user;
 - (void)insertUser:(LLZUser *)user;
 - (NSArray *)getUserWithName:(NSString *)loginName
@@ -80,7 +78,6 @@
                                       userId:(NSString *)userId;
 - (NSArray *)getDailyCheckItem;
 - (NSArray *)getProblemItem;
-- (void)updateCheckItemTable;
 - (void)dropCheckItemTable;
 - (void)insertCheckItem:(LLZCheckItem *)item;
 - (void)updateCheckItem:(LLZCheckItem *)item;
@@ -130,6 +127,7 @@
 
 #pragma mark ################ TddVersion #####################
 - (void)createTddVersionTable;
+- (LLZTddVersion *)getMaxTddVersion;
 - (void)insertTddVersion:(LLZTddVersion *)tddVersion;
 - (void)deleteTddVersion;
 
@@ -143,5 +141,7 @@
 #pragma mark ################ param #####################
 - (void)createParamTable;
 - (LLZParam *)getParamWithId:(int)paramId;
+- (void)insertParam:(LLZParam *)param;
+- (void)deleteParamTable;
 
 @end

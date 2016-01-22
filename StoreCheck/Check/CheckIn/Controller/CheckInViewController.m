@@ -71,7 +71,7 @@ static NSString *cellI = @"StoreListCell";
     NSMutableArray *arrm = [[NSMutableArray alloc] init];
     for (Store *store in storeArr) {
         BOOL ptInCircle = BMKCircleContainsCoordinate(CLLocationCoordinate2DMake(store.Latitude, store.longitude), CLLocationCoordinate2DMake(self.appD.latitude, self.appD.longitude), circleRadius * 1000);
-        NSLog(@"ptInCircle is %d",ptInCircle);
+//        NSLog(@"ptInCircle is %d",ptInCircle);
         if (ptInCircle) {
             [arrm addObject:store];
         }

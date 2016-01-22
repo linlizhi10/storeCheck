@@ -13,6 +13,10 @@
 #import "DataManagerT.h"
 #import "LLZTddVersion.h"
 #import "AFNetworkReachabilityManager.h"
+#import "LLZParam.h"
+#import "LLZNotice.h"
+#import "Store.h"
+#import "LLZReason.h"
 
 @interface AppDelegate ()
 <BMKGeneralDelegate,BMKLocationServiceDelegate,BMKGeoCodeSearchDelegate>
@@ -45,32 +49,57 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
 - (void)initData
 {
     //test
-    [self copyData];
+//    [self copyData];
     
     NSFileManager *manager = [NSFileManager defaultManager];
     if (![manager fileExistsAtPath:ImagePath(nil)]) {
         [manager createDirectoryAtPath:ImagePath(nil) withIntermediateDirectories:YES attributes:nil error:nil];
     }
     _dataM = [DataManager shareDataManager];
-//    [self.dataM deleteTddVersion];
-    
     [self.dataM createStoreTable];
     [self.dataM createUserTable];
+    [self.dataM dropMessageTable];
     [self.dataM createMessageTable];
     [self.dataM createSignStoreTable];
     [self.dataM createCheckItemTable];
     [self.dataM createTddVersionTable];
     [self.dataM createShopPlanTable];
     [self.dataM createQuestionTable];
+    [self.dataM createParamTable];
     
     NSString *param = @"transfer_version.do";
+    NSDictionary *dic = nil;
+    if ([self.dataM getMaxTddVersion]) {
+        LLZTddVersion *maxVersion = [self.dataM getMaxTddVersion];
+        dic = @{@"itemId":maxVersion.itemId};
+    }else{
+        dic = @{@"itemId":[NSNull null]};
+    }
+    //tdd_version message
     [[HttpClient sharedClient] post:ServerParam(param) obj:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"responseObject is %@",responseObject);
         NSArray *arr = responseObject;
-        for (NSDictionary *dic in arr) {
-            LLZTddVersion *tddVersion = [LLZTddVersion parseDic:dic];
-            [self.dataM insertTddVersion:tddVersion];
-            [self getDataFromServerWithTddVersion:tddVersion];
+        if (arr.count > 0) {
+            for (NSDictionary *dic in arr) {
+                @try {
+                    LLZTddVersion *tddVersion = [LLZTddVersion parseDic:dic];
+                    [self.dataM insertTddVersion:tddVersion];
+                    [self getDataFromServerWithTddVersion:tddVersion];
+
+                }
+                @catch (NSException *exception) {
+                    LLZTddVersion *tddVersion = [LLZTddVersion tddVersionWithItemId:@"0"
+                                                                          tableName:@""
+                                                                         modifyDate:@""];
+                    [self.dataM insertTddVersion:tddVersion];
+                    [self getDataFromServerWithTddVersion:tddVersion];
+
+                }
+            }
+        }else{
+            NSLog(@"no need update");
         }
+        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
     }];
@@ -78,11 +107,49 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
 
 - (void)getDataFromServerWithTddVersion:(LLZTddVersion *)tddVersion
 {
-    NSString *param = @"transfer_version.do";
-    NSDictionary *dic = @{@"itemId":tddVersion.itemId};
+    NSString *param = @"transfer_table.do";
+    NSDictionary *dic = @{@"itemId":tddVersion.itemId,@"tabName":tddVersion.tableName,@"modifyDate":[NSNull null]};
     [[HttpClient sharedClient] post:ServerParam(param) obj:dic
                             success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                NSLog(@"tddname is %@\ndata is %@",tddVersion.tableName,responseObject);
+                                NSLog(@"table is %@ \n res is %@",tddVersion.tableName,responseObject);
+                                
+                                NSArray *arrDic = responseObject;
+                                //param table
+                                if ([tddVersion.tableName isEqualToString:@"Params"]) {
+                                    for (NSDictionary *dic in arrDic) {
+                                        LLZParam *param = [LLZParam parseWithDic:dic];
+                                        [self.dataM insertParam:param];
+                                    }
+                                }else if ([tddVersion.tableName isEqualToString:@"Tbs_Message"]){
+                                    //message table
+                                    for (NSDictionary *dic in arrDic) {
+                                        LLZNotice *notice = [LLZNotice parseNoticeDic:dic];
+                                        [self.dataM insertMessage:notice];
+                                    }
+                                }else if ([tddVersion.tableName isEqualToString:@"TgmEmpStore"]){
+                                    //
+                                }else if ([tddVersion.tableName isEqualToString:@"TbbCorp"]){
+                                    //store table
+                                    for (NSDictionary *dic in arrDic) {
+                                        Store *store = [Store parseStoreDic:dic];
+                                        [self.dataM insertStore:store];
+                                    }
+                                    
+                                }else if ([tddVersion.tableName isEqualToString:@"Tbs_Reason"]){
+                                    for (NSDictionary *dic in arrDic) {
+                                        LLZReason *reason = [LLZReason parseResonDic:dic];
+                                        [self.dataM insertReason:reason];
+                                    }
+                                
+                                }else if ([tddVersion.tableName isEqualToString:@"Tbs_ShopPlanList"]){
+                                    
+                                
+                                }else if ([tddVersion.tableName isEqualToString:@"TgmEmployee"]){
+                                
+                                }else if ([tddVersion.tableName isEqualToString:@"Tbs_CheckItem"]){
+                                
+                                }
+                                
                             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                 
                             }];

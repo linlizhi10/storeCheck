@@ -19,7 +19,7 @@
 @property (nonatomic, copy) NSString * remark;
 @property (nonatomic, assign) int orgId;
 @property (nonatomic, assign) int useStatus;
-@property (nonatomic, assign) int modifyUserId;
+@property (nonatomic, assign) NSString *modifyUserId;
 @property (nonatomic, strong) NSString * modifyTime;
 
 - (instancetype)initWithuserId:(NSString *)userId
@@ -32,7 +32,7 @@
                         remark:(NSString *)remark
                            orgId:(int)orgId
                      useStatus:(int)useStatus
-                  modifyUserId:(int)modifyUserId
+                  modifyUserId:(NSString *)modifyUserId
                     modifyTime:(NSString *)modifyTime;
 
 + (instancetype)userWithuserId:(NSString *)userId
@@ -45,7 +45,7 @@
                         remark:(NSString *)remark
                          orgId:(int)orgId
                      useStatus:(int)useStatus
-                  modifyUserId:(int)modifyUserId
+                  modifyUserId:(NSString *)modifyUserId
                     modifyTime:(NSString *)modifyTime;
 
 

@@ -20,5 +20,6 @@
 + (instancetype)paramWithParamId:(int)paramId
                     paramContent:(NSString *)paramContent
                 paramDescription:(NSString *)paramDescription;
++ (instancetype)parseWithDic:(NSDictionary *)dic;
 
 @end

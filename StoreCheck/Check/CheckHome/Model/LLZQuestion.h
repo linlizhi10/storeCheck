@@ -22,6 +22,8 @@
 @property (nonatomic, copy) NSString * modifyTime;
 @property (nonatomic, copy) NSString * modifyUserId;
 @property (nonatomic, assign) int tranStatus;
+@property (nonatomic, copy) NSString * questionType;
+
 
 - (instancetype)initWithStoreId:(NSString *)storeId
                       photoDate:(NSString *)photoDate

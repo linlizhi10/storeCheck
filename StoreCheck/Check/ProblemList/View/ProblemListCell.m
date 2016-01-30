@@ -7,6 +7,7 @@
 //
 
 #import "ProblemListCell.h"
+#import "LLZQuestion.h"
 
 @implementation ProblemListCell
 
@@ -20,4 +21,11 @@
     // Configure the view for the selected state
 }
 
+- (void)fillCellWithQuestion:(LLZQuestion *)question
+{
+    self.problemType.text = question.questionType;
+    NSLog(@"questiondesc is %@",question.questionDesc);
+    self.problemDescrible.text = question.questionDesc;
+    self.dateLabel.text = question.photoDate;
+}
 @end

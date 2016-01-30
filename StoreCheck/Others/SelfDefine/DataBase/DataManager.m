@@ -58,19 +58,21 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)insertStore:(Store *)store
 {
-    NSString *storeSearchSql = [NSString stringWithFormat:@"select * from Store where id='%d';",store.serverId];
+    NSString *storeSearchSql = [NSString stringWithFormat:@"select * from Store where storeId='%@';",store.storeId];
     NSArray *storeSearchArr  = [self fetchStore:storeSearchSql];
+    NSLog(@"count is %d",storeSearchArr.count);
     if (storeSearchArr.count > 0) {
-        [self updateStore:store];
+//        [self updateStore:store];
     }else{
-        NSString *insertSql = [NSString stringWithFormat:@"insert into Store(id,StoreId,storeName,storeName2,storeAddress,Telphone,Latitude ,Longitude ,UseStatus,ModifyTime ,ModifyUserId) values('%d','%@','%@','%@','%@','%@','%lf','%lf','%d','%@','%@');",store.serverId,store.storeId,store.storeName,store.storeName2,store.storeAddress,store.Telphone,store.Latitude,store.longitude,store.useStatus,store.modifyTime,store.modifyUserId];
+        NSString *insertSql = [NSString stringWithFormat:@"insert into Store(id,StoreId,storeName,storeName2,storeAddress,Telphone,Latitude ,Longitude ,UseStatus,ModifyTime ,ModifyUserId) values('%ld','%@','%@','%@','%@','%@','%lf','%lf','%d','%@','%@');",store.serverId,store.storeId,store.storeName,store.storeName2,store.storeAddress,store.Telphone,store.Latitude,store.longitude,store.useStatus,store.modifyTime,store.modifyUserId];
         [self insertData:insertSql];
     }
 }
 
 - (void)updateStore:(Store *)store
 {
-    NSString *updateSql = [NSString stringWithFormat:@"update Store set StoreId='%@',storeName='%@',storeName2='%@',storeAddress='%@',Telphone='%@',Latitude='%lf',Longitude='%lf',UseStatus='%d',ModfyTime='%@',ModifyUserId='%@';",store.storeId,store.storeName,store.storeName2,store.storeAddress,store.Telphone,store.Latitude,store.longitude,store.useStatus,store.modifyTime,store.modifyUserId];
+    NSLog(@"storename is %@",store.storeName);
+    NSString *updateSql = [NSString stringWithFormat:@"update Store set StoreId='%@',storeName='%@',storeName2='%@',storeAddress='%@',Telphone='%@',Latitude='%lf',Longitude='%lf',UseStatus='%d',ModifyTime='%@',ModifyUserId='%@';",store.storeId,store.storeName,store.storeName2,store.storeAddress,store.Telphone,store.Latitude,store.longitude,store.useStatus,store.modifyTime,store.modifyUserId];
     BOOL rec = [_dataBase executeUpdate:updateSql];
     if (!rec) {
         NSLog(@"error is %@",[_dataBase lastErrorMessage]);
@@ -139,8 +141,23 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)insertUser:(LLZUser *)user
 {
-    NSString *insertSqlString = [NSString stringWithFormat:@"insert into Users (userId ,userCode ,userName ,LoginName ,userPwd ,duty ,contactPhone ,OrgId ,UseStatus ,ModifyTime ,ModifyUserId ,remark ) values('%@','%@','%@','%@','%@','%@','%@','%d','%d','%@','%@','%@');",user.userId,user.userCode,user.userName,user.loginName,user.loginPwd,user.duty,user.contactNumber,user.orgId,user.useStatus,user.modifyTime,user.modifyUserId,user.remark];
-    [self insertData:insertSqlString];
+    NSString *searchUserSql = [NSString stringWithFormat:@"select * from Users where userId='%@';",user.userId];
+    NSArray *userArr = [self fetchUser:searchUserSql];
+    if (userArr.count > 0) {
+        [self updateUser:user];
+    }else{
+        NSString *insertSqlString = [NSString stringWithFormat:@"insert into Users (userId ,userCode ,userName ,LoginName ,userPwd ,duty ,contactPhone ,OrgId ,UseStatus ,ModifyTime ,ModifyUserId ,remark ) values('%@','%@','%@','%@','%@','%@','%@','%d','%d','%@','%@','%@');",user.userId,user.userCode,user.userName,user.loginName,user.loginPwd,user.duty,user.contactNumber,user.orgId,user.useStatus,user.modifyTime,user.modifyUserId,user.remark];
+        [self insertData:insertSqlString];
+        }
+}
+
+- (void)updateUser:(LLZUser *)user
+{
+    NSString *updateSql = [NSString stringWithFormat:@"update Users set userCode='%@',userName='%@',LoginName='%@',userPwd='%@',duty='%@',contactPhone='%@',OrgId='%d',UseStatus='%d',ModifyTime='%@',ModifyUserId='%@',remark='%@';",user.userCode,user.userName,user.loginName,user.loginPwd,user.duty,user.contactNumber,user.orgId,user.useStatus,user.modifyTime,user.modifyUserId,user.remark];
+    BOOL rec = [_dataBase executeUpdate:updateSql];
+    if (!rec) {
+        NSLog(@"error is %@",[_dataBase lastErrorMessage]);
+    }
 }
 
 - (void)updateUserInformation:(LLZUser *)user
@@ -701,8 +718,8 @@ static NSString *dataBaseName = @"StoreCheck.db";
                            storeId:(NSString *)storeId
                               date:(NSString *)date
 {
-    NSString *questionSearchSql = [NSString stringWithFormat:@"select Question.QuestionId,Question.itemId,CheckItem.Title,Question.QuestionDesc,Question.ImageFile1,Question.Date ,Question.IsSolved from Question left join Checkitem on Question.itemId = Checkitem.itemid where Question.storeId='%@' and Question.[UserId]='%@' and Question.Date>'%@';",storeId,userId,date];
-    return [self fetchQuestion:questionSearchSql];
+    NSString *questionSearchSql = [NSString stringWithFormat:@"select Question.QuestionId,Question.storeId,Question.UserId,Question.itemId,CheckItem.Title,Question.QuestionDesc,Question.ImageFile1,Question.ImageFile2,Question.SortNo,Question.ModifyTime,Question.ModifyUserId,Question.TranStatus,Question.Date ,Question.IsSolved from Question left join Checkitem on Question.itemId = Checkitem.itemid where Question.storeId='%@' and Question.[UserId]='%@' and Question.Date>='%@';",storeId,userId,date];
+    return [self fetchQuestion:questionSearchSql withType:2];
 }
 
 - (NSInteger)numberOfProblemWithUserId:(NSString *)userId
@@ -719,10 +736,10 @@ static NSString *dataBaseName = @"StoreCheck.db";
                                           date:(NSString *)date
 {
     NSString *unsolvedSql = [NSString stringWithFormat:@"select * from Question where IsSolved=0 and storeId='%@' and UserId = '%@' and Date>'%@'",storeId,userId,date];
-    return [self fetchQuestion:unsolvedSql].count;
+    return [self fetchQuestion:unsolvedSql withType:1].count;
 }
 
-- (NSArray *)fetchQuestion:(NSString *)searchSql
+- (NSArray *)fetchQuestion:(NSString *)searchSql withType:(int)type
 {
     NSMutableArray *questionArrM = [[NSMutableArray alloc] init];
     FMResultSet *set = [_dataBase executeQuery:searchSql];
@@ -752,7 +769,15 @@ static NSString *dataBaseName = @"StoreCheck.db";
                                                       modifyTime:modifyTime
                                                     modifyUserId:modifyUserId
                                                       tranStatus:tranStatus];
+        if (type == 2) {
+            NSString *itemTitle = [set stringForColumn:@"Title"];
+            question.questionType = itemTitle;
+        }else{
+            NSLog(@"no title");
+        }
         [questionArrM addObject:question];
+        
+       
     }
     return questionArrM;
 }
@@ -824,7 +849,23 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)insertShopPlan:(LLZPlan *)plan
 {
+    NSString *planSearchSql = [NSString stringWithFormat:@"select * from ShopPlan where planId='%ld';",plan.planId];
+    NSArray *planArr = [self fetchShopPlan:planSearchSql];
+    if (planArr.count > 0) {
+        [self updatePlan:plan];
+    }else{
+        NSString *planInsertSql = [NSString stringWithFormat:@"insert into ShopPlan(planDate,UserId,storeId,CheckType,DurationTime,Memo,CreateTime,CreateUserId,CheckTime,CheckUserId,ModifyTime,ModifyUserId) values('%@','%@','%@','%d','%d','%@','%@','%@','%@','%@','%@','%@');",plan.planDate,plan.userId,plan.storeId,plan.checkType,plan.durationTime,plan.memo,plan.createTime,plan.createUserId,plan.checkTime,plan.checkUserId,plan.modifyTime,plan.modifyUserId];
+        [self insertData:planInsertSql];
+    }
+}
 
+- (void)updatePlan:(LLZPlan *)plan
+{
+    NSString *planUpdateSql = [NSString stringWithFormat:@"update ShopPlan set planDate='%@',UserId='%@',storeId='%@',CheckType='%d',DurationTime='%d',Memo='%@',CreateTime='%@',CreateUserId='%@',CheckTime='%@',CheckUserId='%@',ModifyTime='%@',ModifyUserId='%@';",plan.planDate,plan.userId,plan.storeId,plan.checkType,plan.durationTime,plan.memo,plan.createTime,plan.createUserId,plan.checkTime,plan.checkUserId,plan.modifyTime,plan.modifyUserId];
+    BOOL rec = [_dataBase executeUpdate:planUpdateSql];
+    if (!rec) {
+        NSLog(@"error is %@",[_dataBase lastErrorMessage]);
+    }
 }
 
 - (NSArray *)getCheckPlanOrderByDateByUserId:(NSString *)userId

@@ -135,9 +135,11 @@ static NSString *cellI = @"CheckOutCell";
 
 - (void)sendMessage
 {
+    //评分表，问题表，保修表，照片表，入店离店记录表，签到表，陈列调整表
     NSString *param = @"transfer_upload.do";
+    NSArray *arrTalbeOne = @[];
+    NSString *jsonString = [arrTalbeOne JSONString];
     
-    NSString *jsonString = @"";
     [[HttpClient sharedClient] post:ServerParam(param)
                                 obj:jsonString
                             success:^(AFHTTPRequestOperation *operation, id responseObject) {

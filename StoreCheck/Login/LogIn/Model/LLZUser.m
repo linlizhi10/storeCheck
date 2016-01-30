@@ -107,5 +107,80 @@
     return self;
 }
 
+/*
+ Department = "";
+ Duty = "";
+ EmpCode = 100690;
+ EmpId = 20150721094210;
+ EmpName = "\U8425\U8fd0\U68c0\U67e51900";
+ EmpPhone = 64163597;
+ LoginName = 10010;
+ LoginPasswd = e10adc3949ba59abbe56e057f20f883e;
+ MngrId = "";  //预留
+ MngrRelaCode = "";  //预留
+ ModifyDate = "2015-08-17T16:38:11";
+ OptrId = 20150622184608;
+ UseStatus = 0;
+ */
++ (instancetype)parseUserDic:(NSDictionary *)dic
+{
+    NSString *department = @"";
+    if (![dic[@"Department"] isEqual:[NSNull null]]) {
+        department = [NSString stringWithFormat:@"%@",dic[@"Department"]];
+    }
+    NSString *duty = @"";
+    if (![dic[@"Duty"] isEqual:[NSNull null]]) {
+        duty = [NSString stringWithFormat:@"%@",dic[@"Duty"]];
+    }
+    NSString *userCode = @"";
+    if (![dic[@"EmpCode"] isEqual:[NSNull null]]) {
+        userCode = [NSString stringWithFormat:@"%@",dic[@"EmpCode"]];
+    }
+    NSString *userId = @"";
+    if (![dic[@"EmpId"] isEqual:[NSNull null]]) {
+        userId = [NSString stringWithFormat:@"%@",dic[@"EmpId"]];
+    }
+    NSString *userName = @"";
+    if (![dic[@"EmpName"] isEqual:[NSNull null]]) {
+        userName = [NSString stringWithFormat:@"%@",dic[@"EmpName"]];
+    }
+    NSString *telphone = @"";
+    if (![dic[@"EmpPhone"] isEqual:[NSNull null]]) {
+        telphone = [NSString stringWithFormat:@"%@",dic[@"EmpPhone"]];
+    }
+    NSString *loginName = @"";
+    if (![dic[@"LoginName"] isEqual:[NSNull null]]) {
+        loginName = [NSString stringWithFormat:@"%@",dic[@"LoginName"]];
+    }
+    NSString *loginPasswd = @"";
+    if (![dic[@"LoginPasswd"] isEqual:[NSNull null]]) {
+        loginPasswd = [NSString stringWithFormat:@"%@",dic[@"LoginPasswd"]];
+    }
+    NSString *modifyDate = @"";
+    if (![dic[@"ModifyDate"] isEqual:[NSNull null]]) {
+        modifyDate = [NSString stringWithFormat:@"%@",dic[@"ModifyDate"]];
+    }
+    NSString *optrId = @"";
+    if (![dic[@"OptrId"] isEqual:[NSNull null]]) {
+        optrId = [NSString stringWithFormat:@"%@",dic[@"OptrId"]];
+    }
+    int useStatus = 0;
+    if (![dic[@"UseStatus"] isEqual:[NSNull null]]) {
+        useStatus = [dic[@"UseStatus"] intValue];
+    }
+    return [LLZUser userWithuserId:userId
+                          userCode:userCode
+                          userName:userName
+                         loginName:loginName
+                          loginPwd:loginPasswd
+                              duty:duty
+                     contactNumber:telphone
+                            remark:@""
+                             orgId:[optrId intValue]
+                         useStatus:useStatus
+                      modifyUserId:optrId
+                        modifyTime:modifyDate];
+
+}
 
 @end

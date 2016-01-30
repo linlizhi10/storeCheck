@@ -75,6 +75,7 @@
     [aCoder encodeObject:[NSNumber numberWithDouble:self.longitude] forKey:@"longitude"];
     [aCoder encodeObject:[NSNumber numberWithInt:self.useStatus] forKey:@"useStatus"];
     [aCoder encodeObject:self.modifyUserId forKey:@"modifyUserId"];
+
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -105,7 +106,7 @@
     if (![dic[@"CorpCode"] isEqual:[NSNull null]]) {
         storeId = [NSString stringWithFormat:@"%@",dic[@"CorpCode"]];
     }
-    NSInteger serverId = 0;
+    NSInteger serverId = 1000000000;
     if (![dic[@"CorpId"] isEqual:[NSNull null]]) {
         serverId = [dic[@"CorpId"] integerValue];
     }

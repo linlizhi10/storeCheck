@@ -18,6 +18,8 @@
 #import "Store.h"
 #import "LLZReason.h"
 #import "LLZPlan.h"
+#import "LLZUser.h"
+#import "LLZCheckItem.h"
 
 @interface AppDelegate ()
 <BMKGeneralDelegate,BMKLocationServiceDelegate,BMKGeoCodeSearchDelegate>
@@ -53,13 +55,15 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
 //    [self copyData];
     
     NSFileManager *manager = [NSFileManager defaultManager];
-    if (![manager fileExistsAtPath:ImagePath(nil)]) {
-        [manager createDirectoryAtPath:ImagePath(nil) withIntermediateDirectories:YES attributes:nil error:nil];
+    if (![manager fileExistsAtPath:ImagePath(@"")]) {
+        [manager createDirectoryAtPath:ImagePath(@"") withIntermediateDirectories:YES attributes:nil error:nil];
     }
     _dataM = [DataManager shareDataManager];
+    [self.dataM dropUserTable];
+    [self.dataM dropShopPlanTable];
+    [self.dataM dropStoreTable];
     [self.dataM createStoreTable];
     [self.dataM createUserTable];
-    [self.dataM dropMessageTable];
     [self.dataM createMessageTable];
     [self.dataM createSignStoreTable];
     [self.dataM createCheckItemTable];
@@ -145,16 +149,18 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
                                 }else if ([tddVersion.tableName isEqualToString:@"Tbs_ShopPlanList"]){
                                     for (NSDictionary *dic in arrDic) {
                                         LLZPlan *plan = [LLZPlan parsePlanDic:dic];
-                                        
+                                        [self.dataM insertShopPlan:plan];
                                     }
                                 
                                 }else if ([tddVersion.tableName isEqualToString:@"TgmEmployee"]){
                                     for (NSDictionary *dic in arrDic) {
-                                        
+                                        LLZUser *user = [LLZUser parseUserDic:dic];
+                                        [self.dataM insertUser:user];
                                     }
                                 
                                 }else if ([tddVersion.tableName isEqualToString:@"Tbs_CheckItem"]){
-                                
+                                    LLZCheckItem *item = [LLZCheckItem parseItemDic:dic];
+                                    [self.dataM insertCheckItem:item];
                                 }
                                 
                             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

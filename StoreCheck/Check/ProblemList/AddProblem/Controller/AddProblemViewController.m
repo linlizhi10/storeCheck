@@ -36,6 +36,20 @@ UITableViewDelegate>
     [self setCenterButton:@"修改问题"];
     [self setLeftButton:[UIImage imageNamed:@"btn_back"]];
     [self dataPrepared];
+    if (self.question) {
+        self.problemDescribe.text = self.question.questionDesc;
+        self.problemType.text = self.question.questionType;
+        NSString *imageName = [NSString stringWithFormat:@"%@.jpg",self.question.imageFile1];
+        NSString *imagePath = ImagePath(imageName);
+        self.problemPhoto.image = [UIImage imageWithContentsOfFile:imagePath];
+        NSLog(@"imagepath is %@ image is %@",self.question.imageFile1,self.problemPhoto.image);
+        for (int i = 0; i < self.problemListArr.count; i++) {
+            LLZCheckItem *item = self.problemListArr[i];
+            if (item.itemId == self.question.itemId) {
+                self.selectIndex = i;
+            }
+        }
+    }
 }
 
 - (void)dataPrepared
@@ -108,6 +122,16 @@ UITableViewDelegate>
 
 - (void)takePhotos
 {
+    //test
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"不支持相机" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alertView show];
+    }else
+    {
+        [self pickImageWithType:UIImagePickerControllerSourceTypePhotoLibrary];
+    }
+    return;
+    
     
     NSLog(@"相机");
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {

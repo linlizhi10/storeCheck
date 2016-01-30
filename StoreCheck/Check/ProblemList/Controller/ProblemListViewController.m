@@ -11,6 +11,7 @@
 #import "AddProblemViewController.h"
 #import "Store.h"
 #import "LLZUser.h"
+#import "LLZQuestion.h"
 
 @interface ProblemListViewController ()
 <UITableViewDataSource,UITableViewDelegate>
@@ -19,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *problemAmount;
 @property (weak, nonatomic) IBOutlet UILabel *unsolvedProblemAmount;
 @property (weak, nonatomic) IBOutlet UITableView *problemListTable;
+@property (nonatomic, strong) NSMutableArray *problemArr;
 - (IBAction)addNewProblem:(id)sender;
 
 @end
@@ -31,6 +33,7 @@ static NSString *cellI = @"ProblemListCell";
     [super viewDidLoad];
     [self setCenterButton:@"问题列表"];
     [self setLeftButton:[UIImage imageNamed:@"btn_back"]];
+    [self dataPrepared];
     Store *store = [self getStoreInfo];
     LLZUser *user = [self getUserInfo];
     self.storeName.text = [NSString stringWithFormat:@"%@(%@)",
@@ -55,7 +58,16 @@ static NSString *cellI = @"ProblemListCell";
 
 - (void)dataPrepared
 {
-
+    LLZUser *user = [self getUserInfo];
+    Store *store = [self getStoreInfo];
+    self.problemArr = [NSMutableArray arrayWithArray:
+                       [self.appD.dataM getQuestionWithUserId:user.userId
+                                   storeId:store.storeId
+                                      date:@""]];
+    for (id obj in self.problemArr) {
+        NSLog(@"obj is %@",obj);
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,21 +82,26 @@ static NSString *cellI = @"ProblemListCell";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 11;
+    NSLog(@"count is %ld",self.problemArr.count);
+    return self.problemArr.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ProblemListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellI];
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
+    LLZQuestion *question = self.problemArr[indexPath.row];
+    [cell fillCellWithQuestion:question];
     return cell;
 }
 
 #pragma mark - UITableView Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    LLZQuestion *question = self.problemArr[indexPath.row];
+    AddProblemViewController *addProblem = [[AddProblemViewController alloc] init];
+    [self.navigationController pushViewController:addProblem animated:YES];
+    addProblem.question = question;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

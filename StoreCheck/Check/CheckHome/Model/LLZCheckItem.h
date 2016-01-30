@@ -34,6 +34,7 @@
                     modifyTime:(NSString *)modifyTime
                   modifyUserId:(NSString *)modifyUserId
                      useStatus:(int)useStatus;
+
 + (instancetype)itemWithItemId:(NSInteger)itemId
                          title:(NSString *)title
                        content:(NSString *)content
@@ -45,4 +46,7 @@
                     modifyTime:(NSString *)modifyTime
                   modifyUserId:(NSString *)modifyUserId
                      useStatus:(int)useStatus;
+
++ (instancetype)parseItemDic:(NSDictionary *)dic;
+
 @end

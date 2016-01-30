@@ -8,7 +8,9 @@
 
 #import "BaseViewController.h"
 
+@class LLZQuestion;
 @interface AddProblemViewController : BaseViewController
+@property (nonatomic, strong) LLZQuestion *question;
 @property (weak, nonatomic) IBOutlet UILabel *problemType;
 - (IBAction)chooseType:(id)sender;
 @property (weak, nonatomic) IBOutlet UITextField *problemDescribe;

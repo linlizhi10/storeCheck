@@ -48,5 +48,6 @@
                   modifyUserId:(NSString *)modifyUserId
                     modifyTime:(NSString *)modifyTime;
 
++ (instancetype)parseUserDic:(NSDictionary *)dic;
 
 @end

@@ -21,7 +21,7 @@
 @property (nonatomic, assign) double Latitude;
 @property (nonatomic, assign) double longitude;
 @property (nonatomic, assign) int useStatus;
-@property (nonatomic, assign) NSString *modifyUserId;
+@property (nonatomic, copy) NSString *modifyUserId;
 
 - (instancetype)initWithServerId:(NSInteger)serverId
                          storeId:(NSString *)storeId

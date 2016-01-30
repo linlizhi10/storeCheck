@@ -122,7 +122,7 @@ static NSString *cellI = @"StoreListCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedIndex = indexPath.row + 1;
-    Alert(@"确认入店", self,201);
+    Alert(@"确认入店", self,221);
 
 }
 

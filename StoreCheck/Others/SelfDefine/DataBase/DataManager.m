@@ -706,7 +706,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 #pragma mark ################ Question #####################
 - (void)createQuestionTable
 {
-    NSString *questionTableCreateSql = @"create table if not exists Question(QuestionId integer primary key autoincrement,storeId varchar(20),Date varchar(30),UserId varchar(20),itemId integer,QuesionDesc varchar(200),ImageFile1 varchar(60),ImageFile2 varchar(60),IsSolved bool,SortNo int,ModifyTime varchar(30),ModifyUserId varchar(20),TranStatus int);";
+    NSString *questionTableCreateSql = @"create table if not exists Question(QuestionId integer primary key autoincrement,storeId varchar(20),Date varchar(30),UserId varchar(20),itemId integer,QuestionDesc varchar(200),ImageFile1 varchar(60),ImageFile2 varchar(60),IsSolved bool,SortNo int,ModifyTime varchar(30),ModifyUserId varchar(20),TranStatus int);";
     [self createTable:questionTableCreateSql];
 }
 - (void)insertQuestion:(LLZQuestion *)question

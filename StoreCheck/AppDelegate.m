@@ -60,8 +60,8 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
     }
     _dataM = [DataManager shareDataManager];
     [self.dataM dropUserTable];
-    [self.dataM dropShopPlanTable];
-    [self.dataM dropStoreTable];
+//    [self.dataM dropShopPlanTable];
+//    [self.dataM dropStoreTable];
     [self.dataM createStoreTable];
     [self.dataM createUserTable];
     [self.dataM createMessageTable];
@@ -71,6 +71,7 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
     [self.dataM createShopPlanTable];
     [self.dataM createQuestionTable];
     [self.dataM createParamTable];
+    [self.dataM createReasonTable];
     
     NSString *param = @"transfer_version.do";
     NSDictionary *dic = nil;
@@ -159,8 +160,11 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
                                     }
                                 
                                 }else if ([tddVersion.tableName isEqualToString:@"Tbs_CheckItem"]){
-                                    LLZCheckItem *item = [LLZCheckItem parseItemDic:dic];
-                                    [self.dataM insertCheckItem:item];
+                                    for (NSDictionary *dic in arrDic) {
+                                        LLZCheckItem *item = [LLZCheckItem parseItemDic:dic];
+                                        [self.dataM insertCheckItem:item];
+                                    }
+                                  
                                 }
                                 
                             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

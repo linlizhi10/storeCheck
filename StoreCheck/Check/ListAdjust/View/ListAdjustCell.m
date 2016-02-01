@@ -7,7 +7,7 @@
 //
 
 #import "ListAdjustCell.h"
-#import "LLZPhoto.h"
+#import "ListAdjustModel.h"
 
 @implementation ListAdjustCell
 
@@ -21,14 +21,43 @@
     // Configure the view for the selected state
 }
 
+- (IBAction)beforeButtonAction:(id)sender {
+    self.beforeBlock();
+}
+
+- (IBAction)afterButtonAction:(id)sender {
+    self.afterBlock();
+}
+
 - (IBAction)compareAction:(id)sender {
     self.compareBlock(_beforeImage.image,_afterImage.image);
 }
 
-- (void)fillCellWithPhoto:(LLZPhoto *)photo
+- (void)fillCellWithPhoto:(ListAdjustModel *)adjust
 {
-    self.listType.text = photo.itemTitle;
-    self.beforeImage.image = [UIImage imageWithContentsOfFile:ImagePath(photo.imageFile1)];
-    self.afterImage.image = [UIImage imageWithContentsOfFile:ImagePath(photo.imageFile2)];
+    self.listType.text = adjust.item.title;
+    if (adjust.photo) {
+        if (adjust.photo) {
+            if (adjust.photo.imageFile1) {
+                NSString *imageName1 = [NSString stringWithFormat:@"%@.jpg",adjust.photo.imageFile1];
+                self.beforeImage.image = [UIImage imageWithContentsOfFile:ImagePath(imageName1)];
+            }else{
+                NSLog(@"no imagefile1");
+
+            }
+            if (adjust.photo.imageFile2) {
+                NSString *imageName2 = [NSString stringWithFormat:@"%@.jpg",adjust.photo.imageFile2];
+                self.afterImage.image = [UIImage imageWithContentsOfFile:ImagePath(imageName2)];
+            }else{
+                NSLog(@"no imagefile2");
+            }
+        }else{
+            NSLog(@"no photo");
+        }
+        
+    }else{
+        self.beforeImage.image = [UIImage imageNamed:@"clickpicture"];
+        self.afterImage.image = [UIImage imageNamed:@"clickpicture"];
+    }
 }
 @end

@@ -18,7 +18,6 @@
 @property (nonatomic, strong) UIButton * leftNavigaitonButton;
 @property (nonatomic, strong) UILabel * leftNavigationLabel;
 @property (nonatomic, strong) UIButton * rightNavigationButton;
-@property (nonatomic, strong) UILabel * rightNavigationLabel;
 @property (nonatomic, strong) UILabel * centerLabel;
 @property (nonatomic, strong) UIView * backView;
 
@@ -120,6 +119,7 @@
             [self.rightNavigationLabel setFrame:CGRectMake(iPhoneWidth - 90, 20, 80, 40)];
             self.rightNavigationLabel.center = CGPointMake(self.rightNavigationLabel.center.x, 44);
             [self.rightNavigationLabel setTextColor:[UIColor yellowColor]];
+            self.rightNavigationLabel.tag = 1990;
             self.rightNavigationLabel.textAlignment = NSTextAlignmentCenter;
             [self.rightNavigationLabel setFont:[UIFont systemFontOfSize:14]];
             AppDelegate *appD = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -266,7 +266,14 @@
     }else{
         NSLog(@"exists");
     }
-    dispatch_resume(self.timeCount);
+    @try {
+        dispatch_resume(self.timeCount);
+
+    }
+    @catch (NSException *exception) {
+        NSLog(@"time is crash");
+    }
+   
 
 }
 

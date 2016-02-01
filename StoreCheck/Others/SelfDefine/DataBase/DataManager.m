@@ -22,6 +22,7 @@
 #import "LLZQuestion.h"
 #import "NewCheckItem.h"
 #import "LLZParam.h"
+#import "LLZRepair.h"
 
 @implementation DataManager
 
@@ -60,9 +61,9 @@ static NSString *dataBaseName = @"StoreCheck.db";
 {
     NSString *storeSearchSql = [NSString stringWithFormat:@"select * from Store where storeId='%@';",store.storeId];
     NSArray *storeSearchArr  = [self fetchStore:storeSearchSql];
-    NSLog(@"count is %d",storeSearchArr.count);
+    NSLog(@"count is %lu",(unsigned long)storeSearchArr.count);
     if (storeSearchArr.count > 0) {
-//        [self updateStore:store];
+        [self updateStore:store];
     }else{
         NSString *insertSql = [NSString stringWithFormat:@"insert into Store(id,StoreId,storeName,storeName2,storeAddress,Telphone,Latitude ,Longitude ,UseStatus,ModifyTime ,ModifyUserId) values('%ld','%@','%@','%@','%@','%@','%lf','%lf','%d','%@','%@');",store.serverId,store.storeId,store.storeName,store.storeName2,store.storeAddress,store.Telphone,store.Latitude,store.longitude,store.useStatus,store.modifyTime,store.modifyUserId];
         [self insertData:insertSql];
@@ -72,7 +73,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 - (void)updateStore:(Store *)store
 {
     NSLog(@"storename is %@",store.storeName);
-    NSString *updateSql = [NSString stringWithFormat:@"update Store set StoreId='%@',storeName='%@',storeName2='%@',storeAddress='%@',Telphone='%@',Latitude='%lf',Longitude='%lf',UseStatus='%d',ModifyTime='%@',ModifyUserId='%@';",store.storeId,store.storeName,store.storeName2,store.storeAddress,store.Telphone,store.Latitude,store.longitude,store.useStatus,store.modifyTime,store.modifyUserId];
+    NSString *updateSql = [NSString stringWithFormat:@"update Store set StoreId='%@',storeName='%@',storeName2='%@',storeAddress='%@',Telphone='%@',Latitude='%lf',Longitude='%lf',UseStatus='%d',ModifyTime='%@',ModifyUserId='%@'where storeId='%@';",store.storeId,store.storeName,store.storeName2,store.storeAddress,store.Telphone,store.Latitude,store.longitude,store.useStatus,store.modifyTime,store.modifyUserId,store.storeId];
     BOOL rec = [_dataBase executeUpdate:updateSql];
     if (!rec) {
         NSLog(@"error is %@",[_dataBase lastErrorMessage]);
@@ -153,7 +154,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)updateUser:(LLZUser *)user
 {
-    NSString *updateSql = [NSString stringWithFormat:@"update Users set userCode='%@',userName='%@',LoginName='%@',userPwd='%@',duty='%@',contactPhone='%@',OrgId='%d',UseStatus='%d',ModifyTime='%@',ModifyUserId='%@',remark='%@';",user.userCode,user.userName,user.loginName,user.loginPwd,user.duty,user.contactNumber,user.orgId,user.useStatus,user.modifyTime,user.modifyUserId,user.remark];
+    NSString *updateSql = [NSString stringWithFormat:@"update Users set userCode='%@',userName='%@',LoginName='%@',userPwd='%@',duty='%@',contactPhone='%@',OrgId='%d',UseStatus='%d',ModifyTime='%@',ModifyUserId='%@',remark='%@' where userId='%@';",user.userCode,user.userName,user.loginName,user.loginPwd,user.duty,user.contactNumber,user.orgId,user.useStatus,user.modifyTime,user.modifyUserId,user.remark,user.userId];
     BOOL rec = [_dataBase executeUpdate:updateSql];
     if (!rec) {
         NSLog(@"error is %@",[_dataBase lastErrorMessage]);
@@ -237,7 +238,12 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)insertMessage:(LLZNotice *)notice
 {
-    NSString *messageInsertSql = [NSString stringWithFormat:@"insert into Message(id,title,message,dateTime,isRead) values('%d','%@','%@','%@','%d');",notice.noticeId,notice.noticeTitle,notice.noticeContent,notice.noticeDate,notice.readFlag];
+    NSString *messageSearchSql = [NSString stringWithFormat:@"select * from Message where id='%ld';",notice.noticeId];
+    NSArray *arrM = [self fetchNotice:messageSearchSql];
+    if (arrM.count > 0) {
+        [self updateNotice:notice];
+    }
+    NSString *messageInsertSql = [NSString stringWithFormat:@"insert into Message(id,title,message,dateTime,isRead) values('%ld','%@','%@','%@','%d');",(long)notice.noticeId,notice.noticeTitle,notice.noticeContent,notice.noticeDate,notice.readFlag];
     [self insertData:messageInsertSql];
     //完善 效率
 //    NSString *messageSearchSql = [NSString stringWithFormat:@"select * from Message where id='%d';",notice.noticeId];
@@ -252,7 +258,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)updateNotice:(LLZNotice *)notice
 {
-    NSString *noticeUpdateSql = [NSString stringWithFormat:@"update Message set title='%@',message='%@',dateTime='%@';",notice.noticeTitle,notice.noticeContent,notice.noticeDate];
+    NSString *noticeUpdateSql = [NSString stringWithFormat:@"update Message set title='%@',message='%@',dateTime='%@' where id='%ld';",notice.noticeTitle,notice.noticeContent,notice.noticeDate,notice.noticeId];
     BOOL rec = [_dataBase executeUpdate:noticeUpdateSql];
     if (!rec) {
         NSLog(@"error is %@",[_dataBase lastErrorMessage]);
@@ -261,7 +267,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)updateNoticeReadStatus:(LLZNotice *)notice
 {
-    NSString *updateSql = [NSString stringWithFormat:@"update Message set isRead='%d' where id='%d';",notice.readFlag,notice.noticeId];
+    NSString *updateSql = [NSString stringWithFormat:@"update Message set isRead='%d' where id='%ld';",notice.readFlag,(long)notice.noticeId];
     [_dataBase executeUpdate:updateSql];
 }
 
@@ -394,6 +400,12 @@ static NSString *dataBaseName = @"StoreCheck.db";
     return [self fetchItem:problemListItemSearchSql];
 }
 
+- (NSArray *)getListAdjustItem
+{
+    NSString *listAdjustItemSearchSql = @"select * from CheckItem where CheckType = 20 order by sortNo,itemId;";
+    return [self fetchItem:listAdjustItemSearchSql];
+}
+
 - (NSArray *)fetchItem:(NSString *)sql
 {
     NSMutableArray *arrm = [[NSMutableArray alloc] init];
@@ -433,12 +445,12 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)insertCheckItem:(LLZCheckItem *)item
 {
-    NSString *searchItemSql = [NSString stringWithFormat:@"select * from CheckItem where itemId='%d';",item.itemId];
+    NSString *searchItemSql = [NSString stringWithFormat:@"select * from CheckItem where itemId='%ld';",(long)item.itemId];
     NSArray *itemArr = [self fetchItem:searchItemSql];
     if (itemArr.count > 0) {
         [self updateItem:item];
     }else{
-        NSString *itemInsertSql = [NSString stringWithFormat:@"insert into CheckItem(itemId ,Title ,Content ,CheckType ,Score ,reasonCode ,isNeed ,SortNo ,ModifyTime ,ModifyUserId ,UseStatus) values('%d','%@','%@','%d','%d','%@','%d','%d','%@','%@','%d');",item.itemId,item.title,item.content,item.checkType,item.score,item.reasonCode,item.isNeed,item.sortNo,item.modifyTime,item.modifyUserId,item.useStatus];
+        NSString *itemInsertSql = [NSString stringWithFormat:@"insert into CheckItem(itemId ,Title ,Content ,CheckType ,Score ,reasonCode ,isNeed ,SortNo ,ModifyTime ,ModifyUserId ,UseStatus) values('%ld','%@','%@','%d','%d','%@','%d','%d','%@','%@','%d');",(long)item.itemId,item.title,item.content,item.checkType,item.score,item.reasonCode,item.isNeed,item.sortNo,item.modifyTime,item.modifyUserId,item.useStatus];
         [self insertData:itemInsertSql];
     }
     //    [_dataBase executeUpdate:@"insert into CheckItem(itemId ,Title ,Content ,CheckType ,Score ,reasonCode ,isNeed ,SortNo ,ModifyTime ,ModifyUserId ,UseStatus) values(?,?,?,?);",item.itemId,item.title];
@@ -446,7 +458,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)updateItem:(LLZCheckItem *)item
 {
-    NSString *updateItemSql = [NSString stringWithFormat:@"update CheckItem set itemId='%d',Title='%@',Content='%@',CheckType='%d',Score='%d',reasonCode='%@',IsNeed='%d',SortNo='%d',ModifyTime='%@',ModifyUserId='%@',UseStatus='%d';",item.itemId,item.title,item.content,item.checkType,item.score,item.reasonCode,item.isNeed,item.sortNo,item.modifyTime,item.modifyUserId,item.useStatus];
+    NSString *updateItemSql = [NSString stringWithFormat:@"update CheckItem set itemId='%ld',Title='%@',Content='%@',CheckType='%d',Score='%d',reasonCode='%@',IsNeed='%d',SortNo='%d',ModifyTime='%@',ModifyUserId='%@',UseStatus='%d' where itemId='%ld';",(long)item.itemId,item.title,item.content,item.checkType,item.score,item.reasonCode,item.isNeed,item.sortNo,item.modifyTime,item.modifyUserId,item.useStatus,(long)item.itemId];
     [_dataBase executeUpdate:updateItemSql];
 }
 
@@ -504,7 +516,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)insertReason:(LLZReason *)reason
 {
-    NSString *searchReasonSql = [NSString stringWithFormat:@"select * from Reason where reasonCode='%@';",reason.reasonCode];
+    NSString *searchReasonSql = [NSString stringWithFormat:@"select * from Reason where reasonId='%ld';",(long)reason.reasonId];
     NSArray *arrReason = [self fetchReason:searchReasonSql];
     if (arrReason.count > 0) {
         [self updateReason:reason];
@@ -564,7 +576,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)updateReason:(LLZReason *)reason
 {
-    NSString *updateReasonSql = [NSString stringWithFormat:@"update Reason set reasonCode='%@',reasonDesc='%@',createUserId='%@',modifyTime='%@',UseStatus='%d';",reason.reasonCode,reason.reasonDesc,reason.createUserId,reason.modifyTime,reason.useStatus];
+    NSString *updateReasonSql = [NSString stringWithFormat:@"update Reason set reasonCode='%@',reasonDesc='%@',createUserId='%@',modifyTime='%@',UseStatus='%d' where reasonId='%ld';",reason.reasonCode,reason.reasonDesc,reason.createUserId,reason.modifyTime,reason.useStatus,reason.reasonId];
     [_dataBase executeUpdate:updateReasonSql];
 }
 
@@ -601,14 +613,14 @@ static NSString *dataBaseName = @"StoreCheck.db";
 #pragma mark ################ image #####################
 - (void)createImageTable
 {
-    NSString *imageCreateSql = @"create table if not exists Image(imageId integer primary key autoincrement,storeId varchar(20),UserId varchar(20),ImageDate varchar(30),ImageType int,itemId integer,ImageDesc varchar(200),ImageData blob,ImageFile varchar(100),ModifyTime varchar(30),TranStatus int);";
+    NSString *imageCreateSql = @"create table if not exists Image(imageId integer primary key autoincrement,storeId varchar(20),UserId varchar(20),ImageDate varchar(30),ImageType int,itemId integer,ImageDesc varchar(200),ImageFile varchar(100),ModifyTime varchar(30),TranStatus int);";
     [self createTable:imageCreateSql];
 }
 
 - (void)insertImageItem:(LLZImage *)image
 {
     //old for test
-    NSString *insertImageSql = [NSString stringWithFormat:@"insert into Image(storeId,UserId,ImageDate,ImageType,itemId,ImageFile,ImageDesc,ImageData,ModifyTime,TranStatus) values('%@','%@','%@','%d','%d',,'%@''%@','%@','%@','%d');",image.storeId,image.userId,image.imageDate,image.imageType,image.itemId,image.imagePath,image.imageDesc,image.imageData,image.modifyTime,image.tranStatus];
+    NSString *insertImageSql = [NSString stringWithFormat:@"insert into Image(storeId,UserId,ImageDate,ImageType,itemId,ImageFile,ImageDesc,ModifyTime,TranStatus) values('%@','%@','%@','%d','%ld','%@','%@','%@','%d');",image.storeId,image.userId,image.imageDate,image.imageType,(long)image.itemId,image.imagePath,image.imageDesc,image.modifyTime,image.tranStatus];
     //new
 //    NSString *insertImageSql = [NSString stringWithFormat:@"insert into Image(storeId,UserId,ImageDate,ImageType,itemId,ImageDesc,ImageData,ImagePath,ModifyTime,TranStatus) values('%@','%@','%@','%d','%ld','%@','%@','%@','%@','%d');",image.storeId,image.userId,image.imageDate,image.imageType,image.itemId,image.imageDesc,image.imageData,image.imagePath,image.modifyTime,image.tranStatus];
     [self insertData:insertImageSql];
@@ -658,14 +670,35 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)insertPhoto:(LLZPhoto *)photo
 {
-    NSString *photoInsertSql = [NSString stringWithFormat:@"insert into Photo(storeId,UserId,PhotoDate,CheckType,itemId,ImageFile1,ImageFile2,ModifyTime,TranStatus) values('%@','%@','%@','%d','%d','%@','%@','%@','%d');",photo.storeId,photo.userId,photo.photoDate,photo.checkType,photo.itemId,photo.imageFile1,photo.imageFile2,photo.modifyTime,photo.tranStatus];
-    [self insertData:photoInsertSql];
+    NSString *photoSearchSql = [NSString stringWithFormat:@"select * from where storeId='%@' and UserId='%@' and itemId='%ld';",photo.storeId,photo.userId,photo.itemId];
+    NSArray *arrM = [self fetchPhoto:photoSearchSql];
+    if (arrM.count > 0) {
+        [self updatePhoto:photo];
+    }else{
+        NSString *photoInsertSql = [NSString stringWithFormat:@"insert into Photo(storeId,UserId,PhotoDate,CheckType,itemId,ImageFile1,ImageFile2,ModifyTime,TranStatus) values('%@','%@','%@','%d','%ld','%@','%@','%@','%d');",photo.storeId,photo.userId,photo.photoDate,photo.checkType,(long)photo.itemId,photo.imageFile1,photo.imageFile2,photo.modifyTime,photo.tranStatus];
+        [self insertData:photoInsertSql];
+       
+    }
 }
 
-- (NSArray *)getPhotoWithStoreId:(NSString *)storeId userId:(NSString *)userId
+- (void)updatePhoto:(LLZPhoto *)photo
 {
-    NSString *photoSearch = [NSString stringWithFormat:@"select CheckItem.Title,Photo.storeId,Photo.UserId,Photo.PhotoDate,Photo.CheckType,Photo.itemId,Photo.ImageFile1,Photo.ImageFile2,Photo.ModifyTime,Photo.TranStatus from Photo LEFT join CheckItem on Photo.itemId = CheckItem.itemId where storeId='%@' and userId='%@';",storeId,userId];
-    return  [self fetchPhoto:photoSearch];
+    NSString *photoUpdateSql = [NSString stringWithFormat:@"update Photo set ImageFile1='%@',ImageFile2='%@',TranStatus='%d' where storeId='%@' and UserId='%@' and itemId='%ld';",photo.imageFile1,photo.imageFile2,photo.tranStatus,photo.storeId,photo.userId,photo.itemId];
+    BOOL rec = [_dataBase executeUpdate:photoUpdateSql];
+    if (!rec) {
+        NSLog(@"error is %@",[_dataBase lastErrorMessage]);
+    }
+}
+
+- (LLZPhoto *)getPhotoWithStoreId:(NSString *)storeId userId:(NSString *)userId itemId:(NSInteger)itemId
+{
+    NSString *photoSearch = [NSString stringWithFormat:@"select CheckItem.Title,Photo.storeId,Photo.UserId,Photo.PhotoDate,Photo.CheckType,Photo.itemId,Photo.ImageFile1,Photo.ImageFile2,Photo.ModifyTime,Photo.TranStatus from Photo LEFT join CheckItem on Photo.itemId = CheckItem.itemId where storeId='%@' and userId='%@' and itemId='%ld';",storeId,userId,(long)itemId];
+    NSArray *arrD = [self fetchPhoto:photoSearch];
+    if (arrD.count > 0) {
+        return arrD[0];
+    }else{
+        return nil;
+    }
 }
 
 - (NSArray *)fetchPhoto:(NSString *)searchSql
@@ -861,7 +894,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)updatePlan:(LLZPlan *)plan
 {
-    NSString *planUpdateSql = [NSString stringWithFormat:@"update ShopPlan set planDate='%@',UserId='%@',storeId='%@',CheckType='%d',DurationTime='%d',Memo='%@',CreateTime='%@',CreateUserId='%@',CheckTime='%@',CheckUserId='%@',ModifyTime='%@',ModifyUserId='%@';",plan.planDate,plan.userId,plan.storeId,plan.checkType,plan.durationTime,plan.memo,plan.createTime,plan.createUserId,plan.checkTime,plan.checkUserId,plan.modifyTime,plan.modifyUserId];
+    NSString *planUpdateSql = [NSString stringWithFormat:@"update ShopPlan set planDate='%@',UserId='%@',storeId='%@',CheckType='%d',DurationTime='%d',Memo='%@',CreateTime='%@',CreateUserId='%@',CheckTime='%@',CheckUserId='%@',ModifyTime='%@',ModifyUserId='%@' where planId='%ld';",plan.planDate,plan.userId,plan.storeId,plan.checkType,plan.durationTime,plan.memo,plan.createTime,plan.createUserId,plan.checkTime,plan.checkUserId,plan.modifyTime,plan.modifyUserId,plan.planId];
     BOOL rec = [_dataBase executeUpdate:planUpdateSql];
     if (!rec) {
         NSLog(@"error is %@",[_dataBase lastErrorMessage]);
@@ -956,6 +989,11 @@ static NSString *dataBaseName = @"StoreCheck.db";
 
 - (void)insertParam:(LLZParam *)param
 {
+    NSString *paramSearchSql = [NSString stringWithFormat:@"select * from Params where id='%d';",param.paramId];
+    NSArray *arrM = [self fetchParams:paramSearchSql];
+    if (arrM.count > 0) {
+        [self updateParam:param];
+    }
     //test
     NSString *paramInsertSql = [NSString stringWithFormat:@"insert into Params(id,param,description) values('%d','%@','%@');",param.paramId,param.paramContent,param.paramDescription];
     [self insertData:paramInsertSql];
@@ -972,7 +1010,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 }
 - (void)updateParam:(LLZParam *)param
 {
-    NSString *updateParamSql = [NSString stringWithFormat:@"update Params set id='%d',param='%@',description='%@';",param.paramId,param.paramContent,param.paramDescription];
+    NSString *updateParamSql = [NSString stringWithFormat:@"update Params set param='%@',description='%@' where id='%d';",param.paramContent,param.paramDescription,param.paramId];
     BOOL rec = [_dataBase executeUpdate:updateParamSql];
     if (!rec) {
         NSLog(@"error is %@",[_dataBase lastErrorMessage]);
@@ -982,6 +1020,18 @@ static NSString *dataBaseName = @"StoreCheck.db";
 - (void)deleteParamTable
 {
     [self dropTable:@"Params"];
+}
+
+#pragma mark ################ repair #####################
+- (void)createRepaireTable
+{
+    NSString *repaireTableCreate = @"create table if not exists Repairs(RepaireId primary key autoincrement,DeviceId varchar(64),storeId varchar(20),RepairDate varchar(16),UserId varchar(20),itemId integer,RepairDesc varchar(200),ImageFile1 varchar(100),ImageFile2 varchar(100),isSolved bool,SortNo int,ModifyTime varchar(30),ModifyUserId varchar(20),TranStatus int);";
+    [self createTable:repaireTableCreate];
+}
+- (void)insertRepair:(LLZRepair *)repair
+{
+    NSString *repairInserSql = [NSString stringWithFormat:@"insert into Repairs(DeviceId,storeId,RepairDate,UserId,itemId,RepairDesc,ImageFile1,ImageFile2,isSolved,SortNo,ModifyTime,ModifyUserId,TranStatus) values('%@','%@','%@','%@','%ld','%@','%@','%@','%d','%d','%@','%@','%d');",repair.deviceId,repair.storeId,repair.repairDate,repair.userId,repair.itemId,repair.repairDesc,repair.imageFile1,repair.imageFile2,repair.isSolved,repair.sortNo,repair.modifyTime,repair.modifyUserId,repair.tranStatus];
+    [self insertData:repairInserSql];
 }
 #pragma mark ################ public #####################
 - (void)dropTable:(NSString *)tableName

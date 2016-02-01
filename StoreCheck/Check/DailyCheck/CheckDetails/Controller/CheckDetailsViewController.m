@@ -367,7 +367,8 @@ static NSString *cellI = @"ReasonChooseCell";
     NSString *storeId = store.storeId;
     NSString *userId = user.userId;
     NSString *itemId = [NSString stringWithFormat:@"%d",item.itemId];
-    NSString *imageName = [NSString stringWithFormat:@"%@%@%@.jpg",storeId,userId,itemId];
+    NSString *imageFile = [NSString stringWithFormat:@"%@%@%@",storeId,userId,itemId];
+    NSString *imageName = [NSString stringWithFormat:@"%@.jpg",imageFile];
     BOOL writeFlag = [data writeToFile:ImagePath(imageName) atomically:YES];
     NSLog(@"writeFlag is %d-----path is %@",writeFlag,ImagePath(imageName));
     NSDate *date = [NSDate date];
@@ -380,9 +381,9 @@ static NSString *cellI = @"ReasonChooseCell";
                                            itemId:item.itemId
                                         imageDesc:@""
                                         imageData:data
-                                         imagPath:imageName
+                                         imagPath:imageFile
                                        modifyTime:modifyTime
-                                       tranStatus:10];
+                                       tranStatus:0];
     [self.appD.dataM insertImageItem:lImage];
     [self.imageDataArr addObject:lImage];
     

@@ -7,17 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
-@class LLZPhoto;
+@class ListAdjustModel;
 
 typedef void(^ CompareBlock)(UIImage *beforeImage,UIImage *afterImage);
+typedef void(^ BeforeBlock) ();
+typedef void(^ AfterBlock) ();
+
 @interface ListAdjustCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *listType;
 @property (weak, nonatomic) IBOutlet UIImageView *beforeImage;
 @property (weak, nonatomic) IBOutlet UIImageView *afterImage;
 @property (nonatomic, copy) CompareBlock compareBlock;
+@property (nonatomic, copy) BeforeBlock beforeBlock;
+@property (nonatomic, copy) AfterBlock afterBlock;
 
+- (IBAction)beforeButtonAction:(id)sender;
+- (IBAction)afterButtonAction:(id)sender;
 - (IBAction)compareAction:(id)sender;
-
-- (void)fillCellWithPhoto:(LLZPhoto *)photo;
+- (void)fillCellWithPhoto:(ListAdjustModel *)adjust;
 
 @end

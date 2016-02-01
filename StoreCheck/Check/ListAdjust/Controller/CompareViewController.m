@@ -7,6 +7,8 @@
 //
 
 #import "CompareViewController.h"
+#import "ListAdjustViewController.h"
+#import "AppDelegate.h"
 
 @interface CompareViewController ()
 - (IBAction)backAction:(id)sender;
@@ -19,7 +21,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    AppDelegate *appD = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    for (UILabel *label in appD.window.subviews) {
+        if (label.tag == 1990) {
+            [label setHidden:YES];
+        }
+    }
     self.beforeImageView.image = self.beforeImage;
     self.afterImageView.image = self.afterImage;
 //
@@ -44,6 +51,17 @@
     [super viewDidAppear:animated];
     [UIApplication sharedApplication].statusBarHidden = NO;
     
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    AppDelegate *appD = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    for (UILabel *label in appD.window.subviews) {
+        if (label.tag == 1990) {
+            [label setHidden:NO];
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -72,7 +90,11 @@
 
 
 - (IBAction)backAction:(id)sender {
-    
+    for (UIViewController *vc in self.navigationController.viewControllers) {
+        if ([vc isKindOfClass:[ListAdjustViewController class]]) {
+            ListAdjustViewController *vcL = (ListAdjustViewController *)vc;
+        }
+    }
     [self.navigationController popViewControllerAnimated:YES];
     //    if(UIDeviceOrientationIsLandscape(self.interfaceOrientation)) {
 //        if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {

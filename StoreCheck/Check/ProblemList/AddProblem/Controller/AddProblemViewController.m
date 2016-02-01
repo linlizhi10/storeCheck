@@ -115,22 +115,22 @@ UITableViewDelegate>
                                                           sortNo:1
                                                       modifyTime:modifyDateString
                                                     modifyUserId:userId
-                                                      tranStatus:10];
+                                                      tranStatus:0];
         [self.appD.dataM insertQuestion:question];
         }
 }
 
 - (void)takePhotos
 {
-    //test
-    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"不支持相机" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alertView show];
-    }else
-    {
-        [self pickImageWithType:UIImagePickerControllerSourceTypePhotoLibrary];
-    }
-    return;
+//    //test
+//    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+//        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"不支持相机" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+//        [alertView show];
+//    }else
+//    {
+//        [self pickImageWithType:UIImagePickerControllerSourceTypePhotoLibrary];
+//    }
+//    return;
     
     
     NSLog(@"相机");

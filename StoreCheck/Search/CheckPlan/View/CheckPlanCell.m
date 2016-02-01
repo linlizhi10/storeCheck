@@ -22,7 +22,8 @@
 
 - (void)fillCellWithPlan:(LLZPlan *)plan
 {
-    self.date.text = plan.checkTime;
+    self.date.text = [plan.checkTime substringToIndex:10];
+    self.store.text = plan.s
 }
 
 @end

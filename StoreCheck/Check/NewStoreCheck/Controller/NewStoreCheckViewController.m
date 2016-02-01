@@ -155,7 +155,7 @@ static NSString *cellI = @"NewCheckListCell";
                                        imageData:nil
                                         imagPath:imageName
                                       modifyTime:modifyTime
-                                      tranStatus:10];
+                                      tranStatus:0];
     [self.appD.dataM insertImageItem:imageItem];
 }
 

@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSDateFormatter * dateFormatterOne;
 @property (nonatomic, strong) NSDateFormatter * dateFormatterTwo;
 @property (nonatomic, strong) dispatch_source_t timeCount;
+@property (nonatomic, strong) UILabel * rightNavigationLabel;
 
 //set left button
 - (void)setLeftButton:(id)obj;

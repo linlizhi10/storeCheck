@@ -22,6 +22,7 @@
 @class LLZPlan;
 @class LLZQuestion;
 @class LLZParam;
+@class LLZRepair;
 
 @interface DataManager : NSObject
 {
@@ -87,8 +88,9 @@
                             date:(NSString *)date;
 - (int)scoreAmountWithStore:(Store *)store
                        user:(LLZUser *)user
-                       date:(NSString *)date
-;
+                       date:(NSString *)date;
+- (NSArray *)getListAdjustItem;
+
 #pragma mark ################ reason #####################
 - (void)createReasonTable;
 - (LLZReason *)getResaonByReasonCode:(NSString *)reasonCode;
@@ -109,8 +111,9 @@
 #pragma mark ################ photo #####################
 - (void)createPhotoTable;
 - (void)insertPhoto:(LLZPhoto *)photo;
-- (NSArray *)getPhotoWithStoreId:(NSString *)storeId
-                          userId:(NSString *)userId;
+- (LLZPhoto *)getPhotoWithStoreId:(NSString *)storeId
+                          userId:(NSString *)userId
+                          itemId:(NSInteger)itemId;
 
 #pragma mark ################ Question #####################
 - (void)createQuestionTable;
@@ -143,5 +146,8 @@
 - (LLZParam *)getParamWithId:(int)paramId;
 - (void)insertParam:(LLZParam *)param;
 - (void)deleteParamTable;
+#pragma mark ################ repair #####################
+- (void)createRepaireTable;
+- (void)insertRepair:(LLZRepair *)repair;
 
 @end

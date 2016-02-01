@@ -172,6 +172,8 @@
 		25F2EAF21BF5E03D001D18F0 /* ContentCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F2EAF01BF5E03D001D18F0 /* ContentCollectionViewCell.m */; };
 		25F2EAF31BF5E03D001D18F0 /* ContentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25F2EAF11BF5E03D001D18F0 /* ContentCollectionViewCell.xib */; };
 		25F2EAF71BF5EF40001D18F0 /* HomeContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F2EAF51BF5EF40001D18F0 /* HomeContentViewController.m */; };
+		3E38E4E21C5F46BE0073480A /* ListAdjustModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E38E4E11C5F46BE0073480A /* ListAdjustModel.m */; };
+		3E38E4E51C5F4EBE0073480A /* LLZRepair.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E38E4E41C5F4EBE0073480A /* LLZRepair.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -472,6 +474,10 @@
 		25F2EAF11BF5E03D001D18F0 /* ContentCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContentCollectionViewCell.xib; sourceTree = "<group>"; };
 		25F2EAF41BF5EF40001D18F0 /* HomeContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeContentViewController.h; sourceTree = "<group>"; };
 		25F2EAF51BF5EF40001D18F0 /* HomeContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeContentViewController.m; sourceTree = "<group>"; };
+		3E38E4E01C5F46BE0073480A /* ListAdjustModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListAdjustModel.h; sourceTree = "<group>"; };
+		3E38E4E11C5F46BE0073480A /* ListAdjustModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListAdjustModel.m; sourceTree = "<group>"; };
+		3E38E4E31C5F4EBE0073480A /* LLZRepair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLZRepair.h; sourceTree = "<group>"; };
+		3E38E4E41C5F4EBE0073480A /* LLZRepair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLZRepair.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1463,6 +1469,8 @@
 		25F2EA9F1BF57CFD001D18F0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3E38E4E01C5F46BE0073480A /* ListAdjustModel.h */,
+				3E38E4E11C5F46BE0073480A /* ListAdjustModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1546,6 +1554,8 @@
 		25F2EAA81BF57DA8001D18F0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3E38E4E31C5F4EBE0073480A /* LLZRepair.h */,
+				3E38E4E41C5F4EBE0073480A /* LLZRepair.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1980,6 +1990,7 @@
 				25AD46761BFDD9B600F44EDC /* CheckListItem.m in Sources */,
 				258F68701BF49423001FE9AF /* IQSegmentedNextPrevious.m in Sources */,
 				25C920CF1C07F76900104089 /* CheckPlanCell.m in Sources */,
+				3E38E4E51C5F4EBE0073480A /* LLZRepair.m in Sources */,
 				258F682E1BF4846D001FE9AF /* AFURLResponseSerialization.m in Sources */,
 				25AD46571BFD71F300F44EDC /* JSONModelArray.m in Sources */,
 				258F68731BF49423001FE9AF /* IQTitleBarButtonItem.m in Sources */,
@@ -2035,6 +2046,7 @@
 				258F686C1BF49423001FE9AF /* IQUIView+Hierarchy.m in Sources */,
 				254A61CA1C3A4908008BBEA4 /* LLZImage.m in Sources */,
 				258F68461BF48494001FE9AF /* JSONKit.m in Sources */,
+				3E38E4E21C5F46BE0073480A /* ListAdjustModel.m in Sources */,
 				25AD46681BFD9C2E00F44EDC /* StoreLIstCell.m in Sources */,
 				25F2EAC91BF5C79A001D18F0 /* UserDefaults.m in Sources */,
 				259C69481C046764002A7B32 /* BaseViewController.m in Sources */,
@@ -2179,6 +2191,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/StoreCheck/Others/BaiduMapAPI/Framework",
@@ -2202,6 +2215,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/StoreCheck/Others/BaiduMapAPI/Framework",

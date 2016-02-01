@@ -30,6 +30,7 @@
 @property (nonatomic, strong) BMKGeoCodeSearch * searcher;
 //data
 @property (nonatomic, strong) DataManagerT * dataMT;
+@property (nonatomic, assign) BOOL connectIsOK;
 
 @end
 
@@ -40,6 +41,8 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     application.statusBarStyle = UIStatusBarStyleLightContent;
+    [self addObserver:self forKeyPath:@"connectIsOK" options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew context:nil];
+    self.connectIsOK = NO;
     [[IQKeyboardManager sharedManager] setEnable:YES];
     [self initMapManager];
     [self initData];
@@ -59,7 +62,7 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
         [manager createDirectoryAtPath:ImagePath(@"") withIntermediateDirectories:YES attributes:nil error:nil];
     }
     _dataM = [DataManager shareDataManager];
-    [self.dataM dropUserTable];
+//    [self.dataM dropUserTable];
 //    [self.dataM dropShopPlanTable];
 //    [self.dataM dropStoreTable];
     [self.dataM createStoreTable];
@@ -72,8 +75,10 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
     [self.dataM createQuestionTable];
     [self.dataM createParamTable];
     [self.dataM createReasonTable];
-    
-    NSString *param = @"transfer_version.do";
+    [self.dataM createImageTable];
+    [self.dataM createScoreTable];
+    [self.dataM createRepaireTable];
+    [self.dataM createPhotoTable];
     NSDictionary *dic = nil;
     if ([self.dataM getMaxTddVersion]) {
         LLZTddVersion *maxVersion = [self.dataM getMaxTddVersion];
@@ -81,6 +86,12 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
     }else{
         dic = @{@"itemId":[NSNull null]};
     }
+    [self getTddVersionWithDic:dic];
+}
+
+- (void)getTddVersionWithDic:(NSDictionary *)dic
+{
+    NSString *param = @"transfer_version.do";
     //tdd_version message
     [[HttpClient sharedClient] post:ServerParam(param) obj:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"responseObject is %@",responseObject);
@@ -91,7 +102,7 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
                     LLZTddVersion *tddVersion = [LLZTddVersion parseDic:dic];
                     [self.dataM insertTddVersion:tddVersion];
                     [self getDataFromServerWithTddVersion:tddVersion];
-
+                    
                 }
                 @catch (NSException *exception) {
                     LLZTddVersion *tddVersion = [LLZTddVersion tddVersionWithItemId:@"0"
@@ -99,7 +110,7 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
                                                                          modifyDate:@""];
                     [self.dataM insertTddVersion:tddVersion];
                     [self getDataFromServerWithTddVersion:tddVersion];
-
+                    
                 }
             }
         }else{
@@ -266,20 +277,41 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
             case AFNetworkReachabilityStatusReachableViaWiFi:
                 NSLog(@"wifi");
                 self.netStatus = 1;
+                self.connectIsOK = YES;
                 break;
                 case AFNetworkReachabilityStatusNotReachable:
                 NSLog(@"not reachable");
                 self.netStatus = 0;
+                self.connectIsOK = NO;
                 break;
                 case AFNetworkReachabilityStatusReachableViaWWAN:
                 NSLog(@"wwan");
                 self.netStatus = 2;
+                self.connectIsOK = YES;
                 break;
             default:
                 break;
         }
     }];
     [manager startMonitoring];
+}
+
+//while net is connect 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"connectIsOK"]) {
+        BOOL connectIsOK = [change[@"new"] boolValue];
+        NSLog(@"connectIsOk is %d",connectIsOK);
+        if (connectIsOK == YES) {
+            NSDictionary *dic = nil;
+            if (![self.dataM getMaxTddVersion]) {
+                dic = @{@"itemId":[NSNull null]};
+                [self getTddVersionWithDic:dic];
+            }else{
+                NSLog(@"download already");
+            }
+        }
+    }
 }
 
 @end

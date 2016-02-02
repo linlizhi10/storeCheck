@@ -83,6 +83,7 @@ static NSString *cellI = @"CheckPlanCell";
         self.dateOrder = YES;
         LLZUser *user = [self getUserInfo];
         self.planArray = [NSMutableArray arrayWithArray:[self.appD.dataM getCheckPlanOrderByDateByUserId:user.userId]];
+        [self.planTable reloadData];
     }
 }
 
@@ -91,6 +92,7 @@ static NSString *cellI = @"CheckPlanCell";
         self.dateOrder = NO;
         LLZUser *user = [self getUserInfo];
         self.planArray = [NSMutableArray arrayWithArray:[self.appD.dataM getCheckPlanOrderByStoreIdByUserId:user.userId]];
+        [self.planTable reloadData];
     }else
     {
         return;

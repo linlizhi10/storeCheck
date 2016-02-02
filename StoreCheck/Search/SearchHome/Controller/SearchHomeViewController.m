@@ -35,7 +35,10 @@
     [super viewWillAppear:animated];
     if ([UserDefaults objectForKey:@"selectStore"]) {
         Store *store = [self getStoreInfo];
+        NSLog(@"store is %@",store.storeName);
         [self setLeftButton:store.storeName];
+    }else{
+        [self setLeftButton:@""];
     }
 }
 

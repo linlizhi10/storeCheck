@@ -883,7 +883,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 - (void)insertShopPlan:(LLZPlan *)plan
 {
     NSString *planSearchSql = [NSString stringWithFormat:@"select * from ShopPlan where planId='%ld';",plan.planId];
-    NSArray *planArr = [self fetchShopPlan:planSearchSql];
+    NSArray *planArr = [self fetchShopPlan:planSearchSql type:1];
     if (planArr.count > 0) {
         [self updatePlan:plan];
     }else{
@@ -901,19 +901,25 @@ static NSString *dataBaseName = @"StoreCheck.db";
     }
 }
 
+//- (NSArray *)getCheckPlanOrderByDateByUserId:(NSString *)userId
+//{
+//    NSString *planSearch = [NSString stringWithFormat:@"select * from ShopPlan where userId='%@' order by planDate;",userId];
+//    return [self fetchShopPlan:planSearch type:1];
+//}
+
 - (NSArray *)getCheckPlanOrderByDateByUserId:(NSString *)userId
 {
-    NSString *planSearch = [NSString stringWithFormat:@"select * from ShopPlan where userId='%@' order by planDate;",userId];
-    return [self fetchShopPlan:planSearch];
+    NSString *planSearchN = [NSString stringWithFormat:@"select ShopPlan.planId,ShopPlan.planDate,ShopPlan.UserId,ShopPlan.storeId,ShopPlan.CheckType,ShopPlan.DurationTime,ShopPlan.Memo,ShopPlan.CreateTime,ShopPlan.CreateUserId,ShopPlan.CheckTime,ShopPlan.CheckUserId,ShopPlan.ModifyTime,ShopPlan.ModifyUserId,Store.storeName from ShopPlan left join Store on Store.id = ShopPlan.storeId  where userId='%@' order by planDate;",userId];
+    return [self fetchShopPlan:planSearchN type:2];
 }
 
 - (NSArray *)getCheckPlanOrderByStoreIdByUserId:(NSString *)userId
 {
-    NSString *planSearch = [NSString stringWithFormat:@"select * from ShopPlan where userId='%@' order by storeId;",userId];
-    return [self fetchShopPlan:planSearch];
+    NSString *planSearch = [NSString stringWithFormat:@"select ShopPlan.planId,ShopPlan.planDate,ShopPlan.UserId,ShopPlan.storeId,ShopPlan.CheckType,ShopPlan.DurationTime,ShopPlan.Memo,ShopPlan.CreateTime,ShopPlan.CreateUserId,ShopPlan.CheckTime,ShopPlan.CheckUserId,ShopPlan.ModifyTime,ShopPlan.ModifyUserId,Store.storeName from ShopPlan left join Store on Store.id = ShopPlan.storeId where userId='%@' order by ShopPlan.storeId;",userId];
+    return [self fetchShopPlan:planSearch type:2];
 }
 
-- (NSArray *)fetchShopPlan:(NSString *)searchSql
+- (NSArray *)fetchShopPlan:(NSString *)searchSql type:(int)type
 {
     NSMutableArray *planArrM = [[NSMutableArray alloc] init];
     FMResultSet *set = [_dataBase executeQuery:searchSql];
@@ -944,6 +950,12 @@ static NSString *dataBaseName = @"StoreCheck.db";
                                     checkUserId:checkUserId
                                      modifyTime:modifyTime
                                    modifyUserId:modifyUserId];
+        if (type == 2) {
+            NSString *storeName = [set stringForColumn:@"storeName"];
+            plan.storeName = storeName;
+        }else{
+            NSLog(@"none");
+        }
         [planArrM addObject:plan];
     }
     return planArrM;
@@ -1025,7 +1037,7 @@ static NSString *dataBaseName = @"StoreCheck.db";
 #pragma mark ################ repair #####################
 - (void)createRepaireTable
 {
-    NSString *repaireTableCreate = @"create table if not exists Repairs(RepaireId primary key autoincrement,DeviceId varchar(64),storeId varchar(20),RepairDate varchar(16),UserId varchar(20),itemId integer,RepairDesc varchar(200),ImageFile1 varchar(100),ImageFile2 varchar(100),isSolved bool,SortNo int,ModifyTime varchar(30),ModifyUserId varchar(20),TranStatus int);";
+    NSString *repaireTableCreate = @"create table if not exists Repairs(RepaireId integer primary key autoincrement,DeviceId varchar(64),storeId varchar(20),RepairDate varchar(16),UserId varchar(20),itemId integer,RepairDesc varchar(200),ImageFile1 varchar(100),ImageFile2 varchar(100),isSolved bool,SortNo int,ModifyTime varchar(30),ModifyUserId varchar(20),TranStatus int);";
     [self createTable:repaireTableCreate];
 }
 - (void)insertRepair:(LLZRepair *)repair
@@ -1033,6 +1045,52 @@ static NSString *dataBaseName = @"StoreCheck.db";
     NSString *repairInserSql = [NSString stringWithFormat:@"insert into Repairs(DeviceId,storeId,RepairDate,UserId,itemId,RepairDesc,ImageFile1,ImageFile2,isSolved,SortNo,ModifyTime,ModifyUserId,TranStatus) values('%@','%@','%@','%@','%ld','%@','%@','%@','%d','%d','%@','%@','%d');",repair.deviceId,repair.storeId,repair.repairDate,repair.userId,repair.itemId,repair.repairDesc,repair.imageFile1,repair.imageFile2,repair.isSolved,repair.sortNo,repair.modifyTime,repair.modifyUserId,repair.tranStatus];
     [self insertData:repairInserSql];
 }
+
+- (NSArray *)getRepairByUserId:(NSString *)userId
+{
+    NSString *repairSearchSql = [NSString stringWithFormat:@"select * from Repairs where UserId='%@';",userId];
+    return [self fetchRepairBySql:repairSearchSql];
+}
+
+- (NSArray *)fetchRepairBySql:(NSString *)searchSql
+{
+    NSMutableArray *arrM = [[NSMutableArray alloc] init];
+    FMResultSet *set = [_dataBase executeQuery:searchSql];
+    while ([set next]) {
+        NSInteger repairId = [set longForColumn:@"RepaireId"];
+        NSString *deviceId = [set stringForColumn:@"DeviceId"];
+        NSString *storeId = [set stringForColumn:@"storeId"];
+        NSString *repairDate = [set stringForColumn:@"RepairDate"];
+        NSString *userId = [set stringForColumn:@"UserId"];
+        NSInteger itemId = [set longForColumn:@"itemId"];
+        NSString *repairDesc = [set stringForColumn:@"RepairDesc"];
+        NSString *imageFile1 = [set stringForColumn:@"ImageFile1"];
+        NSString *imageFile2 = [set stringForColumn:@"ImageFile2"];
+        int isSolved = [set intForColumn:@"isSolved"];
+        int sortNO = [set intForColumn:@"SortNo"];
+        NSString *modifyTime = [set stringForColumn:@"ModifyTime"];
+        NSString *modifyUserId = [set stringForColumn:@"ModifyUserId"];
+        int tranStatus = [set intForColumn:@"TranStatus"];
+        LLZRepair *repair = [LLZRepair repairWithrepaireId:repairId
+                                                  deviceId:deviceId
+                                                   storeId:storeId
+                                                repairDate:repairDate
+                                                    userId:userId
+                                                    itemId:itemId
+                                                repairDesc:repairDesc
+                                                imageFile1:imageFile1
+                                                imageFile2:imageFile2
+                                                  isSolved:isSolved
+                                                    sortNo:sortNO
+                                                modifyTime:modifyTime
+                                              modifyUserId:modifyUserId
+                                                tranStatus:tranStatus];
+        [arrM addObject:repair];
+
+    }
+    return arrM;
+}
+
 #pragma mark ################ public #####################
 - (void)dropTable:(NSString *)tableName
 {

@@ -14,6 +14,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *repairListTable;
 @property (weak, nonatomic) IBOutlet UILabel *storeName;
 @property (weak, nonatomic) IBOutlet UILabel *repairAmount;
+@property (nonatomic, strong) NSMutableArray *repairArray;
+
 - (IBAction)addNewRepair:(id)sender;
 
 @end
@@ -28,6 +30,11 @@ static NSString *cellI = @"RepairListCell";
     [self setCenterButton:@"报修"];
     [self setLeftButton:[UIImage imageNamed:@"btn_back"]];
     
+}
+
+- (void)dataPrepared
+{
+self.repairArray = [NSMutableArray arrayWithArray:[self.appD.dataM getrep]]
 }
 
 - (void)didReceiveMemoryWarning {

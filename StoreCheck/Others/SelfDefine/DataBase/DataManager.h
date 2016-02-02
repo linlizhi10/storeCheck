@@ -149,5 +149,6 @@
 #pragma mark ################ repair #####################
 - (void)createRepaireTable;
 - (void)insertRepair:(LLZRepair *)repair;
+- (NSArray *)getRepairByUserId:(NSString *)userId;
 
 @end

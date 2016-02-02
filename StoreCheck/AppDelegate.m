@@ -159,6 +159,8 @@ static NSString *baiduKey = @"D8078f63dd5d02cb3980fd4b569a73ff";
                                     }
                                 
                                 }else if ([tddVersion.tableName isEqualToString:@"Tbs_ShopPlanList"]){
+                                    [self.dataM dropShopPlanTable];
+                                    [self.dataM createShopPlanTable];
                                     for (NSDictionary *dic in arrDic) {
                                         LLZPlan *plan = [LLZPlan parsePlanDic:dic];
                                         [self.dataM insertShopPlan:plan];

@@ -14,6 +14,7 @@
 @property (nonatomic, copy) NSString * planDate;
 @property (nonatomic, copy) NSString * userId;
 @property (nonatomic, copy) NSString * storeId;
+@property (nonatomic, copy) NSString * storeName;
 @property (nonatomic, assign) int checkType;
 @property (nonatomic, assign) int durationTime;
 @property (nonatomic, copy) NSString * memo;

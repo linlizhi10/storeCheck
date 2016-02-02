@@ -23,7 +23,9 @@
 - (void)fillCellWithPlan:(LLZPlan *)plan
 {
     self.date.text = [plan.checkTime substringToIndex:10];
-    self.store.text = plan.s
+    self.store.text = plan.storeName;
+    self.time.text = [NSString stringWithFormat:@"%d",plan.durationTime];
+    self.tips.text = plan.memo;
 }
 
 @end
